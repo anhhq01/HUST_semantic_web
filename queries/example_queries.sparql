@@ -1,0 +1,323 @@
+# ============================================================
+#  Football Linked Data — Example SPARQL Queries
+#  Dataset: http://semantic-football.org/data/
+# ============================================================
+#
+#  PREFIX declarations (auto-injected by sparql_terminal.py,
+#  but listed here for reference when using external tools).
+#
+#  PREFIX onto:   <http://semantic-football.org/ontology#>
+#  PREFIX data:   <http://semantic-football.org/data/>
+#  PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+#  PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+#  PREFIX owl:    <http://www.w3.org/2002/07/owl#>
+#  PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+#  PREFIX schema: <https://schema.org/>
+#  PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
+#  PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>
+#  PREFIX dc:     <http://purl.org/dc/elements/1.1/>
+# ============================================================
+
+
+# ── Q1: List all football clubs with city and year founded ──────────────────
+#    :run all_clubs
+
+SELECT ?name ?city ?founded
+WHERE {
+    ?club a onto:FootballClub ;
+          onto:name    ?name ;
+          onto:city    ?city .
+    OPTIONAL { ?club onto:founded ?founded }
+}
+ORDER BY ?name
+
+
+# ── Q2: Arsenal squad (name, position, nationality, jersey) ─────────────────
+#    :run squad
+
+SELECT ?playerName ?position ?nationality ?jersey
+WHERE {
+    ?player a onto:Player ;
+            onto:name         ?playerName ;
+            onto:playsFor     data:club/arsenal .
+    OPTIONAL { ?player onto:hasPosition  ?pos .
+               ?pos    onto:shortName    ?position }
+    OPTIONAL { ?player onto:hasNationality ?nat .
+               ?nat    onto:name          ?nationality }
+    OPTIONAL { ?player onto:jerseyNumber ?jersey }
+}
+ORDER BY ?position ?playerName
+
+
+# ── Q3: Top 10 goal scorers across all matches ──────────────────────────────
+#    :run top_scorers
+
+SELECT ?playerName ?clubName (COUNT(?goal) AS ?goals)
+WHERE {
+    ?goal a onto:Goal ;
+          onto:scoredBy   ?player ;
+          onto:scoredForTeam ?club .
+    ?player onto:name     ?playerName .
+    ?club   onto:name     ?clubName .
+}
+GROUP BY ?playerName ?clubName
+ORDER BY DESC(?goals)
+LIMIT 10
+
+
+# ── Q4: All match results (score, date, match week) ─────────────────────────
+#    :run match_results
+
+SELECT ?homeClub ?awayClub ?homeScore ?awayScore ?matchDate ?week
+WHERE {
+    ?match a onto:Match ;
+           onto:homeTeam  ?home ;
+           onto:awayTeam  ?away ;
+           onto:homeScore ?homeScore ;
+           onto:awayScore ?awayScore ;
+           onto:matchDate ?matchDate ;
+           onto:matchWeek ?week .
+    ?home onto:shortName ?homeClub .
+    ?away onto:shortName ?awayClub .
+}
+ORDER BY ?matchDate
+
+
+# ── Q5: Transfers with fee > 50 million EUR ──────────────────────────────────
+#    :run high_value_transfers
+
+SELECT ?playerName ?fromClub ?toClub ?fee ?date
+WHERE {
+    ?transfer a onto:Transfer ;
+              onto:transferredPlayer ?player ;
+              onto:fromClub          ?from ;
+              onto:toClub            ?to ;
+              onto:transferFee       ?fee .
+    FILTER (?fee > 50)
+    ?player onto:name ?playerName .
+    ?from   onto:name ?fromClub .
+    ?to     onto:name ?toClub .
+    OPTIONAL { ?transfer onto:transferDate ?date }
+}
+ORDER BY DESC(?fee)
+
+
+# ── Q6: Stadiums — name, capacity, GeoNames city link ───────────────────────
+#    :run stadiums
+
+SELECT ?stadiumName ?city ?capacity ?geoCity
+WHERE {
+    ?stadium a onto:Stadium ;
+             onto:name     ?stadiumName ;
+             onto:city     ?city ;
+             onto:capacity ?capacity .
+    OPTIONAL { ?stadium schema:location ?geoCity }
+}
+ORDER BY DESC(?capacity)
+
+
+# ── Q7: DBpedia owl:sameAs links for all clubs ──────────────────────────────
+#    :run external_links
+
+SELECT ?clubName ?dbpediaURI
+WHERE {
+    ?club a onto:FootballClub ;
+          onto:name  ?clubName ;
+          owl:sameAs ?dbpediaURI .
+    FILTER(CONTAINS(STR(?dbpediaURI), "dbpedia.org"))
+}
+ORDER BY ?clubName
+
+
+# ── Q8: Players with Wikidata sameAs links ──────────────────────────────────
+#    :run wikidata_players
+
+SELECT ?playerName ?wikidataURI
+WHERE {
+    ?player a onto:Player ;
+            onto:name  ?playerName ;
+            owl:sameAs ?wikidataURI .
+    FILTER(CONTAINS(STR(?wikidataURI), "wikidata.org"))
+}
+ORDER BY ?playerName
+LIMIT 15
+
+
+# ── Q9: Number of home & away matches per club ──────────────────────────────
+#    :run matches_per_club
+
+SELECT ?clubName
+       (COUNT(DISTINCT ?homeMatch) AS ?homeMatches)
+       (COUNT(DISTINCT ?awayMatch) AS ?awayMatches)
+WHERE {
+    ?club a onto:FootballClub ;
+          onto:name ?clubName .
+    OPTIONAL { ?homeMatch onto:homeTeam ?club }
+    OPTIONAL { ?awayMatch onto:awayTeam ?club }
+}
+GROUP BY ?clubName
+ORDER BY ?clubName
+
+
+# ── Q10: Most goal-rich matches ─────────────────────────────────────────────
+#    :run goals_per_match
+
+SELECT ?homeClub ?awayClub ?matchDate ?homeScore ?awayScore ?totalGoals
+WHERE {
+    ?match a onto:Match ;
+           onto:homeTeam  ?home ;
+           onto:awayTeam  ?away ;
+           onto:homeScore ?homeScore ;
+           onto:awayScore ?awayScore ;
+           onto:matchDate ?matchDate .
+    ?home onto:shortName ?homeClub .
+    ?away onto:shortName ?awayClub .
+    BIND((?homeScore + ?awayScore) AS ?totalGoals)
+}
+ORDER BY DESC(?totalGoals)
+
+
+# ── Q11: All managers ────────────────────────────────────────────────────────
+#    :run managers
+
+SELECT ?managerName ?clubName ?nationality
+WHERE {
+    ?manager a onto:Manager ;
+             onto:name    ?managerName ;
+             onto:country ?nationality .
+    ?club    a onto:FootballClub ;
+             onto:name      ?clubName ;
+             onto:managedBy ?manager .
+}
+ORDER BY ?managerName
+
+
+# ── Q12: Arsenal goals in detail ────────────────────────────────────────────
+#    :run arsenal_goals_detail
+
+SELECT ?playerName ?homeClub ?awayClub ?minute ?isPenalty ?matchDate
+WHERE {
+    ?goal a onto:Goal ;
+          onto:scoredBy       ?player ;
+          onto:scoredForTeam  data:club/arsenal ;
+          onto:scoredInMatch  ?match ;
+          onto:goalMinute     ?minute ;
+          onto:isPenalty      ?isPenalty .
+    ?player onto:name         ?playerName .
+    ?match  onto:homeTeam     ?home ;
+            onto:awayTeam     ?away ;
+            onto:matchDate    ?matchDate .
+    ?home   onto:shortName    ?homeClub .
+    ?away   onto:shortName    ?awayClub .
+}
+ORDER BY ?matchDate ?minute
+
+
+# ── Q13: DESCRIBE a specific player ─────────────────────────────────────────
+#    :run describe_haaland
+
+DESCRIBE data:player/erling_haaland
+
+
+# ── Q14: Count all entities by type ─────────────────────────────────────────
+#    :run count_triples
+
+SELECT ?type (COUNT(?entity) AS ?count)
+WHERE {
+    ?entity a ?type .
+    FILTER(STRSTARTS(STR(?type), "http://semantic-football.org/ontology#"))
+}
+GROUP BY ?type
+ORDER BY DESC(?count)
+
+
+# ── Q15: Players taller than 190 cm ─────────────────────────────────────────
+
+SELECT ?name ?height ?position ?club
+WHERE {
+    ?player a onto:Player ;
+            onto:name   ?name ;
+            onto:height ?height ;
+            onto:playsFor ?c .
+    ?c onto:shortName ?club .
+    OPTIONAL { ?player onto:hasPosition ?pos .
+               ?pos    onto:shortName  ?position }
+    FILTER (?height > 190)
+}
+ORDER BY DESC(?height)
+
+
+# ── Q16: ASK — Did Man City beat Tottenham? ──────────────────────────────────
+
+ASK {
+    ?match a onto:Match ;
+           onto:homeTeam data:club/tottenham ;
+           onto:awayTeam data:club/man_city ;
+           onto:wonBy    data:club/man_city .
+}
+
+
+# ── Q17: CONSTRUCT — build a "scored goals" sub-graph ───────────────────────
+
+CONSTRUCT {
+    ?player onto:scoredGoal ?goal .
+    ?goal   onto:inMatch    ?match .
+    ?goal   onto:atMinute   ?minute .
+}
+WHERE {
+    ?goal a onto:Goal ;
+          onto:scoredBy      ?player ;
+          onto:scoredInMatch ?match ;
+          onto:goalMinute    ?minute .
+}
+LIMIT 20
+
+
+# ── Q18: skos:exactMatch links to DBpedia ───────────────────────────────────
+
+SELECT ?entity ?exactMatch
+WHERE {
+    ?entity skos:exactMatch ?exactMatch .
+    FILTER(CONTAINS(STR(?exactMatch), "dbpedia.org"))
+}
+ORDER BY ?entity
+LIMIT 20
+
+
+# ── Q19: Players ordered by market value ────────────────────────────────────
+
+SELECT ?name ?club ?position ?marketValue
+WHERE {
+    ?player a onto:Player ;
+            onto:name        ?name ;
+            onto:marketValue ?marketValue ;
+            onto:playsFor    ?c .
+    ?c onto:shortName ?club .
+    OPTIONAL { ?player onto:hasPosition ?pos .
+               ?pos    onto:shortName  ?position }
+}
+ORDER BY DESC(?marketValue)
+LIMIT 15
+
+
+# ── Q20: Unbeaten clubs (won every match or drew, never lost) ────────────────
+
+SELECT ?clubName (COUNT(?win) AS ?wins) (COUNT(?draw) AS ?draws)
+WHERE {
+    ?club a onto:FootballClub ;
+          onto:name ?clubName .
+    OPTIONAL {
+        ?match (onto:homeTeam|onto:awayTeam) ?club ;
+               onto:wonBy ?club .
+        BIND(?match AS ?win)
+    }
+    OPTIONAL {
+        ?match (onto:homeTeam|onto:awayTeam) ?club .
+        FILTER NOT EXISTS { ?match onto:wonBy ?anyone }
+        BIND(?match AS ?draw)
+    }
+    # must have played at least one match
+    ?anyMatch (onto:homeTeam|onto:awayTeam) ?club .
+}
+GROUP BY ?clubName
+ORDER BY DESC(?wins)

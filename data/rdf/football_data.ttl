@@ -1,0 +1,1385 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix onto: <http://semantic-football.org/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://semantic-football.org/data> owl:imports <http://semantic-football.org/ontology> .
+
+<http://semantic-football.org/data/goal/g001> a onto:Goal ;
+    dc:identifier "g001" ;
+    onto:goalMinute 60 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/bukayo_saka> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m001> .
+
+<http://semantic-football.org/data/goal/g002> a onto:Goal ;
+    dc:identifier "g002" ;
+    onto:goalMinute 27 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/darwin_nunez> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m002> .
+
+<http://semantic-football.org/data/goal/g003> a onto:Goal ;
+    dc:identifier "g003" ;
+    onto:goalMinute 55 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty true ;
+    onto:scoredBy <http://semantic-football.org/data/player/mohamed_salah> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m002> .
+
+<http://semantic-football.org/data/goal/g004> a onto:Goal ;
+    dc:identifier "g004" ;
+    onto:goalMinute 76 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/erling_haaland> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m003> .
+
+<http://semantic-football.org/data/goal/g005> a onto:Goal ;
+    dc:identifier "g005" ;
+    onto:goalMinute 18 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/darwin_nunez> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m003> .
+
+<http://semantic-football.org/data/goal/g006> a onto:Goal ;
+    dc:identifier "g006" ;
+    onto:goalMinute 70 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty true ;
+    onto:scoredBy <http://semantic-football.org/data/player/cole_palmer> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/chelsea> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m004> .
+
+<http://semantic-football.org/data/goal/g007> a onto:Goal ;
+    dc:identifier "g007" ;
+    onto:goalMinute 90 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/nicolas_jackson> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/chelsea> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m004> .
+
+<http://semantic-football.org/data/goal/g008> a onto:Goal ;
+    dc:identifier "g008" ;
+    onto:goalMinute 54 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/bukayo_saka> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m004> .
+
+<http://semantic-football.org/data/goal/g009> a onto:Goal ;
+    dc:identifier "g009" ;
+    onto:goalMinute 66 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/gabriel_martinelli> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m004> .
+
+<http://semantic-football.org/data/goal/g010> a onto:Goal ;
+    dc:identifier "g010" ;
+    onto:goalMinute 88 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/ollie_watkins> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m005> .
+
+<http://semantic-football.org/data/goal/g011> a onto:Goal ;
+    dc:identifier "g011" ;
+    onto:goalMinute 50 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/erling_haaland> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m006> .
+
+<http://semantic-football.org/data/goal/g012> a onto:Goal ;
+    dc:identifier "g012" ;
+    onto:goalMinute 35 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/bernardo_silva> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m006> .
+
+<http://semantic-football.org/data/goal/g013> a onto:Goal ;
+    dc:identifier "g013" ;
+    onto:goalMinute 79 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/kevin_de_bruyne> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m006> .
+
+<http://semantic-football.org/data/goal/g014> a onto:Goal ;
+    dc:identifier "g014" ;
+    onto:goalMinute 12 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/erling_haaland> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m007> .
+
+<http://semantic-football.org/data/goal/g015> a onto:Goal ;
+    dc:identifier "g015" ;
+    onto:goalMinute 45 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/erling_haaland> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m007> .
+
+<http://semantic-football.org/data/goal/g016> a onto:Goal ;
+    dc:identifier "g016" ;
+    onto:goalMinute 77 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/kevin_de_bruyne> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m007> .
+
+<http://semantic-football.org/data/goal/g017> a onto:Goal ;
+    dc:identifier "g017" ;
+    onto:goalMinute 29 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/ollie_watkins> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m007> .
+
+<http://semantic-football.org/data/goal/g018> a onto:Goal ;
+    dc:identifier "g018" ;
+    onto:goalMinute 68 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/leon_bailey> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m007> .
+
+<http://semantic-football.org/data/goal/g019> a onto:Goal ;
+    dc:identifier "g019" ;
+    onto:goalMinute 85 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/morgan_rogers> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m007> .
+
+<http://semantic-football.org/data/goal/g020> a onto:Goal ;
+    dc:identifier "g020" ;
+    onto:goalMinute 9 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty true ;
+    onto:scoredBy <http://semantic-football.org/data/player/bukayo_saka> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m008> .
+
+<http://semantic-football.org/data/goal/g021> a onto:Goal ;
+    dc:identifier "g021" ;
+    onto:goalMinute 23 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/gabriel_martinelli> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m008> .
+
+<http://semantic-football.org/data/goal/g022> a onto:Goal ;
+    dc:identifier "g022" ;
+    onto:goalMinute 41 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/martin_odegaard> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m008> .
+
+<http://semantic-football.org/data/goal/g023> a onto:Goal ;
+    dc:identifier "g023" ;
+    onto:goalMinute 60 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/declan_rice> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m008> .
+
+<http://semantic-football.org/data/goal/g024> a onto:Goal ;
+    dc:identifier "g024" ;
+    onto:goalMinute 75 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/bukayo_saka> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m008> .
+
+<http://semantic-football.org/data/goal/g025> a onto:Goal ;
+    dc:identifier "g025" ;
+    onto:goalMinute 82 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/erling_haaland> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m009> .
+
+<http://semantic-football.org/data/goal/g026> a onto:Goal ;
+    dc:identifier "g026" ;
+    onto:goalMinute 65 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/darwin_nunez> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m009> .
+
+<http://semantic-football.org/data/goal/g027> a onto:Goal ;
+    dc:identifier "g027" ;
+    onto:goalMinute 61 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/cole_palmer> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/chelsea> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m010> .
+
+<http://semantic-football.org/data/goal/g028> a onto:Goal ;
+    dc:identifier "g028" ;
+    onto:goalMinute 90 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/darwin_nunez> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m010> .
+
+<http://semantic-football.org/data/goal/g029> a onto:Goal ;
+    dc:identifier "g029" ;
+    onto:goalMinute 24 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/bukayo_saka> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m011> .
+
+<http://semantic-football.org/data/goal/g030> a onto:Goal ;
+    dc:identifier "g030" ;
+    onto:goalMinute 30 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/gabriel_martinelli> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m011> .
+
+<http://semantic-football.org/data/goal/g031> a onto:Goal ;
+    dc:identifier "g031" ;
+    onto:goalMinute 55 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty true ;
+    onto:scoredBy <http://semantic-football.org/data/player/martin_odegaard> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m011> .
+
+<http://semantic-football.org/data/goal/g032> a onto:Goal ;
+    dc:identifier "g032" ;
+    onto:goalMinute 69 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/leandro_trossard> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m011> .
+
+<http://semantic-football.org/data/goal/g033> a onto:Goal ;
+    dc:identifier "g033" ;
+    onto:goalMinute 88 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/declan_rice> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m011> .
+
+<http://semantic-football.org/data/goal/g034> a onto:Goal ;
+    dc:identifier "g034" ;
+    onto:goalMinute 80 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/erling_haaland> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m012> .
+
+<http://semantic-football.org/data/goal/g035> a onto:Goal ;
+    dc:identifier "g035" ;
+    onto:goalMinute 43 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/cole_palmer> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/chelsea> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m012> .
+
+<http://semantic-football.org/data/goal/g036> a onto:Goal ;
+    dc:identifier "g036" ;
+    onto:goalMinute 10 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/bukayo_saka> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m013> .
+
+<http://semantic-football.org/data/goal/g037> a onto:Goal ;
+    dc:identifier "g037" ;
+    onto:goalMinute 35 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/martin_odegaard> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m013> .
+
+<http://semantic-football.org/data/goal/g038> a onto:Goal ;
+    dc:identifier "g038" ;
+    onto:goalMinute 78 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/declan_rice> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m013> .
+
+<http://semantic-football.org/data/goal/g039> a onto:Goal ;
+    dc:identifier "g039" ;
+    onto:goalMinute 49 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/ollie_watkins> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m014> .
+
+<http://semantic-football.org/data/goal/g040> a onto:Goal ;
+    dc:identifier "g040" ;
+    onto:goalMinute 77 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/ollie_watkins> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m014> .
+
+<http://semantic-football.org/data/goal/g041> a onto:Goal ;
+    dc:identifier "g041" ;
+    onto:goalMinute 90 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/leon_bailey> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m014> .
+
+<http://semantic-football.org/data/goal/g042> a onto:Goal ;
+    dc:identifier "g042" ;
+    onto:goalMinute 14 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/darwin_nunez> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m014> .
+
+<http://semantic-football.org/data/goal/g043> a onto:Goal ;
+    dc:identifier "g043" ;
+    onto:goalMinute 37 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/mohamed_salah> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m014> .
+
+<http://semantic-football.org/data/goal/g044> a onto:Goal ;
+    dc:identifier "g044" ;
+    onto:goalMinute 60 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/trent_alexander_arnold> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m014> .
+
+<http://semantic-football.org/data/goal/g045> a onto:Goal ;
+    dc:identifier "g045" ;
+    onto:goalMinute 77 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy <http://semantic-football.org/data/player/declan_rice> ;
+    onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:scoredInMatch <http://semantic-football.org/data/match/m015> .
+
+<http://semantic-football.org/data/player/alisson_becker> a onto:Player ;
+    dc:identifier "alisson_becker" ;
+    onto:dateOfBirth "1992-10-02"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/brazilian> ;
+    onto:hasPosition onto:Goalkeeper ;
+    onto:height 191.0 ;
+    onto:jerseyNumber 1 ;
+    onto:marketValue 40.0 ;
+    onto:name "Alisson Becker" ;
+    onto:playsFor <http://semantic-football.org/data/club/liverpool> ;
+    owl:sameAs <http://dbpedia.org/resource/Alisson_Becker>,
+        <http://www.wikidata.org/entity/Q19591773> ;
+    foaf:name "Alisson Becker" .
+
+<http://semantic-football.org/data/player/cristian_romero> a onto:Player ;
+    dc:identifier "cristian_romero" ;
+    onto:dateOfBirth "1998-04-27"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/argentinian> ;
+    onto:hasPosition onto:Defender ;
+    onto:height 185.0 ;
+    onto:jerseyNumber 17 ;
+    onto:marketValue 60.0 ;
+    onto:name "Cristian Romero" ;
+    onto:playsFor <http://semantic-football.org/data/club/tottenham> ;
+    owl:sameAs <http://dbpedia.org/resource/Cristian_Romero>,
+        <http://www.wikidata.org/entity/Q55623698> ;
+    foaf:name "Cristian Romero" .
+
+<http://semantic-football.org/data/player/emiliano_martinez> a onto:Player ;
+    dc:identifier "emiliano_martinez" ;
+    onto:dateOfBirth "1992-09-02"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/argentinian> ;
+    onto:hasPosition onto:Goalkeeper ;
+    onto:height 195.0 ;
+    onto:jerseyNumber 1 ;
+    onto:marketValue 25.0 ;
+    onto:name "Emiliano Martinez" ;
+    onto:playsFor <http://semantic-football.org/data/club/aston_villa> ;
+    owl:sameAs <http://dbpedia.org/resource/Emiliano_Martínez>,
+        <http://www.wikidata.org/entity/Q11790437> ;
+    foaf:name "Emiliano Martinez" .
+
+<http://semantic-football.org/data/player/guglielmo_vicario> a onto:Player ;
+    dc:identifier "guglielmo_vicario" ;
+    onto:dateOfBirth "1996-10-07"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/italian> ;
+    onto:hasPosition onto:Goalkeeper ;
+    onto:height 197.0 ;
+    onto:jerseyNumber 13 ;
+    onto:marketValue 25.0 ;
+    onto:name "Guglielmo Vicario" ;
+    onto:playsFor <http://semantic-football.org/data/club/tottenham> ;
+    owl:sameAs <http://dbpedia.org/resource/Guglielmo_Vicario>,
+        <http://www.wikidata.org/entity/Q30688014> ;
+    foaf:name "Guglielmo Vicario" .
+
+<http://semantic-football.org/data/player/reece_james> a onto:Player ;
+    dc:identifier "reece_james" ;
+    onto:dateOfBirth "2000-12-08"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/english> ;
+    onto:hasPosition onto:Defender ;
+    onto:height 180.0 ;
+    onto:jerseyNumber 24 ;
+    onto:marketValue 55.0 ;
+    onto:name "Reece James" ;
+    onto:playsFor <http://semantic-football.org/data/club/chelsea> ;
+    owl:sameAs <http://dbpedia.org/resource/Reece_James>,
+        <http://www.wikidata.org/entity/Q62052199> ;
+    foaf:name "Reece James" .
+
+<http://semantic-football.org/data/player/robert_sanchez> a onto:Player ;
+    dc:identifier "robert_sanchez" ;
+    onto:dateOfBirth "1997-11-18"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/spanish> ;
+    onto:hasPosition onto:Goalkeeper ;
+    onto:height 197.0 ;
+    onto:jerseyNumber 1 ;
+    onto:marketValue 18.0 ;
+    onto:name "Robert Sanchez" ;
+    onto:playsFor <http://semantic-football.org/data/club/chelsea> ;
+    owl:sameAs <http://dbpedia.org/resource/Robert_Sánchez_(goalkeeper)>,
+        <http://www.wikidata.org/entity/Q30688008> ;
+    foaf:name "Robert Sanchez" .
+
+<http://semantic-football.org/data/player/rodri> a onto:Player ;
+    dc:identifier "rodri" ;
+    onto:dateOfBirth "1996-06-22"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/spanish> ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 191.0 ;
+    onto:jerseyNumber 16 ;
+    onto:marketValue 120.0 ;
+    onto:name "Rodri" ;
+    onto:playsFor <http://semantic-football.org/data/club/man_city> ;
+    owl:sameAs <http://dbpedia.org/resource/Rodri_(footballer>,
+        <http://www.wikidata.org/entity/Q30621485> ;
+    foaf:name "Rodri" .
+
+<http://semantic-football.org/data/player/ruben_dias> a onto:Player ;
+    dc:identifier "ruben_dias" ;
+    onto:dateOfBirth "1997-05-14"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/portuguese> ;
+    onto:hasPosition onto:Defender ;
+    onto:height 187.0 ;
+    onto:jerseyNumber 3 ;
+    onto:marketValue 80.0 ;
+    onto:name "Ruben Dias" ;
+    onto:playsFor <http://semantic-football.org/data/club/man_city> ;
+    owl:sameAs <http://dbpedia.org/resource/Rúben_Dias>,
+        <http://www.wikidata.org/entity/Q55613571> ;
+    foaf:name "Ruben Dias" .
+
+<http://semantic-football.org/data/player/son_heung_min> a onto:Player ;
+    dc:identifier "son_heung_min" ;
+    onto:dateOfBirth "1992-07-08"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/south_korean> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 183.0 ;
+    onto:jerseyNumber 7 ;
+    onto:marketValue 45.0 ;
+    onto:name "Son Heung-min" ;
+    onto:playsFor <http://semantic-football.org/data/club/tottenham> ;
+    owl:sameAs <http://dbpedia.org/resource/Son_Heung-min>,
+        <http://www.wikidata.org/entity/Q313482> ;
+    foaf:name "Son Heung-min" .
+
+<http://semantic-football.org/data/player/virgil_van_dijk> a onto:Player ;
+    dc:identifier "virgil_van_dijk" ;
+    onto:dateOfBirth "1991-07-08"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/dutch> ;
+    onto:hasPosition onto:Defender ;
+    onto:height 193.0 ;
+    onto:jerseyNumber 4 ;
+    onto:marketValue 45.0 ;
+    onto:name "Virgil van Dijk" ;
+    onto:playsFor <http://semantic-football.org/data/club/liverpool> ;
+    owl:sameAs <http://dbpedia.org/resource/Virgil_van_Dijk>,
+        <http://www.wikidata.org/entity/Q2335800> ;
+    foaf:name "Virgil van Dijk" .
+
+<http://semantic-football.org/data/player/william_saliba> a onto:Player ;
+    dc:identifier "william_saliba" ;
+    onto:dateOfBirth "2001-03-24"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/french> ;
+    onto:hasPosition onto:Defender ;
+    onto:height 192.0 ;
+    onto:jerseyNumber 12 ;
+    onto:marketValue 80.0 ;
+    onto:name "William Saliba" ;
+    onto:playsFor <http://semantic-football.org/data/club/arsenal> ;
+    owl:sameAs <http://dbpedia.org/resource/William_Saliba>,
+        <http://www.wikidata.org/entity/Q57482320> ;
+    foaf:name "William Saliba" .
+
+<http://semantic-football.org/data/transfer/t001> a onto:Transfer ;
+    dc:identifier "t001" ;
+    onto:fromClub <http://semantic-football.org/data/club/borussia_dortmund> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2022_23> ;
+    onto:toClub <http://semantic-football.org/data/club/man_city> ;
+    onto:transferDate "2022-06-13"^^xsd:date ;
+    onto:transferFee 60.0 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/erling_haaland> .
+
+<http://semantic-football.org/data/transfer/t002> a onto:Transfer ;
+    dc:identifier "t002" ;
+    onto:fromClub <http://semantic-football.org/data/club/west_ham> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:toClub <http://semantic-football.org/data/club/arsenal> ;
+    onto:transferDate "2023-07-15"^^xsd:date ;
+    onto:transferFee 116.6 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/declan_rice> .
+
+<http://semantic-football.org/data/transfer/t003> a onto:Transfer ;
+    dc:identifier "t003" ;
+    onto:fromClub <http://semantic-football.org/data/club/man_city> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:toClub <http://semantic-football.org/data/club/chelsea> ;
+    onto:transferDate "2023-08-05"^^xsd:date ;
+    onto:transferFee 47.0 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/cole_palmer> .
+
+<http://semantic-football.org/data/transfer/t004> a onto:Transfer ;
+    dc:identifier "t004" ;
+    onto:fromClub <http://semantic-football.org/data/club/sl_benfica> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2022_23> ;
+    onto:toClub <http://semantic-football.org/data/club/liverpool> ;
+    onto:transferDate "2022-07-14"^^xsd:date ;
+    onto:transferFee 75.0 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/darwin_nunez> .
+
+<http://semantic-football.org/data/transfer/t005> a onto:Transfer ;
+    dc:identifier "t005" ;
+    onto:fromClub <http://semantic-football.org/data/club/sl_benfica> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2022_23> ;
+    onto:toClub <http://semantic-football.org/data/club/chelsea> ;
+    onto:transferDate "2023-01-26"^^xsd:date ;
+    onto:transferFee 121.0 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/enzo_fernandez> .
+
+<http://semantic-football.org/data/transfer/t006> a onto:Transfer ;
+    dc:identifier "t006" ;
+    onto:fromClub <http://semantic-football.org/data/club/leicester_city> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:toClub <http://semantic-football.org/data/club/tottenham> ;
+    onto:transferDate "2023-07-07"^^xsd:date ;
+    onto:transferFee 45.0 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/james_maddison> .
+
+<http://semantic-football.org/data/transfer/t007> a onto:Transfer ;
+    dc:identifier "t007" ;
+    onto:fromClub <http://semantic-football.org/data/club/nottingham_forest> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:toClub <http://semantic-football.org/data/club/tottenham> ;
+    onto:transferDate "2023-08-31"^^xsd:date ;
+    onto:transferFee 50.0 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/brennan_johnson> .
+
+<http://semantic-football.org/data/transfer/t008> a onto:Transfer ;
+    dc:identifier "t008" ;
+    onto:fromClub <http://semantic-football.org/data/club/man_city> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:toClub <http://semantic-football.org/data/club/aston_villa> ;
+    onto:transferDate "2024-01-20"^^xsd:date ;
+    onto:transferFee 8.5 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/morgan_rogers> .
+
+<http://semantic-football.org/data/transfer/t009> a onto:Transfer ;
+    dc:identifier "t009" ;
+    onto:fromClub <http://semantic-football.org/data/club/villarreal> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:toClub <http://semantic-football.org/data/club/aston_villa> ;
+    onto:transferDate "2023-07-14"^^xsd:date ;
+    onto:transferFee 35.0 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/pau_torres> .
+
+<http://semantic-football.org/data/transfer/t010> a onto:Transfer ;
+    dc:identifier "t010" ;
+    onto:fromClub <http://semantic-football.org/data/club/arsenal_academy> ;
+    onto:inSeason <http://semantic-football.org/data/season/pl_2018_19> ;
+    onto:toClub <http://semantic-football.org/data/club/arsenal> ;
+    onto:transferDate "2018-07-01"^^xsd:date ;
+    onto:transferFee 0.0 ;
+    onto:transferredPlayer <http://semantic-football.org/data/player/bukayo_saka> .
+
+<http://semantic-football.org/data/manager/ange_postecoglou> a onto:Manager ;
+    dc:identifier "ange_postecoglou" ;
+    onto:country "Australian" ;
+    onto:dateOfBirth "1965-08-27"^^xsd:date ;
+    onto:name "Ange Postecoglou" ;
+    owl:sameAs <http://dbpedia.org/resource/Ange_Postecoglou>,
+        <http://www.wikidata.org/entity/Q1745207> ;
+    foaf:name "Ange Postecoglou" .
+
+<http://semantic-football.org/data/manager/jurgen_klopp> a onto:Manager ;
+    dc:identifier "jurgen_klopp" ;
+    onto:country "German" ;
+    onto:dateOfBirth "1967-06-16"^^xsd:date ;
+    onto:name "Jurgen Klopp" ;
+    owl:sameAs <http://dbpedia.org/resource/Jürgen_Klopp>,
+        <http://www.wikidata.org/entity/Q60628> ;
+    foaf:name "Jurgen Klopp" .
+
+<http://semantic-football.org/data/manager/mauricio_pochettino> a onto:Manager ;
+    dc:identifier "mauricio_pochettino" ;
+    onto:country "Argentinian" ;
+    onto:dateOfBirth "1972-03-02"^^xsd:date ;
+    onto:name "Mauricio Pochettino" ;
+    owl:sameAs <http://dbpedia.org/resource/Mauricio_Pochettino>,
+        <http://www.wikidata.org/entity/Q186334> ;
+    foaf:name "Mauricio Pochettino" .
+
+<http://semantic-football.org/data/manager/mikel_arteta> a onto:Manager ;
+    dc:identifier "mikel_arteta" ;
+    onto:country "Spanish" ;
+    onto:dateOfBirth "1982-03-26"^^xsd:date ;
+    onto:name "Mikel Arteta" ;
+    owl:sameAs <http://dbpedia.org/resource/Mikel_Arteta>,
+        <http://www.wikidata.org/entity/Q313370> ;
+    foaf:name "Mikel Arteta" .
+
+<http://semantic-football.org/data/manager/pep_guardiola> a onto:Manager ;
+    dc:identifier "pep_guardiola" ;
+    onto:country "Spanish" ;
+    onto:dateOfBirth "1971-01-18"^^xsd:date ;
+    onto:name "Pep Guardiola" ;
+    owl:sameAs <http://dbpedia.org/resource/Pep_Guardiola>,
+        <http://www.wikidata.org/entity/Q179280> ;
+    foaf:name "Pep Guardiola" .
+
+<http://semantic-football.org/data/manager/unai_emery> a onto:Manager ;
+    dc:identifier "unai_emery" ;
+    onto:country "Spanish" ;
+    onto:dateOfBirth "1971-11-03"^^xsd:date ;
+    onto:name "Unai Emery" ;
+    owl:sameAs <http://dbpedia.org/resource/Unai_Emery>,
+        <http://www.wikidata.org/entity/Q313363> ;
+    foaf:name "Unai Emery" .
+
+<http://semantic-football.org/data/match/m001> a onto:Match ;
+    rdfs:label "arsenal vs man_city (2023-10-08)" ;
+    dc:identifier "m001" ;
+    onto:awayScore 0 ;
+    onto:awayTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:homeScore 1 ;
+    onto:homeTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:matchDate "2023-10-08"^^xsd:date ;
+    onto:matchWeek 8 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:wonBy <http://semantic-football.org/data/club/arsenal> .
+
+<http://semantic-football.org/data/match/m005> a onto:Match ;
+    rdfs:label "aston_villa vs tottenham (2023-09-16)" ;
+    dc:identifier "m005" ;
+    onto:awayScore 0 ;
+    onto:awayTeam <http://semantic-football.org/data/club/tottenham> ;
+    onto:homeScore 1 ;
+    onto:homeTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:matchDate "2023-09-16"^^xsd:date ;
+    onto:matchWeek 5 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:wonBy <http://semantic-football.org/data/club/aston_villa> .
+
+<http://semantic-football.org/data/match/m015> a onto:Match ;
+    rdfs:label "man_city vs arsenal (2024-03-31)" ;
+    dc:identifier "m015" ;
+    onto:awayScore 1 ;
+    onto:awayTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:homeScore 0 ;
+    onto:homeTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:matchDate "2024-03-31"^^xsd:date ;
+    onto:matchWeek 30 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:wonBy <http://semantic-football.org/data/club/arsenal> .
+
+<http://semantic-football.org/data/nationality/belgian> a onto:Nationality ;
+    onto:name "Belgian" .
+
+<http://semantic-football.org/data/nationality/dutch> a onto:Nationality ;
+    onto:name "Dutch" .
+
+<http://semantic-football.org/data/nationality/egyptian> a onto:Nationality ;
+    onto:name "Egyptian" .
+
+<http://semantic-football.org/data/nationality/french> a onto:Nationality ;
+    onto:name "French" .
+
+<http://semantic-football.org/data/nationality/italian> a onto:Nationality ;
+    onto:name "Italian" .
+
+<http://semantic-football.org/data/nationality/jamaican> a onto:Nationality ;
+    onto:name "Jamaican" .
+
+<http://semantic-football.org/data/nationality/senegalese> a onto:Nationality ;
+    onto:name "Senegalese" .
+
+<http://semantic-football.org/data/nationality/south_korean> a onto:Nationality ;
+    onto:name "South Korean" .
+
+<http://semantic-football.org/data/nationality/uruguayan> a onto:Nationality ;
+    onto:name "Uruguayan" .
+
+<http://semantic-football.org/data/nationality/welsh> a onto:Nationality ;
+    onto:name "Welsh" .
+
+<http://semantic-football.org/data/player/bernardo_silva> a onto:Player ;
+    dc:identifier "bernardo_silva" ;
+    onto:dateOfBirth "1994-08-10"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/portuguese> ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 173.0 ;
+    onto:jerseyNumber 20 ;
+    onto:marketValue 80.0 ;
+    onto:name "Bernardo Silva" ;
+    onto:playsFor <http://semantic-football.org/data/club/man_city> ;
+    owl:sameAs <http://dbpedia.org/resource/Bernardo_Silva>,
+        <http://www.wikidata.org/entity/Q17361079> ;
+    foaf:name "Bernardo Silva" .
+
+<http://semantic-football.org/data/player/brennan_johnson> a onto:Player ;
+    dc:identifier "brennan_johnson" ;
+    onto:dateOfBirth "2001-05-23"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/welsh> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 178.0 ;
+    onto:jerseyNumber 22 ;
+    onto:marketValue 45.0 ;
+    onto:name "Brennan Johnson" ;
+    onto:playsFor <http://semantic-football.org/data/club/tottenham> ;
+    owl:sameAs <http://dbpedia.org/resource/Brennan_Johnson>,
+        <http://www.wikidata.org/entity/Q107467791> ;
+    foaf:name "Brennan Johnson" .
+
+<http://semantic-football.org/data/player/enzo_fernandez> a onto:Player ;
+    dc:identifier "enzo_fernandez" ;
+    onto:dateOfBirth "2001-01-17"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/argentinian> ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 178.0 ;
+    onto:jerseyNumber 8 ;
+    onto:marketValue 70.0 ;
+    onto:name "Enzo Fernandez" ;
+    onto:playsFor <http://semantic-football.org/data/club/chelsea> ;
+    owl:sameAs <http://dbpedia.org/resource/Enzo_Fernández_(footballer)>,
+        <http://www.wikidata.org/entity/Q110450879> ;
+    foaf:name "Enzo Fernandez" .
+
+<http://semantic-football.org/data/player/james_maddison> a onto:Player ;
+    dc:identifier "james_maddison" ;
+    onto:dateOfBirth "1996-11-23"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/english> ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 175.0 ;
+    onto:jerseyNumber 10 ;
+    onto:marketValue 55.0 ;
+    onto:name "James Maddison" ;
+    onto:playsFor <http://semantic-football.org/data/club/tottenham> ;
+    owl:sameAs <http://dbpedia.org/resource/James_Maddison>,
+        <http://www.wikidata.org/entity/Q23004116> ;
+    foaf:name "James Maddison" .
+
+<http://semantic-football.org/data/player/nicolas_jackson> a onto:Player ;
+    dc:identifier "nicolas_jackson" ;
+    onto:dateOfBirth "2001-06-20"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/senegalese> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 185.0 ;
+    onto:jerseyNumber 15 ;
+    onto:marketValue 60.0 ;
+    onto:name "Nicolas Jackson" ;
+    onto:playsFor <http://semantic-football.org/data/club/chelsea> ;
+    owl:sameAs <http://dbpedia.org/resource/Nicolas_Jackson_(footballer)>,
+        <http://www.wikidata.org/entity/Q111498283> ;
+    foaf:name "Nicolas Jackson" .
+
+<http://semantic-football.org/data/player/pau_torres> a onto:Player ;
+    dc:identifier "pau_torres" ;
+    onto:dateOfBirth "1997-01-16"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/spanish> ;
+    onto:hasPosition onto:Defender ;
+    onto:height 191.0 ;
+    onto:jerseyNumber 14 ;
+    onto:marketValue 45.0 ;
+    onto:name "Pau Torres" ;
+    onto:playsFor <http://semantic-football.org/data/club/aston_villa> ;
+    owl:sameAs <http://dbpedia.org/resource/Pau_Torres>,
+        <http://www.wikidata.org/entity/Q30621502> ;
+    foaf:name "Pau Torres" .
+
+<http://semantic-football.org/data/player/trent_alexander_arnold> a onto:Player ;
+    dc:identifier "trent_alexander_arnold" ;
+    onto:dateOfBirth "1998-10-07"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/english> ;
+    onto:hasPosition onto:Defender ;
+    onto:height 175.0 ;
+    onto:jerseyNumber 66 ;
+    onto:marketValue 70.0 ;
+    onto:name "Trent Alexander-Arnold" ;
+    onto:playsFor <http://semantic-football.org/data/club/liverpool> ;
+    owl:sameAs <http://dbpedia.org/resource/Trent_Alexander-Arnold>,
+        <http://www.wikidata.org/entity/Q26835349> ;
+    foaf:name "Trent Alexander-Arnold" .
+
+<http://semantic-football.org/data/season/pl_2021_22> a onto:Season ;
+    dc:identifier "pl_2021_22" ;
+    onto:name "2021-22" ;
+    onto:seasonLabel "2021-22" .
+
+<http://semantic-football.org/data/stadium/anfield> a onto:Stadium ;
+    dc:identifier "anfield" ;
+    onto:capacity 61276 ;
+    onto:city "Liverpool" ;
+    onto:country "England" ;
+    onto:founded 1884 ;
+    onto:name "Anfield"@en ;
+    owl:sameAs <http://dbpedia.org/resource/Anfield>,
+        <http://www.wikidata.org/entity/Q689721> .
+
+<http://semantic-football.org/data/stadium/emirates> a onto:Stadium ;
+    dc:identifier "emirates" ;
+    onto:capacity 60704 ;
+    onto:city "London" ;
+    onto:country "England" ;
+    onto:founded 2006 ;
+    onto:name "Emirates Stadium"@en ;
+    owl:sameAs <http://dbpedia.org/resource/Emirates_Stadium>,
+        <http://www.wikidata.org/entity/Q485730> .
+
+<http://semantic-football.org/data/stadium/etihad> a onto:Stadium ;
+    dc:identifier "etihad" ;
+    onto:capacity 53400 ;
+    onto:city "Manchester" ;
+    onto:country "England" ;
+    onto:founded 2003 ;
+    onto:name "Etihad Stadium"@en ;
+    owl:sameAs <http://dbpedia.org/resource/Etihad_Stadium>,
+        <http://www.wikidata.org/entity/Q1747660> .
+
+<http://semantic-football.org/data/stadium/stamford_bridge> a onto:Stadium ;
+    dc:identifier "stamford_bridge" ;
+    onto:capacity 40853 ;
+    onto:city "London" ;
+    onto:country "England" ;
+    onto:founded 1877 ;
+    onto:name "Stamford Bridge"@en ;
+    owl:sameAs <http://dbpedia.org/resource/Stamford_Bridge_(stadium)>,
+        <http://www.wikidata.org/entity/Q1321212> .
+
+<http://semantic-football.org/data/stadium/tottenham_stadium> a onto:Stadium ;
+    dc:identifier "tottenham_stadium" ;
+    onto:capacity 62850 ;
+    onto:city "London" ;
+    onto:country "England" ;
+    onto:founded 2019 ;
+    onto:name "Tottenham Hotspur Stadium"@en ;
+    owl:sameAs <http://dbpedia.org/resource/Tottenham_Hotspur_Stadium>,
+        <http://www.wikidata.org/entity/Q47426> .
+
+<http://semantic-football.org/data/stadium/villa_park> a onto:Stadium ;
+    dc:identifier "villa_park" ;
+    onto:capacity 42657 ;
+    onto:city "Birmingham" ;
+    onto:country "England" ;
+    onto:founded 1897 ;
+    onto:name "Villa Park"@en ;
+    owl:sameAs <http://dbpedia.org/resource/Villa_Park>,
+        <http://www.wikidata.org/entity/Q656193> .
+
+<http://semantic-football.org/data/match/m002> a onto:Match ;
+    rdfs:label "liverpool vs tottenham (2023-09-30)" ;
+    dc:identifier "m002" ;
+    onto:awayScore 1 ;
+    onto:awayTeam <http://semantic-football.org/data/club/tottenham> ;
+    onto:homeScore 2 ;
+    onto:homeTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:matchDate "2023-09-30"^^xsd:date ;
+    onto:matchWeek 7 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:wonBy <http://semantic-football.org/data/club/liverpool> .
+
+<http://semantic-football.org/data/match/m003> a onto:Match ;
+    rdfs:label "man_city vs liverpool (2023-11-25)" ;
+    dc:identifier "m003" ;
+    onto:awayScore 1 ;
+    onto:awayTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:homeScore 1 ;
+    onto:homeTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:matchDate "2023-11-25"^^xsd:date ;
+    onto:matchWeek 13 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> .
+
+<http://semantic-football.org/data/match/m009> a onto:Match ;
+    rdfs:label "liverpool vs man_city (2024-03-10)" ;
+    dc:identifier "m009" ;
+    onto:awayScore 1 ;
+    onto:awayTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:homeScore 1 ;
+    onto:homeTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:matchDate "2024-03-10"^^xsd:date ;
+    onto:matchWeek 28 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> .
+
+<http://semantic-football.org/data/match/m010> a onto:Match ;
+    rdfs:label "chelsea vs liverpool (2024-01-13)" ;
+    dc:identifier "m010" ;
+    onto:awayScore 1 ;
+    onto:awayTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:homeScore 1 ;
+    onto:homeTeam <http://semantic-football.org/data/club/chelsea> ;
+    onto:matchDate "2024-01-13"^^xsd:date ;
+    onto:matchWeek 21 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> .
+
+<http://semantic-football.org/data/match/m012> a onto:Match ;
+    rdfs:label "man_city vs chelsea (2024-02-17)" ;
+    dc:identifier "m012" ;
+    onto:awayScore 1 ;
+    onto:awayTeam <http://semantic-football.org/data/club/chelsea> ;
+    onto:homeScore 1 ;
+    onto:homeTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:matchDate "2024-02-17"^^xsd:date ;
+    onto:matchWeek 25 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> .
+
+<http://semantic-football.org/data/nationality/brazilian> a onto:Nationality ;
+    onto:name "Brazilian" .
+
+<http://semantic-football.org/data/nationality/norwegian> a onto:Nationality ;
+    onto:name "Norwegian" .
+
+<http://semantic-football.org/data/nationality/portuguese> a onto:Nationality ;
+    onto:name "Portuguese" .
+
+<http://semantic-football.org/data/player/kevin_de_bruyne> a onto:Player ;
+    dc:identifier "kevin_de_bruyne" ;
+    onto:dateOfBirth "1991-06-28"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/belgian> ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 181.0 ;
+    onto:jerseyNumber 17 ;
+    onto:marketValue 100.0 ;
+    onto:name "Kevin De Bruyne" ;
+    onto:playsFor <http://semantic-football.org/data/club/man_city> ;
+    owl:sameAs <http://dbpedia.org/resource/Kevin_De_Bruyne>,
+        <http://www.wikidata.org/entity/Q50756> ;
+    foaf:name "Kevin De Bruyne" .
+
+<http://semantic-football.org/data/player/leon_bailey> a onto:Player ;
+    dc:identifier "leon_bailey" ;
+    onto:dateOfBirth "1997-08-09"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/jamaican> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 174.0 ;
+    onto:jerseyNumber 7 ;
+    onto:marketValue 35.0 ;
+    onto:name "Leon Bailey" ;
+    onto:playsFor <http://semantic-football.org/data/club/aston_villa> ;
+    owl:sameAs <http://dbpedia.org/resource/Leon_Bailey>,
+        <http://www.wikidata.org/entity/Q31188836> ;
+    foaf:name "Leon Bailey" .
+
+<http://semantic-football.org/data/player/mohamed_salah> a onto:Player ;
+    dc:identifier "mohamed_salah" ;
+    onto:dateOfBirth "1992-06-15"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/egyptian> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 175.0 ;
+    onto:jerseyNumber 11 ;
+    onto:marketValue 60.0 ;
+    onto:name "Mohamed Salah" ;
+    onto:playsFor <http://semantic-football.org/data/club/liverpool> ;
+    owl:sameAs <http://dbpedia.org/resource/Mohamed_Salah>,
+        <http://www.wikidata.org/entity/Q16225> ;
+    foaf:name "Mohamed Salah" .
+
+<http://semantic-football.org/data/player/morgan_rogers> a onto:Player ;
+    dc:identifier "morgan_rogers" ;
+    onto:dateOfBirth "2002-07-26"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/english> ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 185.0 ;
+    onto:jerseyNumber 10 ;
+    onto:marketValue 35.0 ;
+    onto:name "Morgan Rogers" ;
+    onto:playsFor <http://semantic-football.org/data/club/aston_villa> ;
+    owl:sameAs <http://dbpedia.org/resource/Morgan_Rogers>,
+        <http://www.wikidata.org/entity/Q110451038> ;
+    foaf:name "Morgan Rogers" .
+
+<http://semantic-football.org/data/season/pl_2018_19> a onto:Season ;
+    dc:identifier "pl_2018_19" ;
+    onto:name "2018-19" ;
+    onto:seasonLabel "2018-19" .
+
+<http://semantic-football.org/data/match/m006> a onto:Match ;
+    rdfs:label "tottenham vs man_city (2023-12-03)" ;
+    dc:identifier "m006" ;
+    onto:awayScore 3 ;
+    onto:awayTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:homeScore 0 ;
+    onto:homeTeam <http://semantic-football.org/data/club/tottenham> ;
+    onto:matchDate "2023-12-03"^^xsd:date ;
+    onto:matchWeek 15 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:wonBy <http://semantic-football.org/data/club/man_city> .
+
+<http://semantic-football.org/data/match/m013> a onto:Match ;
+    rdfs:label "tottenham vs arsenal (2024-04-28)" ;
+    dc:identifier "m013" ;
+    onto:awayScore 3 ;
+    onto:awayTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:homeScore 0 ;
+    onto:homeTeam <http://semantic-football.org/data/club/tottenham> ;
+    onto:matchDate "2024-04-28"^^xsd:date ;
+    onto:matchWeek 35 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:wonBy <http://semantic-football.org/data/club/arsenal> .
+
+<http://semantic-football.org/data/nationality/argentinian> a onto:Nationality ;
+    onto:name "Argentinian" .
+
+<http://semantic-football.org/data/nationality/spanish> a onto:Nationality ;
+    onto:name "Spanish" .
+
+<http://semantic-football.org/data/player/gabriel_martinelli> a onto:Player ;
+    dc:identifier "gabriel_martinelli" ;
+    onto:dateOfBirth "2001-06-18"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/brazilian> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 172.0 ;
+    onto:jerseyNumber 11 ;
+    onto:marketValue 70.0 ;
+    onto:name "Gabriel Martinelli" ;
+    onto:playsFor <http://semantic-football.org/data/club/arsenal> ;
+    owl:sameAs <http://dbpedia.org/resource/Gabriel_Martinelli>,
+        <http://www.wikidata.org/entity/Q67091416> ;
+    foaf:name "Gabriel Martinelli" .
+
+<http://semantic-football.org/data/player/martin_odegaard> a onto:Player ;
+    dc:identifier "martin_odegaard" ;
+    onto:dateOfBirth "1998-12-17"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/norwegian> ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 178.0 ;
+    onto:jerseyNumber 8 ;
+    onto:marketValue 100.0 ;
+    onto:name "Martin Odegaard" ;
+    onto:playsFor <http://semantic-football.org/data/club/arsenal> ;
+    owl:sameAs <http://dbpedia.org/resource/Martin_Ødegaard>,
+        <http://www.wikidata.org/entity/Q16062438> ;
+    foaf:name "Martin Odegaard" .
+
+<http://semantic-football.org/data/match/m004> a onto:Match ;
+    rdfs:label "chelsea vs arsenal (2023-10-21)" ;
+    dc:identifier "m004" ;
+    onto:awayScore 2 ;
+    onto:awayTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:homeScore 2 ;
+    onto:homeTeam <http://semantic-football.org/data/club/chelsea> ;
+    onto:matchDate "2023-10-21"^^xsd:date ;
+    onto:matchWeek 9 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> .
+
+<http://semantic-football.org/data/player/cole_palmer> a onto:Player ;
+    dc:identifier "cole_palmer" ;
+    onto:dateOfBirth "2002-05-06"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/english> ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 189.0 ;
+    onto:jerseyNumber 20 ;
+    onto:marketValue 80.0 ;
+    onto:name "Cole Palmer" ;
+    onto:playsFor <http://semantic-football.org/data/club/chelsea> ;
+    owl:sameAs <http://dbpedia.org/resource/Cole_Palmer>,
+        <http://www.wikidata.org/entity/Q104663313> ;
+    foaf:name "Cole Palmer" .
+
+<http://semantic-football.org/data/player/ollie_watkins> a onto:Player ;
+    dc:identifier "ollie_watkins" ;
+    onto:dateOfBirth "1995-12-30"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/english> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 180.0 ;
+    onto:jerseyNumber 11 ;
+    onto:marketValue 65.0 ;
+    onto:name "Ollie Watkins" ;
+    onto:playsFor <http://semantic-football.org/data/club/aston_villa> ;
+    owl:sameAs <http://dbpedia.org/resource/Ollie_Watkins>,
+        <http://www.wikidata.org/entity/Q19754026> ;
+    foaf:name "Ollie Watkins" .
+
+<http://semantic-football.org/data/season/pl_2022_23> a onto:Season ;
+    dc:identifier "pl_2022_23" ;
+    onto:name "2022-23" ;
+    onto:seasonLabel "2022-23" .
+
+<http://semantic-football.org/data/match/m008> a onto:Match ;
+    rdfs:label "arsenal vs chelsea (2023-12-05)" ;
+    dc:identifier "m008" ;
+    onto:awayScore 0 ;
+    onto:awayTeam <http://semantic-football.org/data/club/chelsea> ;
+    onto:homeScore 5 ;
+    onto:homeTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:matchDate "2023-12-05"^^xsd:date ;
+    onto:matchWeek 15 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:wonBy <http://semantic-football.org/data/club/arsenal> .
+
+<http://semantic-football.org/data/match/m011> a onto:Match ;
+    rdfs:label "arsenal vs aston_villa (2024-02-04)" ;
+    dc:identifier "m011" ;
+    onto:awayScore 0 ;
+    onto:awayTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:homeScore 5 ;
+    onto:homeTeam <http://semantic-football.org/data/club/arsenal> ;
+    onto:matchDate "2024-02-04"^^xsd:date ;
+    onto:matchWeek 23 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:wonBy <http://semantic-football.org/data/club/arsenal> .
+
+<http://semantic-football.org/data/player/declan_rice> a onto:Player ;
+    dc:identifier "declan_rice" ;
+    onto:dateOfBirth "1999-01-14"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/english> ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 188.0 ;
+    onto:jerseyNumber 41 ;
+    onto:marketValue 80.0 ;
+    onto:name "Declan Rice" ;
+    onto:playsFor <http://semantic-football.org/data/club/arsenal> ;
+    owl:sameAs <http://dbpedia.org/resource/Declan_Rice>,
+        <http://www.wikidata.org/entity/Q55623584> ;
+    foaf:name "Declan Rice" .
+
+<http://semantic-football.org/data/match/m007> a onto:Match ;
+    rdfs:label "man_city vs aston_villa (2023-12-06)" ;
+    dc:identifier "m007" ;
+    onto:awayScore 3 ;
+    onto:awayTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:homeScore 3 ;
+    onto:homeTeam <http://semantic-football.org/data/club/man_city> ;
+    onto:matchDate "2023-12-06"^^xsd:date ;
+    onto:matchWeek 15 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> .
+
+<http://semantic-football.org/data/match/m014> a onto:Match ;
+    rdfs:label "aston_villa vs liverpool (2024-03-31)" ;
+    dc:identifier "m014" ;
+    onto:awayScore 3 ;
+    onto:awayTeam <http://semantic-football.org/data/club/liverpool> ;
+    onto:homeScore 3 ;
+    onto:homeTeam <http://semantic-football.org/data/club/aston_villa> ;
+    onto:matchDate "2024-03-31"^^xsd:date ;
+    onto:matchWeek 30 ;
+    onto:partOfLeague <http://semantic-football.org/data/league/premier_league> ;
+    onto:partOfSeason <http://semantic-football.org/data/season/pl_2023_24> .
+
+<http://semantic-football.org/data/player/darwin_nunez> a onto:Player ;
+    dc:identifier "darwin_nunez" ;
+    onto:dateOfBirth "1999-06-24"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/uruguayan> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 187.0 ;
+    onto:jerseyNumber 9 ;
+    onto:marketValue 70.0 ;
+    onto:name "Darwin Nunez" ;
+    onto:playsFor <http://semantic-football.org/data/club/liverpool> ;
+    owl:sameAs <http://dbpedia.org/resource/Darwin_Núñez>,
+        <http://www.wikidata.org/entity/Q97252671> ;
+    foaf:name "Darwin Nunez" .
+
+<http://semantic-football.org/data/player/bukayo_saka> a onto:Player ;
+    dc:identifier "bukayo_saka" ;
+    onto:dateOfBirth "2001-09-05"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/english> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 178.0 ;
+    onto:jerseyNumber 7 ;
+    onto:marketValue 120.0 ;
+    onto:name "Bukayo Saka" ;
+    onto:playsFor <http://semantic-football.org/data/club/arsenal> ;
+    owl:sameAs <http://dbpedia.org/resource/Bukayo_Saka>,
+        <http://www.wikidata.org/entity/Q57482297> ;
+    foaf:name "Bukayo Saka" .
+
+<http://semantic-football.org/data/player/erling_haaland> a onto:Player ;
+    dc:identifier "erling_haaland" ;
+    onto:dateOfBirth "2000-07-21"^^xsd:date ;
+    onto:hasNationality <http://semantic-football.org/data/nationality/norwegian> ;
+    onto:hasPosition onto:Forward ;
+    onto:height 194.0 ;
+    onto:jerseyNumber 9 ;
+    onto:marketValue 180.0 ;
+    onto:name "Erling Haaland" ;
+    onto:playsFor <http://semantic-football.org/data/club/man_city> ;
+    owl:sameAs <http://dbpedia.org/resource/Erling_Haaland>,
+        <http://www.wikidata.org/entity/Q61908496> ;
+    foaf:name "Erling Haaland" .
+
+<http://semantic-football.org/data/nationality/english> a onto:Nationality ;
+    onto:name "English" .
+
+<http://semantic-football.org/data/club/tottenham> a onto:FootballClub ;
+    dc:identifier "tottenham" ;
+    onto:city "London" ;
+    onto:country "England" ;
+    onto:founded 1882 ;
+    onto:hasStadium <http://semantic-football.org/data/stadium/tottenham_stadium> ;
+    onto:managedBy <http://semantic-football.org/data/manager/ange_postecoglou> ;
+    onto:name "Tottenham Hotspur FC"@en ;
+    onto:participatesIn <http://semantic-football.org/data/league/premier_league> ;
+    onto:shortName "Spurs" ;
+    owl:sameAs <http://dbpedia.org/resource/Tottenham_Hotspur_F.C.>,
+        <http://www.wikidata.org/entity/Q18940> .
+
+<http://semantic-football.org/data/club/chelsea> a onto:FootballClub ;
+    dc:identifier "chelsea" ;
+    onto:city "London" ;
+    onto:country "England" ;
+    onto:founded 1905 ;
+    onto:hasStadium <http://semantic-football.org/data/stadium/stamford_bridge> ;
+    onto:managedBy <http://semantic-football.org/data/manager/mauricio_pochettino> ;
+    onto:name "Chelsea FC"@en ;
+    onto:participatesIn <http://semantic-football.org/data/league/premier_league> ;
+    onto:shortName "Chelsea" ;
+    owl:sameAs <http://dbpedia.org/resource/Chelsea_F.C.>,
+        <http://www.wikidata.org/entity/Q9616> .
+
+<http://semantic-football.org/data/club/aston_villa> a onto:FootballClub ;
+    dc:identifier "aston_villa" ;
+    onto:city "Birmingham" ;
+    onto:country "England" ;
+    onto:founded 1874 ;
+    onto:hasStadium <http://semantic-football.org/data/stadium/villa_park> ;
+    onto:managedBy <http://semantic-football.org/data/manager/unai_emery> ;
+    onto:name "Aston Villa FC"@en ;
+    onto:participatesIn <http://semantic-football.org/data/league/premier_league> ;
+    onto:shortName "Aston Villa" ;
+    owl:sameAs <http://dbpedia.org/resource/Aston_Villa_F.C.>,
+        <http://www.wikidata.org/entity/Q188987> .
+
+<http://semantic-football.org/data/club/liverpool> a onto:FootballClub ;
+    dc:identifier "liverpool" ;
+    onto:city "Liverpool" ;
+    onto:country "England" ;
+    onto:founded 1892 ;
+    onto:hasStadium <http://semantic-football.org/data/stadium/anfield> ;
+    onto:managedBy <http://semantic-football.org/data/manager/jurgen_klopp> ;
+    onto:name "Liverpool FC"@en ;
+    onto:participatesIn <http://semantic-football.org/data/league/premier_league> ;
+    onto:shortName "Liverpool" ;
+    owl:sameAs <http://dbpedia.org/resource/Liverpool_F.C.>,
+        <http://www.wikidata.org/entity/Q1130849> .
+
+<http://semantic-football.org/data/league/premier_league> a onto:League ;
+    dc:identifier "premier_league" ;
+    onto:country "England" ;
+    onto:founded 1992 ;
+    onto:hasSeason <http://semantic-football.org/data/season/pl_2018_19>,
+        <http://semantic-football.org/data/season/pl_2021_22>,
+        <http://semantic-football.org/data/season/pl_2022_23>,
+        <http://semantic-football.org/data/season/pl_2023_24> ;
+    onto:name "Premier League"@en ;
+    onto:shortName "PL" ;
+    owl:sameAs <http://dbpedia.org/resource/Premier_League>,
+        <http://www.wikidata.org/entity/Q9448> .
+
+<http://semantic-football.org/data/season/pl_2023_24> a onto:Season ;
+    dc:identifier "pl_2023_24" ;
+    onto:name "2023-24" ;
+    onto:seasonLabel "2023-24" .
+
+<http://semantic-football.org/data/club/man_city> a onto:FootballClub ;
+    dc:identifier "man_city" ;
+    onto:city "Manchester" ;
+    onto:country "England" ;
+    onto:founded 1880 ;
+    onto:hasStadium <http://semantic-football.org/data/stadium/etihad> ;
+    onto:managedBy <http://semantic-football.org/data/manager/pep_guardiola> ;
+    onto:name "Manchester City FC"@en ;
+    onto:participatesIn <http://semantic-football.org/data/league/premier_league> ;
+    onto:shortName "Man City" ;
+    owl:sameAs <http://dbpedia.org/resource/Manchester_City_F.C.>,
+        <http://www.wikidata.org/entity/Q50602> .
+
+<http://semantic-football.org/data/club/arsenal> a onto:FootballClub ;
+    dc:identifier "arsenal" ;
+    onto:city "London" ;
+    onto:country "England" ;
+    onto:founded 1886 ;
+    onto:hasStadium <http://semantic-football.org/data/stadium/emirates> ;
+    onto:managedBy <http://semantic-football.org/data/manager/mikel_arteta> ;
+    onto:name "Arsenal FC"@en ;
+    onto:participatesIn <http://semantic-football.org/data/league/premier_league> ;
+    onto:shortName "Arsenal" ;
+    owl:sameAs <http://dbpedia.org/resource/Arsenal_F.C.>,
+        <http://www.wikidata.org/entity/Q9617> .
+
