@@ -1,748 +1,390 @@
 #!/usr/bin/env python3
 """
-app.py — Simple Flask web UI for querying the Football Linked Data SPARQL endpoint.
+app.py — Step 5 of Topic 1: publish the 5★ dataset on the web.
+
+Routes
+------
+  /                         Web UI (query editor + example queries)
+  /sparql                   SPARQL 1.1 Protocol endpoint (read-only)
+                              GET  /sparql?query=...
+                              POST /sparql  (application/x-www-form-urlencoded: query=...)
+                              POST /sparql  (Content-Type: application/sparql-query)
+                            Result format by Accept header or ?format=:
+                              SELECT/ASK      → application/sparql-results+json (default),
+                                                application/sparql-results+xml, text/csv
+                              CONSTRUCT/DESCRIBE → text/turtle (default), application/n-triples,
+                                                application/rdf+xml, application/ld+json
+  /data/<type>/<id>         Dereferenceable entity URIs (4★ "use URIs so people can
+                            look things up"): HTML for browsers, RDF for machines
+                            (content negotiation, or a .ttl/.nt/.rdf/.jsonld suffix)
+  /ontology                 The ontology (same content negotiation)
+  /void, /.well-known/void  VoID dataset description
+  /dump/<file>              Download the dataset files
+  /api/query                JSON used by the web UI
+
+Entity URIs are http://semantic-football.org/data/<type>/<id>. When the app
+runs locally, http://127.0.0.1:5000/data/<type>/<id> serves the same
+resource; deploying the app at the semantic-football.org domain (or behind a
+w3id.org redirect) makes the URIs themselves resolvable.
+
+Run:  python scripts/app.py        (env: PORT, HOST)
 """
 
+from __future__ import annotations
+
+import html
+import json
+import os
 from pathlib import Path
-from flask import Flask, request, jsonify, render_template_string
-from rdflib import ConjunctiveGraph
 
-BASE_DIR   = Path(__file__).parent.parent
-LINKED_TTL = BASE_DIR / "data" / "linked" / "football_linked.ttl"
-ONTO_TTL   = BASE_DIR / "ontology" / "football.ttl"
+from flask import (Flask, Response, abort, jsonify, render_template, request,
+                   send_from_directory)
+from rdflib import BNode, Graph, Literal, URIRef
+from rdflib.namespace import RDF, RDFS
 
-PREFIX_BLOCK = """\
-PREFIX onto:   <http://semantic-football.org/ontology#>
-PREFIX data:   <http://semantic-football.org/data/>
-PREFIX rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl:    <http://www.w3.org/2002/07/owl#>
-PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
-PREFIX schema: <https://schema.org/>
-PREFIX foaf:   <http://xmlns.com/foaf/0.1/>
-PREFIX skos:   <http://www.w3.org/2004/02/skos/core#>
-PREFIX dc:     <http://purl.org/dc/elements/1.1/>
-"""
+from common import (BASE_URI, DATA, DATASET_URI, LINKED_DIR, ONTO_TTL, PREFIX_BLOCK,
+                    RDF_DIR, UPDATE_FORMS, VOID_TTL, bind_prefixes, load_example_queries,
+                    load_graph, query_type, shorten)
 
-EXAMPLE_QUERIES = {
-    "all_clubs": {
-        "label": "All Clubs",
-        "query": """SELECT ?name ?city ?founded
-WHERE {
-    ?club a onto:FootballClub ;
-          onto:name  ?name ;
-          onto:city  ?city .
-    OPTIONAL { ?club onto:founded ?founded }
-}
-ORDER BY ?name"""
-    },
-    "top_scorers": {
-        "label": "Top Scorers",
-        "query": """SELECT ?playerName ?clubName (COUNT(?goal) AS ?goals)
-WHERE {
-    ?goal a onto:Goal ;
-          onto:scoredBy      ?player ;
-          onto:scoredForTeam ?club .
-    ?player onto:name ?playerName .
-    ?club   onto:name ?clubName .
-}
-GROUP BY ?playerName ?clubName
-ORDER BY DESC(?goals)
-LIMIT 10"""
-    },
-    "match_results": {
-        "label": "Match Results",
-        "query": """SELECT ?homeClub ?awayClub ?homeScore ?awayScore ?matchDate ?week
-WHERE {
-    ?match a onto:Match ;
-           onto:homeTeam  ?home ;
-           onto:awayTeam  ?away ;
-           onto:homeScore ?homeScore ;
-           onto:awayScore ?awayScore ;
-           onto:matchDate ?matchDate ;
-           onto:matchWeek ?week .
-    ?home onto:shortName ?homeClub .
-    ?away onto:shortName ?awayClub .
-}
-ORDER BY ?matchDate"""
-    },
-    "squad_arsenal": {
-        "label": "Arsenal Squad",
-        "query": """SELECT ?playerName ?position ?nationality ?jersey
-WHERE {
-    ?player a onto:Player ;
-            onto:name     ?playerName ;
-            onto:playsFor <http://semantic-football.org/data/club/arsenal> .
-    OPTIONAL { ?player onto:hasPosition ?pos . ?pos onto:shortName ?position }
-    OPTIONAL { ?player onto:hasNationality ?nat . ?nat onto:name ?nationality }
-    OPTIONAL { ?player onto:jerseyNumber ?jersey }
-}
-ORDER BY ?position ?playerName"""
-    },
-    "high_value_transfers": {
-        "label": "Big Transfers (>€50M)",
-        "query": """SELECT ?playerName ?toClub ?fee ?date
-WHERE {
-    ?transfer a onto:Transfer ;
-              onto:transferredPlayer ?player ;
-              onto:toClub ?to ;
-              onto:transferFee ?fee .
-    FILTER (?fee > 50)
-    ?player onto:name ?playerName .
-    ?to     onto:name ?toClub .
-    OPTIONAL { ?transfer onto:transferDate ?date }
-}
-ORDER BY DESC(?fee)"""
-    },
-    "stadiums": {
-        "label": "Stadiums",
-        "query": """SELECT ?stadiumName ?city ?capacity ?geoCity
-WHERE {
-    ?stadium a onto:Stadium ;
-             onto:name     ?stadiumName ;
-             onto:city     ?city ;
-             onto:capacity ?capacity .
-    OPTIONAL { ?stadium schema:location ?geoCity }
-}
-ORDER BY DESC(?capacity)"""
-    },
-    "external_links": {
-        "label": "DBpedia Links (5★)",
-        "query": """SELECT ?clubName ?dbpediaURI
-WHERE {
-    ?club a onto:FootballClub ;
-          onto:name  ?clubName ;
-          owl:sameAs ?dbpediaURI .
-    FILTER(CONTAINS(STR(?dbpediaURI), "dbpedia.org"))
-}
-ORDER BY ?clubName"""
-    },
-    "wikidata_players": {
-        "label": "Wikidata Links (5★)",
-        "query": """SELECT ?playerName ?wikidataURI
-WHERE {
-    ?player a onto:Player ;
-            onto:name  ?playerName ;
-            owl:sameAs ?wikidataURI .
-    FILTER(CONTAINS(STR(?wikidataURI), "wikidata.org"))
-}
-ORDER BY ?playerName
-LIMIT 15"""
-    },
-    "managers": {
-        "label": "Managers",
-        "query": """SELECT ?managerName ?clubName ?nationality
-WHERE {
-    ?manager a onto:Manager ;
-             onto:name    ?managerName ;
-             onto:country ?nationality .
-    ?club    a onto:FootballClub ;
-             onto:name      ?clubName ;
-             onto:managedBy ?manager .
-}
-ORDER BY ?managerName"""
-    },
-    "count_types": {
-        "label": "Entity Counts",
-        "query": """SELECT ?type (COUNT(?entity) AS ?count)
-WHERE {
-    ?entity a ?type .
-    FILTER(STRSTARTS(STR(?type), "http://semantic-football.org/ontology#"))
-}
-GROUP BY ?type
-ORDER BY DESC(?count)"""
-    },
-    "goals_per_match": {
-        "label": "Goals per Match",
-        "query": """SELECT ?homeClub ?awayClub ?matchDate ?homeScore ?awayScore
-       (?homeScore + ?awayScore AS ?total)
-WHERE {
-    ?match a onto:Match ;
-           onto:homeTeam  ?home ;
-           onto:awayTeam  ?away ;
-           onto:homeScore ?homeScore ;
-           onto:awayScore ?awayScore ;
-           onto:matchDate ?matchDate .
-    ?home onto:shortName ?homeClub .
-    ?away onto:shortName ?awayClub .
-}
-ORDER BY DESC(?homeScore + ?awayScore)"""
-    },
-    "arsenal_goals": {
-        "label": "Arsenal Goals Detail",
-        "query": """SELECT ?playerName ?homeClub ?awayClub ?minute ?isPenalty ?matchDate
-WHERE {
-    ?goal a onto:Goal ;
-          onto:scoredBy      ?player ;
-          onto:scoredForTeam <http://semantic-football.org/data/club/arsenal> ;
-          onto:scoredInMatch ?match ;
-          onto:goalMinute    ?minute ;
-          onto:isPenalty     ?isPenalty .
-    ?player onto:name      ?playerName .
-    ?match  onto:homeTeam  ?home ;
-            onto:awayTeam  ?away ;
-            onto:matchDate ?matchDate .
-    ?home onto:shortName ?homeClub .
-    ?away onto:shortName ?awayClub .
-}
-ORDER BY ?matchDate ?minute"""
-    },
-}
-
-HTML = """<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Football Linked Data — SPARQL Explorer</title>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #0f1117;
-    color: #e2e8f0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── Header ── */
-  header {
-    background: linear-gradient(135deg, #1a1f2e 0%, #16213e 100%);
-    border-bottom: 1px solid #2d3748;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  header .logo { font-size: 28px; }
-  header h1 { font-size: 20px; font-weight: 700; color: #f7fafc; }
-  header p  { font-size: 13px; color: #718096; margin-top: 2px; }
-  .badge {
-    margin-left: auto;
-    background: #2d6a4f;
-    color: #b7e4c7;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 20px;
-    letter-spacing: .5px;
-  }
-
-  /* ── Layout ── */
-  .main { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 65px); }
-
-  /* ── Sidebar ── */
-  .sidebar {
-    width: 220px;
-    min-width: 220px;
-    background: #141820;
-    border-right: 1px solid #2d3748;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-  }
-  .sidebar-title {
-    padding: 14px 16px 8px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #4a5568;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .example-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    background: none;
-    border: none;
-    color: #a0aec0;
-    font-size: 13px;
-    padding: 9px 16px;
-    cursor: pointer;
-    border-left: 3px solid transparent;
-    transition: all .15s;
-  }
-  .example-btn:hover  { background: #1e2433; color: #e2e8f0; }
-  .example-btn.active { background: #1e2d45; color: #63b3ed; border-left-color: #3182ce; }
-
-  /* ── Editor panel ── */
-  .editor-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .query-area {
-    padding: 16px;
-    border-bottom: 1px solid #2d3748;
-    background: #141820;
-  }
-  .query-area label {
-    font-size: 11px;
-    font-weight: 700;
-    color: #4a5568;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 8px;
-  }
-  textarea#query {
-    width: 100%;
-    height: 170px;
-    background: #0d1117;
-    border: 1px solid #2d3748;
-    border-radius: 8px;
-    color: #e2e8f0;
-    font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-    font-size: 13px;
-    line-height: 1.6;
-    padding: 12px;
-    resize: vertical;
-    outline: none;
-    transition: border-color .2s;
-  }
-  textarea#query:focus { border-color: #3182ce; }
-
-  .toolbar {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
-    background: #141820;
-    border-bottom: 1px solid #2d3748;
-  }
-  #run-btn {
-    background: #2b6cb0;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 20px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    transition: background .2s;
-  }
-  #run-btn:hover    { background: #2c5282; }
-  #run-btn:disabled { background: #2d3748; cursor: not-allowed; }
-  #clear-btn {
-    background: none;
-    border: 1px solid #2d3748;
-    color: #718096;
-    border-radius: 6px;
-    padding: 7px 14px;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all .15s;
-  }
-  #clear-btn:hover { border-color: #4a5568; color: #a0aec0; }
-
-  .stats { margin-left: auto; font-size: 12px; color: #4a5568; }
-  .stats span { color: #63b3ed; font-weight: 600; }
-
-  /* ── Results ── */
-  .results-area {
-    flex: 1;
-    overflow: auto;
-    padding: 16px;
-  }
-
-  .result-meta {
-    font-size: 12px;
-    color: #718096;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .result-meta .pill {
-    background: #1a2035;
-    border: 1px solid #2d3748;
-    border-radius: 12px;
-    padding: 2px 10px;
-    font-size: 11px;
-  }
-  .result-meta .pill.green { border-color: #276749; color: #9ae6b4; }
-  .result-meta .pill.red   { border-color: #742a2a; color: #fc8181; }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  thead th {
-    background: #1a2035;
-    color: #90cdf4;
-    font-weight: 600;
-    padding: 10px 14px;
-    text-align: left;
-    border-bottom: 2px solid #2d3748;
-    position: sticky;
-    top: 0;
-    white-space: nowrap;
-  }
-  tbody tr { border-bottom: 1px solid #1e2535; }
-  tbody tr:hover { background: #141c2b; }
-  tbody td {
-    padding: 9px 14px;
-    color: #cbd5e0;
-    max-width: 360px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  td.uri  { color: #76e4f7; font-size: 12px; }
-  td.num  { color: #fbd38d; font-weight: 600; }
-  td.bool-true  { color: #9ae6b4; }
-  td.bool-false { color: #718096; }
-
-  /* DESCRIBE output */
-  .describe-block {
-    background: #0d1117;
-    border: 1px solid #2d3748;
-    border-radius: 8px;
-    padding: 14px;
-    font-family: monospace;
-    font-size: 12.5px;
-    line-height: 1.8;
-  }
-  .describe-block .subject  { color: #76e4f7; font-weight: 700; }
-  .describe-block .pred     { color: #d6bcfa; }
-  .describe-block .obj      { color: #fbd38d; }
-  .describe-block .obj.lit  { color: #9ae6b4; }
-
-  /* ASK result */
-  .ask-result {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 24px;
-    font-weight: 700;
-    padding: 20px;
-  }
-  .ask-result.true  { color: #48bb78; }
-  .ask-result.false { color: #fc8181; }
-
-  /* Error / empty */
-  .msg-box {
-    padding: 16px;
-    border-radius: 8px;
-    font-size: 13px;
-    margin-top: 4px;
-  }
-  .msg-box.error { background: #2d1515; border: 1px solid #742a2a; color: #fc8181; }
-  .msg-box.empty { background: #1a1f2e; border: 1px solid #2d3748; color: #4a5568; }
-
-  /* Spinner */
-  .spinner {
-    width: 16px; height: 16px;
-    border: 2px solid #4a5568;
-    border-top-color: #63b3ed;
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
-    display: none;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  #run-btn.loading .spinner { display: block; }
-  #run-btn.loading .btn-text { display: none; }
-</style>
-</head>
-<body>
-
-<header>
-  <span class="logo">⚽</span>
-  <div>
-    <h1>Football Linked Data</h1>
-    <p>Premier League 2023–24 &nbsp;·&nbsp; SPARQL Explorer</p>
-  </div>
-  <span class="badge">★★★★★ 5-Star Linked Data</span>
-</header>
-
-<div class="main">
-
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="sidebar-title">Example Queries</div>
-    {% for key, q in examples.items() %}
-    <button class="example-btn" onclick="loadExample('{{ key }}')" id="btn-{{ key }}">
-      {{ q.label }}
-    </button>
-    {% endfor %}
-  </aside>
-
-  <!-- Editor + Results -->
-  <div class="editor-panel">
-
-    <div class="query-area">
-      <label>SPARQL Query</label>
-      <textarea id="query" spellcheck="false" placeholder="Type a SPARQL query here…&#10;&#10;Prefixes (onto:, data:, owl:, foaf:, schema:, skos:) are added automatically."></textarea>
-    </div>
-
-    <div class="toolbar">
-      <button id="run-btn" onclick="runQuery()">
-        <span class="btn-text">▶ Run Query</span>
-        <div class="spinner"></div>
-      </button>
-      <button id="clear-btn" onclick="clearAll()">Clear</button>
-      <div class="stats">Dataset: <span>{{ triple_count }}</span> triples</div>
-    </div>
-
-    <div class="results-area" id="results">
-      <div class="msg-box empty">Select an example from the sidebar or write a query above, then click <strong>Run Query</strong>.</div>
-    </div>
-
-  </div>
-</div>
-
-<script>
-const EXAMPLES = {{ examples_json | safe }};
-let activeBtn = null;
-
-function loadExample(key) {
-  const q = EXAMPLES[key];
-  if (!q) return;
-  document.getElementById('query').value = q.query;
-  // highlight active button
-  if (activeBtn) activeBtn.classList.remove('active');
-  activeBtn = document.getElementById('btn-' + key);
-  if (activeBtn) activeBtn.classList.add('active');
-  runQuery();
-}
-
-function clearAll() {
-  document.getElementById('query').value = '';
-  document.getElementById('results').innerHTML =
-    '<div class="msg-box empty">Query cleared.</div>';
-  if (activeBtn) { activeBtn.classList.remove('active'); activeBtn = null; }
-}
-
-async function runQuery() {
-  const query = document.getElementById('query').value.trim();
-  if (!query) return;
-
-  const btn = document.getElementById('run-btn');
-  btn.disabled = true;
-  btn.classList.add('loading');
-
-  try {
-    const res  = await fetch('/query', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query })
-    });
-    const data = await res.json();
-    renderResult(data);
-  } catch (e) {
-    document.getElementById('results').innerHTML =
-      `<div class="msg-box error">Network error: ${e.message}</div>`;
-  } finally {
-    btn.disabled = false;
-    btn.classList.remove('loading');
-  }
-}
-
-function shortenURI(uri) {
-  const MAP = [
-    ['http://semantic-football.org/data/',        'data:'],
-    ['http://semantic-football.org/ontology#',    'onto:'],
-    ['http://www.wikidata.org/entity/',           'wd:'],
-    ['http://dbpedia.org/resource/',              'dbr:'],
-    ['https://sws.geonames.org/',                 'geo:'],
-    ['https://schema.org/',                       'schema:'],
-    ['http://www.w3.org/2002/07/owl#',            'owl:'],
-    ['http://xmlns.com/foaf/0.1/',                'foaf:'],
-    ['http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'rdf:'],
-  ];
-  for (const [long, short] of MAP) {
-    if (uri.startsWith(long)) return short + uri.slice(long.length);
-  }
-  return uri;
-}
-
-function renderResult(data) {
-  const out = document.getElementById('results');
-
-  if (data.error) {
-    out.innerHTML = `<div class="msg-box error"><strong>SPARQL Error:</strong><br><pre style="margin-top:8px;white-space:pre-wrap">${escHtml(data.error)}</pre></div>`;
-    return;
-  }
-
-  if (data.type === 'ask') {
-    const cls = data.result ? 'true' : 'false';
-    const icon = data.result ? '✔' : '✘';
-    out.innerHTML = `
-      <div class="result-meta"><span class="pill">ASK</span></div>
-      <div class="ask-result ${cls}">${icon} ${data.result}</div>`;
-    return;
-  }
-
-  if (data.type === 'describe') {
-    let html = `<div class="result-meta"><span class="pill">DESCRIBE</span><span class="pill green">${data.triples.length} triple(s)</span></div>`;
-    html += '<div class="describe-block">';
-    let lastSubj = null;
-    for (const [s, p, o, oType] of data.triples) {
-      const ss = shortenURI(s), ps = shortenURI(p);
-      const os = oType === 'uri' ? shortenURI(o) : o;
-      const objCls = oType === 'uri' ? 'obj' : 'obj lit';
-      if (s !== lastSubj) {
-        if (lastSubj !== null) html += '<br>';
-        html += `<span class="subject">${escHtml(ss)}</span><br>`;
-        lastSubj = s;
-      }
-      html += `&nbsp;&nbsp;&nbsp;&nbsp;<span class="pred">${escHtml(ps)}</span> <span class="${objCls}">${escHtml(os)}</span><br>`;
-    }
-    html += '</div>';
-    out.innerHTML = html;
-    return;
-  }
-
-  // SELECT
-  if (!data.rows || data.rows.length === 0) {
-    out.innerHTML = `<div class="result-meta"><span class="pill">SELECT</span></div><div class="msg-box empty">No results returned.</div>`;
-    return;
-  }
-
-  const pillCls = data.rows.length > 0 ? 'green' : '';
-  let html = `<div class="result-meta"><span class="pill">SELECT</span><span class="pill ${pillCls}">${data.rows.length} row(s)</span></div>`;
-  html += '<table><thead><tr>';
-  for (const col of data.vars) {
-    html += `<th>${escHtml(col)}</th>`;
-  }
-  html += '</tr></thead><tbody>';
-
-  for (const row of data.rows) {
-    html += '<tr>';
-    for (const col of data.vars) {
-      const cell = row[col];
-      if (cell === null || cell === undefined) {
-        html += '<td style="color:#4a5568">—</td>';
-      } else if (cell.type === 'uri') {
-        const short = shortenURI(cell.value);
-        const isExternal = cell.value.startsWith('http://dbpedia') ||
-                           cell.value.startsWith('http://www.wikidata') ||
-                           cell.value.startsWith('https://sws.geonames');
-        if (isExternal) {
-          html += `<td class="uri"><a href="${escHtml(cell.value)}" target="_blank" style="color:#76e4f7;text-decoration:none" title="${escHtml(cell.value)}">${escHtml(short)} ↗</a></td>`;
-        } else {
-          html += `<td class="uri" title="${escHtml(cell.value)}">${escHtml(short)}</td>`;
-        }
-      } else if (cell.type === 'literal') {
-        const v = cell.value;
-        const isNum = !isNaN(v) && v !== '';
-        const isBool = v === 'true' || v === 'false';
-        if (isNum) {
-          html += `<td class="num">${escHtml(v)}</td>`;
-        } else if (isBool) {
-          html += `<td class="bool-${v}">${v === 'true' ? '✔' : '✘'}</td>`;
-        } else {
-          html += `<td title="${escHtml(v)}">${escHtml(v)}</td>`;
-        }
-      } else {
-        html += `<td>${escHtml(String(cell.value))}</td>`;
-      }
-    }
-    html += '</tr>';
-  }
-  html += '</tbody></table>';
-  out.innerHTML = html;
-}
-
-function escHtml(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// Ctrl+Enter to run
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runQuery();
-});
-</script>
-</body>
-</html>"""
-
-# ── Flask app ────────────────────────────────────────────────
-app = Flask(__name__)
+app = Flask(__name__, template_folder=str(Path(__file__).parent / "templates"))
 
 print("Loading RDF graph…")
-g = ConjunctiveGraph()
-if ONTO_TTL.exists():
-    g.parse(str(ONTO_TTL), format="turtle")
-g.parse(str(LINKED_TTL), format="turtle")
-TRIPLE_COUNT = len(g)
-print(f"Loaded {TRIPLE_COUNT} triples.")
+G = load_graph("5star")
+ONTOLOGY = bind_prefixes(Graph()).parse(ONTO_TTL, format="turtle")
+TRIPLE_COUNT = len(G)
+EXAMPLES = load_example_queries()
+print(f"Loaded {TRIPLE_COUNT} triples, {len(EXAMPLES)} example queries.")
+
+RDF_FORMATS = {                       # mime type → rdflib format
+    "text/turtle": "turtle",
+    "application/n-triples": "nt",
+    "application/rdf+xml": "xml",
+    "application/ld+json": "json-ld",
+}
+SUFFIX_FORMATS = {".ttl": "text/turtle", ".nt": "application/n-triples",
+                  ".rdf": "application/rdf+xml", ".jsonld": "application/ld+json"}
+RESULT_FORMATS = {                    # mime type → rdflib result serializer
+    "application/sparql-results+json": "json",
+    "application/json": "json",
+    "application/sparql-results+xml": "xml",
+    "application/xml": "xml",
+    "text/csv": "csv",
+}
+FORMAT_ALIASES = {"json": "application/sparql-results+json", "xml": "application/sparql-results+xml",
+                  "csv": "text/csv", "turtle": "text/turtle", "ttl": "text/turtle",
+                  "nt": "application/n-triples", "ntriples": "application/n-triples",
+                  "rdfxml": "application/rdf+xml", "jsonld": "application/ld+json",
+                  "json-ld": "application/ld+json"}
+
+
+@app.after_request
+def cors(resp):
+    resp.headers["Access-Control-Allow-Origin"] = "*"
+    return resp
+
+
+# ─────────────────────────────────────────────────────────────
+#  Helpers
+# ─────────────────────────────────────────────────────────────
+def negotiate(offers: list[str], default: str) -> str:
+    fmt = request.args.get("format", "").strip().lower()
+    if fmt:
+        return FORMAT_ALIASES.get(fmt, fmt)
+    best = request.accept_mimetypes.best_match(offers)
+    if not best or (request.accept_mimetypes.best == "*/*" and default in offers):
+        return default
+    return best
+
+
+def rdf_response(g: Graph, mime: str, status: int = 200) -> Response:
+    data = g.serialize(format=RDF_FORMATS[mime])
+    return Response(data, status=status, mimetype=mime,
+                    headers={"Vary": "Accept", "Content-Type": f"{mime}; charset=utf-8"})
+
+
+def error(msg: str, status: int = 400) -> Response:
+    return Response(msg + "\n", status=status, mimetype="text/plain")
+
+
+def run_sparql(raw: str):
+    """Execute a read-only query with the standard prefixes available."""
+    if query_type(raw) in UPDATE_FORMS:
+        raise PermissionError("SPARQL Update is not allowed on this read-only endpoint.")
+    return G.query(PREFIX_BLOCK + "\n" + raw)
+
+
+# ─────────────────────────────────────────────────────────────
+#  Web UI
+# ─────────────────────────────────────────────────────────────
+@app.route("/")
+def index():
+    examples = {k: {"label": k.replace("_", " ").capitalize(), "query": v["query"],
+                    "description": v["description"], "requires": sorted(v["requires"])}
+                for k, v in EXAMPLES.items()}
+    return render_template("index.html", examples=examples,
+                           examples_json=json.dumps(examples),
+                           triple_count=f"{TRIPLE_COUNT:,}")
 
 
 def fmt_value(node):
-    from rdflib import URIRef, Literal, BNode
     if node is None:
         return None
     if isinstance(node, URIRef):
-        return {"type": "uri",     "value": str(node)}
+        return {"type": "uri", "value": str(node)}
     if isinstance(node, Literal):
         return {"type": "literal", "value": str(node)}
-    return {"type": "bnode",   "value": str(node)}
+    return {"type": "bnode", "value": str(node)}
 
 
-@app.route("/")
-def index():
-    import json
-    examples_json = json.dumps({k: {"query": v["query"], "label": v["label"]}
-                                 for k, v in EXAMPLE_QUERIES.items()})
-    return render_template_string(
-        HTML,
-        examples=EXAMPLE_QUERIES,
-        examples_json=examples_json,
-        triple_count=f"{TRIPLE_COUNT:,}",
-    )
-
-
-@app.route("/query", methods=["POST"])
-def query():
-    from rdflib import URIRef, Literal
-    data = request.get_json(force=True)
-    raw  = data.get("query", "").strip()
+@app.route("/api/query", methods=["POST"])
+@app.route("/query", methods=["POST"])          # kept for backward compatibility
+def api_query():
+    raw = (request.get_json(force=True) or {}).get("query", "").strip()
     if not raw:
         return jsonify({"error": "Empty query"})
-
-    full_query = PREFIX_BLOCK + "\n" + raw
-
     try:
-        result = g.query(full_query)
+        result = run_sparql(raw)
     except Exception as e:
         return jsonify({"error": str(e)})
-
-    qtype = result.type
-
-    if qtype == "ASK":
+    if result.type == "ASK":
         return jsonify({"type": "ask", "result": bool(result.askAnswer)})
-
-    if qtype in ("DESCRIBE", "CONSTRUCT"):
-        triples = []
-        for s, p, o in sorted(result.graph, key=lambda t: (str(t[0]), str(t[1]))):
-            oType = "uri" if isinstance(o, URIRef) else "literal"
-            triples.append([str(s), str(p), str(o), oType])
+    if result.type in ("DESCRIBE", "CONSTRUCT"):
+        triples = [[str(s), str(p), str(o), "uri" if isinstance(o, URIRef) else "literal"]
+                   for s, p, o in sorted(result.graph, key=lambda t: (str(t[0]), str(t[1])))]
         return jsonify({"type": "describe", "triples": triples})
-
-    # SELECT
     vars_ = [str(v) for v in result.vars]
-    rows  = []
-    for row in result:
-        r = {}
-        for v in result.vars:
-            r[str(v)] = fmt_value(row[v])
-        rows.append(r)
+    rows = [{str(v): fmt_value(row[v]) for v in result.vars} for row in result]
     return jsonify({"type": "select", "vars": vars_, "rows": rows})
 
 
+# ─────────────────────────────────────────────────────────────
+#  SPARQL 1.1 Protocol endpoint
+# ─────────────────────────────────────────────────────────────
+SERVICE_DESCRIPTION = f"""@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+<> a sd:Service ;
+   sd:endpoint <> ;
+   sd:supportedLanguage sd:SPARQL11Query ;
+   sd:resultFormat <http://www.w3.org/ns/formats/SPARQL_Results_JSON>,
+                   <http://www.w3.org/ns/formats/SPARQL_Results_XML>,
+                   <http://www.w3.org/ns/formats/SPARQL_Results_CSV>,
+                   <http://www.w3.org/ns/formats/Turtle>,
+                   <http://www.w3.org/ns/formats/N-Triples>,
+                   <http://www.w3.org/ns/formats/RDF_XML>,
+                   <http://www.w3.org/ns/formats/JSON-LD> ;
+   sd:defaultDataset [ a sd:Dataset ; void:triples {TRIPLE_COUNT} ;
+                       sd:defaultGraph [ a sd:Graph ; void:inDataset <{DATASET_URI}> ] ] .
+"""
+
+
+@app.route("/sparql", methods=["GET", "POST"])
+def sparql_endpoint():
+    if request.method == "POST":
+        ctype = (request.content_type or "").split(";")[0].strip()
+        if ctype == "application/sparql-query":
+            raw = request.get_data(as_text=True)
+        elif ctype == "application/sparql-update" or "update" in request.form:
+            return error("SPARQL Update is not supported (read-only endpoint).", 403)
+        else:
+            raw = request.form.get("query", "")
+    else:
+        if "update" in request.args:
+            return error("SPARQL Update is not supported (read-only endpoint).", 403)
+        raw = request.args.get("query", "")
+
+    if not raw.strip():
+        # No query: humans get the UI, machines get a SPARQL service description.
+        if request.accept_mimetypes.best_match(["text/html", "text/turtle"]) == "text/html":
+            return index()
+        return Response(SERVICE_DESCRIPTION, mimetype="text/turtle")
+
+    try:
+        result = run_sparql(raw)
+    except PermissionError as e:
+        return error(str(e), 403)
+    except Exception as e:
+        return error(f"Malformed query or evaluation error: {e}", 400)
+
+    if result.type in ("CONSTRUCT", "DESCRIBE"):
+        mime = negotiate(list(RDF_FORMATS), "text/turtle")
+        if mime not in RDF_FORMATS:
+            return error(f"Unsupported format for {result.type}: {mime}", 406)
+        return rdf_response(bind_prefixes(result.graph), mime)
+
+    mime = negotiate(list(RESULT_FORMATS), "application/sparql-results+json")
+    if mime not in RESULT_FORMATS:
+        return error(f"Unsupported format for {result.type}: {mime}", 406)
+    body = result.serialize(format=RESULT_FORMATS[mime])
+    if mime == "application/json":
+        mime = "application/sparql-results+json"
+    return Response(body, mimetype=mime, headers={"Vary": "Accept"})
+
+
+# ─────────────────────────────────────────────────────────────
+#  Dereferenceable URIs (Linked Data)
+# ─────────────────────────────────────────────────────────────
+def describe(uri: URIRef) -> Graph:
+    """Outgoing + incoming triples, plus labels of the linked resources."""
+    out = bind_prefixes(Graph())
+    for t in G.triples((uri, None, None)):
+        out.add(t)
+        if isinstance(t[2], BNode):
+            for t2 in G.triples((t[2], None, None)):
+                out.add(t2)
+    for t in G.triples((None, None, uri)):
+        out.add(t)
+    for node in set(out.subjects()) | set(out.objects()):
+        if isinstance(node, URIRef) and node != uri:
+            for lab in G.objects(node, RDFS.label):
+                out.add((node, RDFS.label, lab))
+    return out
+
+
+def href(node) -> str:
+    s = str(node)
+    if s.startswith(BASE_URI):
+        return s[len(BASE_URI) - 1:] or "/"
+    return s
+
+
+def label_of(node) -> str:
+    lab = G.value(node, RDFS.label) if isinstance(node, URIRef) else None
+    return str(lab) if lab else shorten(str(node))
+
+
+RESOURCE_PAGE = """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title} — Football Linked Data</title>
+<link rel="alternate" type="text/turtle" href="{path}.ttl">
+<link rel="alternate" type="application/ld+json" href="{path}.jsonld">
+<style>
+ body{{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1117;color:#e2e8f0;margin:0;padding:24px;}}
+ a{{color:#76e4f7;text-decoration:none}} a:hover{{text-decoration:underline}}
+ h1{{margin:0 0 4px;font-size:24px}} .uri{{color:#718096;font-size:13px;word-break:break-all}}
+ .formats{{margin:12px 0 20px;font-size:13px}} .formats a{{margin-right:12px}}
+ table{{border-collapse:collapse;width:100%;font-size:14px}}
+ th{{text-align:left;color:#90cdf4;border-bottom:2px solid #2d3748;padding:8px}}
+ td{{border-bottom:1px solid #1e2535;padding:8px;vertical-align:top;word-break:break-word}}
+ td.p{{color:#d6bcfa;white-space:nowrap;width:1%}} .lit{{color:#9ae6b4}} .ext::after{{content:" ↗"}}
+ h2{{font-size:16px;color:#a0aec0;margin-top:28px}} img{{max-height:160px;border-radius:8px}}
+</style></head><body>
+<p><a href="/">← SPARQL Explorer</a></p>
+<h1>{title}</h1><div class="uri">{uri}</div>
+<div class="formats">Other formats: <a href="{path}.ttl">Turtle</a><a href="{path}.nt">N-Triples</a>
+<a href="{path}.rdf">RDF/XML</a><a href="{path}.jsonld">JSON-LD</a></div>
+{image}
+<table><tr><th>Property</th><th>Value</th></tr>{rows}</table>
+{incoming}
+</body></html>"""
+
+
+def render_node(node) -> str:
+    if isinstance(node, Literal):
+        return f'<span class="lit">{html.escape(str(node))}</span>'
+    if isinstance(node, BNode):
+        return "_:" + html.escape(str(node))
+    ext = "" if str(node).startswith(BASE_URI) else ' class="ext" target="_blank"'
+    return f'<a href="{html.escape(href(node))}"{ext} title="{html.escape(str(node))}">' \
+           f'{html.escape(label_of(node))}</a>'
+
+
+def html_page(uri: URIRef, g: Graph) -> str:
+    rows = "".join(f'<tr><td class="p">{html.escape(shorten(str(p)))}</td><td>{render_node(o)}</td></tr>'
+                   for p, o in sorted(g.predicate_objects(uri), key=lambda t: (str(t[0]), str(t[1]))))
+    inc = sorted(((s, p) for s, p in g.subject_predicates(uri)), key=lambda t: (str(t[1]), str(t[0])))
+    incoming = ""
+    if inc:
+        incoming = "<h2>Referenced by</h2><table><tr><th>Property</th><th>Subject</th></tr>" + "".join(
+            f'<tr><td class="p">{html.escape(shorten(str(p)))}</td><td>{render_node(s)}</td></tr>'
+            for s, p in inc) + "</table>"
+    img = G.value(uri, URIRef("http://xmlns.com/foaf/0.1/depiction"))
+    image = f'<p><img src="{html.escape(str(img))}" alt=""></p>' if img else ""
+    path = href(uri)
+    return RESOURCE_PAGE.format(title=html.escape(label_of(uri)), uri=html.escape(str(uri)),
+                                path=html.escape(path), rows=rows, incoming=incoming, image=image)
+
+
+def serve_resource(uri: URIRef, graph_fn):
+    path = request.path
+    for suffix, mime in SUFFIX_FORMATS.items():
+        if path.endswith(suffix):
+            return rdf_response(graph_fn(), mime)
+    # Browsers ask for text/html explicitly; generic clients (Accept: */*) get Turtle.
+    mime = negotiate(["text/html"] + list(RDF_FORMATS), "text/turtle")
+    if mime == "text/html":
+        return Response(html_page(uri, graph_fn()), mimetype="text/html", headers={"Vary": "Accept"})
+    if mime not in RDF_FORMATS:
+        return error(f"Not acceptable: {mime}", 406)
+    return rdf_response(graph_fn(), mime)
+
+
+@app.route("/data/<path:local>")
+def resource(local):
+    for suffix in SUFFIX_FORMATS:
+        if local.endswith(suffix):
+            local = local[: -len(suffix)]
+            break
+    uri = DATA[local]
+    if (uri, None, None) not in G and (None, None, uri) not in G:
+        abort(404)
+    return serve_resource(uri, lambda: describe(uri))
+
+
+@app.route("/ontology")
+@app.route("/ontology<suffix>")
+def ontology(suffix=""):
+    if suffix and suffix not in SUFFIX_FORMATS:
+        abort(404)
+    if not suffix and negotiate(["text/html"] + list(RDF_FORMATS), "text/turtle") == "text/html":
+        # human-readable list of classes and properties
+        rows = []
+        for s in sorted(set(ONTOLOGY.subjects(RDF.type, None)), key=str):
+            if not isinstance(s, URIRef):
+                continue
+            kinds = ", ".join(sorted(shorten(str(t)) for t in ONTOLOGY.objects(s, RDF.type)))
+            comment = ONTOLOGY.value(s, RDFS.comment) or ""
+            rows.append(f'<tr><td class="p" id="{html.escape(str(s).split("#")[-1])}">'
+                        f'{html.escape(shorten(str(s)))}</td><td>{html.escape(kinds)}</td>'
+                        f'<td>{html.escape(str(comment))}</td></tr>')
+        body = RESOURCE_PAGE.format(title="Football Ontology", uri=html.escape(BASE_URI + "ontology"),
+                                    path="/ontology", image="", incoming="",
+                                    rows="".join(rows))
+        body = body.replace("<th>Property</th><th>Value</th>",
+                            "<th>Term</th><th>Type</th><th>Comment</th>")
+        return Response(body, mimetype="text/html")
+    mime = SUFFIX_FORMATS.get(suffix) or negotiate(list(RDF_FORMATS), "text/turtle")
+    return rdf_response(ONTOLOGY, mime if mime in RDF_FORMATS else "text/turtle")
+
+
+@app.route("/void")
+@app.route("/.well-known/void")
+@app.route("/data")
+def void():
+    vg = bind_prefixes(Graph()).parse(VOID_TTL, format="turtle")
+    mime = negotiate(list(RDF_FORMATS), "text/turtle")
+    return rdf_response(vg, mime if mime in RDF_FORMATS else "text/turtle")
+
+
+@app.route("/dump/<name>")
+def dump(name):
+    allowed = {"football_linked.ttl": LINKED_DIR, "football_linked.nt": LINKED_DIR,
+               "void.ttl": LINKED_DIR, "football_data.ttl": RDF_DIR, "football_data.nt": RDF_DIR,
+               "football.ttl": ONTO_TTL.parent}
+    if name not in allowed:
+        abort(404)
+    mime = "application/n-triples" if name.endswith(".nt") else "text/turtle"
+    return send_from_directory(allowed[name], name, mimetype=mime, as_attachment=False)
+
+
 if __name__ == "__main__":
-    import webbrowser, threading
-    url = "http://127.0.0.1:5000"
-    threading.Timer(1.0, lambda: webbrowser.open(url)).start()
-    print(f"\n  Open → {url}\n  Press Ctrl+C to stop.\n")
-    app.run(debug=False, port=5000)
+    host = os.environ.get("HOST", "127.0.0.1")
+    port = int(os.environ.get("PORT", "5000"))
+    if os.environ.get("NO_BROWSER") != "1":
+        import threading
+        import webbrowser
+        threading.Timer(1.0, lambda: webbrowser.open(f"http://127.0.0.1:{port}")).start()
+    print(f"\n  Web UI          → http://127.0.0.1:{port}/")
+    print(f"  SPARQL endpoint → http://127.0.0.1:{port}/sparql")
+    print(f"  Example URI     → http://127.0.0.1:{port}/data/player/erling_haaland")
+    print("  Press Ctrl+C to stop.\n")
+    app.run(host=host, port=port, debug=False)

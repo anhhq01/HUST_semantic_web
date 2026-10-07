@@ -1,227 +1,242 @@
-# Football Semantic Web — Linked Data Assignment
+# Football Semantic Web — Linked Open Data Application (IT6390E, Topic 1)
 
 > **Domain:** Football (Premier League 2023–24)
 
-This project implements all five Linked Data stars for the **football domain**, including an OWL ontology, raw data collection, RDF transformation, cross-dataset linking, and an interactive SPARQL terminal.
+The project builds a Linked Open Data (LOD) application for the football domain and
+covers all five requirements of Topic 1:
+
+| # | Topic 1 requirement | Where it is done |
+|---|---|---|
+| 1 | Define an ontology for the domain | `ontology/football.ttl` |
+| 2 | Collect data | `data/raw/*.csv` |
+| 3 | Transform the data to the 4★ standard | `scripts/transform.py` → `data/rdf/` |
+| 4 | Find and establish links to other datasets (5★) | `scripts/discover_links.py` + `scripts/link.py` → `data/links/`, `data/linked/` |
+| 5 | Query interface: SPARQL endpoint / terminal | `scripts/app.py` (endpoint + web UI + resolvable URIs), `scripts/sparql_terminal.py` |
+
+`scripts/validate.py` checks the result automatically.
 
 ---
 
-## Linked Data Stars
+## Quick start
 
-| ★ | Standard | This project |
-|---|----------|-------------|
-| ★ | Data available on the web | RDF files served from `data/` |
-| ★★ | Machine-readable structured data | Turtle / N-Triples |
-| ★★★ | Non-proprietary open format | RDF (W3C standard) |
-| ★★★★ | HTTP URIs for everything | All entities at `http://semantic-football.org/data/…` |
-| ★★★★★ | Links to other datasets | `owl:sameAs` → DBpedia & Wikidata; `schema:sameAs`; `skos:exactMatch`; GeoNames city links |
+```bash
+pip install -r requirements.txt
+
+python scripts/run_all.py              # full pipeline, then the SPARQL terminal
+python scripts/run_all.py --web        # full pipeline, then the web UI / SPARQL endpoint
+python scripts/run_all.py --offline    # do not contact DBpedia (uses data/links cache)
+python scripts/run_all.py --no-serve   # pipeline + validation only
+```
+
+Or step by step:
+
+```bash
+python scripts/transform.py                 # Step 3 → data/rdf/football_data.ttl  (4★)
+python scripts/discover_links.py --enrich   # Step 4a → data/links/  (needs internet)
+python scripts/link.py                      # Step 4b → data/linked/football_linked.ttl + void.ttl (5★)
+python scripts/validate.py                  # quality checks
+python scripts/sparql_terminal.py           # Step 5 — terminal
+python scripts/app.py                       # Step 5 — http://127.0.0.1:5000
+```
 
 ---
 
-## Project Structure
+## Project structure
 
 ```
 semantic-web/
-├── ontology/
-│   └── football.ttl          ← OWL ontology (classes, properties)
+├── ontology/football.ttl          ← OWL ontology, aligned with schema.org / FOAF / DBpedia ontology
 ├── data/
-│   ├── raw/                  ← Original CSV data files
-│   │   ├── clubs.csv
-│   │   ├── players.csv
-│   │   ├── managers.csv
-│   │   ├── stadiums.csv
-│   │   ├── matches.csv
-│   │   ├── goals.csv
-│   │   ├── transfers.csv
-│   │   ├── leagues.csv
-│   │   └── seasons.csv
-│   ├── rdf/                  ← 4★ RDF output
-│   │   ├── football_data.ttl
-│   │   └── football_data.nt
-│   └── linked/               ← 5★ linked output
-│       ├── football_linked.ttl
-│       └── football_linked.nt
-├── scripts/
-│   ├── transform.py          ← CSV → RDF (4★)
-│   ├── link.py               ← Add external links (5★)
-│   ├── sparql_terminal.py    ← Interactive SPARQL interface
-│   └── run_all.py            ← Full pipeline runner
-├── queries/
-│   └── example_queries.sparql ← 20 example SPARQL queries
-└── requirements.txt
-```
-
----
-
-## Quick Start
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the full pipeline (transform → link → terminal)
-python3 scripts/run_all.py
-
-# Or run each step individually:
-python3 scripts/transform.py       # produces data/rdf/football_data.ttl
-python3 scripts/link.py            # produces data/linked/football_linked.ttl
-python3 scripts/sparql_terminal.py # interactive SPARQL terminal
+│   ├── raw/                       ← collected data (CSV)
+│   │   ├── clubs.csv  other_clubs.csv  players.csv  managers.csv  stadiums.csv
+│   │   ├── matches.csv  goals.csv  transfers.csv  leagues.csv  seasons.csv
+│   │   └── cities.csv  nationalities.csv
+│   ├── rdf/                       ← 4★ output (no external links)
+│   ├── links/                     ← link discovery: discovered_links.csv, evaluation.md, caches
+│   └── linked/                    ← 5★ output + void.ttl
+├── queries/example_queries.sparql ← all example queries (single source for terminal, web UI, validation)
+└── scripts/
+    ├── common.py                  ← namespaces, prefixes, paths, helpers shared by all scripts
+    ├── transform.py               ← Step 3
+    ├── discover_links.py          ← Step 4a — automatic link discovery + evaluation
+    ├── link.py                    ← Step 4b — links, enrichment, VoID
+    ├── validate.py                ← quality checks
+    ├── sparql_terminal.py         ← Step 5 — terminal
+    ├── app.py  templates/         ← Step 5 — SPARQL endpoint, web UI, Linked Data pages
+    └── run_all.py                 ← whole pipeline
 ```
 
 ---
 
 ## Step 1 — Ontology (`ontology/football.ttl`)
 
-The ontology is written in **OWL 2 / Turtle** and defines:
+OWL 2 ontology in Turtle, namespace `onto: <http://semantic-football.org/ontology#>`.
 
-### Classes
-| Class | Description |
-|-------|-------------|
-| `onto:FootballClub` | A professional football club |
-| `onto:Player` | A professional player |
-| `onto:Manager` | A team manager / head coach |
-| `onto:Match` | A scheduled match between two clubs |
-| `onto:League` | A football league / competition |
-| `onto:Season` | A football season (e.g. 2023-24) |
-| `onto:Stadium` | A football stadium |
-| `onto:Position` | Playing position (GK / DF / MF / FW) |
-| `onto:Goal` | A goal scored during a match |
-| `onto:Transfer` | A player transfer between clubs |
-| `onto:Nationality` | A player's nationality |
+**Classes:** `FootballClub`, `Player`, `Manager`, `Match`, `League`, `Season`, `Stadium`,
+`Position`, `Goal`, `Transfer`, `Nationality`, `City`.
 
-### Key Object Properties
-`playsFor`, `hasPosition`, `hasNationality`, `managedBy`, `hasStadium`,
-`participatesIn`, `homeTeam`, `awayTeam`, `wonBy`, `scoredBy`, `scoredInMatch`,
-`scoredForTeam`, `transferredPlayer`, `fromClub`, `toClub`, `inSeason`, `partOfLeague`, `partOfSeason`
+**Re-use of existing vocabularies** (important for 5★ — links at the schema level):
 
-### Key Datatype Properties
-`name`, `dateOfBirth`, `jerseyNumber`, `height`, `marketValue`, `founded`,
-`city`, `country`, `capacity`, `matchDate`, `matchWeek`, `homeScore`, `awayScore`,
-`goalMinute`, `isPenalty`, `isOwnGoal`, `transferFee`, `transferDate`
+| Our term | Aligned with |
+|---|---|
+| `onto:FootballClub` | `schema:SportsTeam`, `dbo:SoccerClub` |
+| `onto:Player` / `onto:Manager` | `foaf:Person`, `schema:Person`, `dbo:SoccerPlayer` / `dbo:SoccerManager` |
+| `onto:Match`, `onto:League`, `onto:Season`, `onto:Stadium` | `schema:SportsEvent`, `dbo:FootballMatch`, `dbo:SoccerLeague`, `dbo:SoccerLeagueSeason`, `dbo:Stadium` |
+| `onto:playsFor`, `onto:managedBy`, `onto:hasStadium` | `rdfs:subPropertyOf` `dbo:team`, `dbo:manager`, `dbo:ground` |
+| `onto:dateOfBirth`, `onto:capacity`, `onto:name` | `dbo:birthDate`, `dbo:seatingCapacity`, `schema:name` |
 
----
+Every object property has an `rdfs:domain`/`rdfs:range` and every datatype property an XSD
+range; `validate.py` checks that the data respects them. The ontology is published under
+CC BY 4.0 (`dcterms:license`).
 
-## Step 2 — Raw Data
+## Step 2 — Data (`data/raw/`)
 
-Manually curated CSV files covering the **2023-24 Premier League** season:
+Hand-collected CSV files for the 2023–24 Premier League: 6 clubs (+7 clubs that appear only
+in transfers), 31 players, 6 managers, 6 stadiums, 15 matches, 45 goals, 10 transfers,
+4 seasons, 9 cities, 18 nationalities. The CSVs also hold the *curated* external identifiers
+(`wikidata_id`, `dbpedia_uri`, `geonames_id`) that serve as the gold standard for link discovery.
 
-- **6 clubs** — Manchester City, Arsenal, Liverpool, Aston Villa, Tottenham, Chelsea
-- **30 players** — 5 per club with real biographical data
-- **6 managers**
-- **6 stadiums**
-- **15 matches** with scorelines
-- **45 goals** with scorer, minute, and penalty flags
-- **10 transfers** including real fees (Enzo Fernández €121M, Declan Rice €116.6M…)
+## Step 3 — 4★ transformation (`scripts/transform.py`)
 
----
+* every entity gets an HTTP URI: `http://semantic-football.org/data/<type>/<id>`
+  (e.g. `…/data/player/erling_haaland`, `…/data/match/m001`)
+* foreign keys become RDF links between our own resources (`onto:playsFor`, `onto:homeTeam`, …)
+* typed literals (`xsd:date`, `xsd:integer`, `xsd:decimal`, `xsd:boolean`)
+* `rdfs:label` on every entity so generic Linked Data tools can display it
+* derived facts, e.g. `onto:wonBy` computed from the score
 
-## Step 3 — 4★ Transformation (`scripts/transform.py`)
+The 4★ output deliberately contains **no** links to other datasets: compare
+`data/rdf/` (4★) with `data/linked/` (5★) to see exactly what the fifth star adds.
 
-Converts all CSVs into RDF Turtle using **HTTP URIs** for every entity:
+## Step 4 — 5★ links
 
-```
-http://semantic-football.org/data/club/arsenal
-http://semantic-football.org/data/player/erling_haaland
-http://semantic-football.org/data/match/m001
-```
+### 4a. Automatic link discovery (`scripts/discover_links.py`)
 
-Outputs **1 238 triples** in `data/rdf/football_data.ttl`.
+A small Silk-style linkage rule:
 
----
+1. **Candidates** – DBpedia Lookup search by name, restricted to the matching DBpedia class.
+2. **Details** – one batched SPARQL query to `https://dbpedia.org/sparql` for types,
+   English label, `dbo:birthDate` and the `owl:sameAs` link to Wikidata.
+3. **Score** – `0.6·name similarity + 0.4·birth-date match` for people, name similarity
+   otherwise (accent-insensitive; "F.C.", "(footballer)" … removed). A different birth date
+   rejects the candidate.
+4. **Decision** – ≥ 0.90 accepted, ≥ 0.75 review; two candidates within 0.05 → review (ambiguous).
+5. **Evaluation** – accepted links are compared with the curated links:
+   precision / recall / F1, plus a check that the curated Wikidata IDs agree with DBpedia.
+   Report: `data/links/evaluation.md`.
 
-## Step 4 — 5★ External Links (`scripts/link.py`)
+All HTTP responses are cached in `data/links/dbpedia_cache.json`, so the result is
+reproducible and later runs work offline (`--offline`). `--enrich` additionally caches
+DBpedia abstracts and thumbnails.
 
-Augments the 4★ graph with cross-dataset links:
+### 4b. Writing the links (`scripts/link.py`)
 
-| Link type | Target dataset | Example |
-|-----------|---------------|---------|
-| `owl:sameAs` | DBpedia | Arsenal → `dbr:Arsenal_F.C.` |
-| `owl:sameAs` | Wikidata | Haaland → `wd:Q61908496` |
-| `schema:sameAs` | Schema.org consumers | (mirrors every owl:sameAs) |
-| `skos:exactMatch` | DBpedia | (all DBpedia URIs) |
-| `schema:location` | GeoNames | London → `geonames:2643743` |
+| Link | Target | Notes |
+|---|---|---|
+| `owl:sameAs` | DBpedia, Wikidata | clubs, players, managers, stadiums, league, seasons, cities (curated + accepted discovered links; curated links win on conflict) |
+| `owl:sameAs` | GeoNames | cities (`http://sws.geonames.org/<id>/`) |
+| `onto:nationalityCountry` | Wikidata / DBpedia countries | a nationality is not a country, so `owl:sameAs` would be wrong |
+| `rdfs:comment`, `foaf:depiction` | from DBpedia | only if the enrichment cache exists |
 
-Total: **1 449 triples** in `data/linked/football_linked.ttl`.
+`link.py` also writes **`data/linked/void.ttl`**, a [VoID](https://www.w3.org/TR/void/)
+description with the licence, SPARQL endpoint, data dumps, statistics and one `void:Linkset`
+per external dataset — the metadata the [LOD Cloud](https://lod-cloud.net/) asks for
+(≥ 1000 triples and ≥ 50 links to an existing LOD dataset; this dataset has 58 to DBpedia).
 
----
+| ★ | Criterion | How it is met |
+|---|---|---|
+| ★ | On the web, open licence | served by `app.py`; CC BY 4.0 in VoID and ontology |
+| ★★ | Structured data | RDF |
+| ★★★ | Non-proprietary format | Turtle, N-Triples, RDF/XML, JSON-LD |
+| ★★★★ | URIs to denote things | HTTP URIs that resolve (`/data/...`, content negotiation) |
+| ★★★★★ | Linked to other data | `owl:sameAs` → DBpedia, Wikidata, GeoNames; schema-level alignment to dbo:/schema.org |
 
-## Step 5 — SPARQL Terminal (`scripts/sparql_terminal.py`)
+## Step 5 — Query interfaces
 
-An interactive Read-Eval-Print Loop (REPL) over the in-memory RDF graph.
+### SPARQL endpoint + web UI (`scripts/app.py`)
 
-```
-============================================================
- Football Linked Data — SPARQL Terminal
-============================================================
- Dataset loaded: 1666 triples
- Type  :help  for available commands.
-
-SPARQL> :run top_scorers
-
-  [top_scorers] Top goal scorers in the dataset (all matches)
-
-+--------------------+--------------------+-------+
-| playerName         | clubName           | goals |
-+--------------------+--------------------+-------+
-| Bukayo Saka        | Arsenal FC         | 6     |
-| Erling Haaland     | Manchester City FC | 6     |
-| Darwin Nunez       | Liverpool FC       | 5     |
-...
+```bash
+python scripts/app.py          # http://127.0.0.1:5000
 ```
 
-### Terminal Commands
+| URL | What |
+|---|---|
+| `/` | Web UI with all example queries |
+| `/sparql` | **SPARQL 1.1 Protocol** endpoint (read-only) |
+| `/data/<type>/<id>` | Linked Data page of an entity: HTML for browsers, RDF for machines |
+| `/ontology` | the ontology (HTML / RDF) |
+| `/void` | VoID description |
+| `/dump/football_linked.ttl` | data dump |
+
+```bash
+# SELECT → SPARQL JSON (default), XML or CSV
+curl -G --data-urlencode "query=SELECT ?name WHERE { ?c a onto:FootballClub ; onto:name ?name }" http://127.0.0.1:5000/sparql
+curl -H "Accept: text/csv" --data-urlencode "query=SELECT ?n WHERE { ?p a onto:Player ; onto:name ?n }" http://127.0.0.1:5000/sparql
+curl -H "Content-Type: application/sparql-query" --data "ASK { club:arsenal a onto:FootballClub }" http://127.0.0.1:5000/sparql
+# CONSTRUCT / DESCRIBE → Turtle (default), N-Triples, RDF/XML, JSON-LD
+curl -H "Accept: application/ld+json" "http://127.0.0.1:5000/sparql?query=DESCRIBE%20player:erling_haaland"
+# Dereference a URI with content negotiation
+curl -H "Accept: text/turtle" http://127.0.0.1:5000/data/club/arsenal
+```
+
+The endpoint works with any SPARQL client (YASGUI, SPARQLWrapper, Protégé, …).
+Update requests are rejected (HTTP 403).
+
+**About the URIs.** Entity URIs use `http://semantic-football.org/…`. Running locally,
+`http://127.0.0.1:5000/data/club/arsenal` serves `http://semantic-football.org/data/club/arsenal`.
+To make the URIs themselves resolvable, deploy `app.py` under that domain, or register a
+permanent [w3id.org](https://w3id.org) redirect and change `BASE_URI` in `scripts/common.py`.
+
+*Alternative:* the dump can also be loaded into Apache Jena Fuseki
+(`fuseki-server --file=data/linked/football_linked.ttl /football`), which then offers an
+endpoint at `http://localhost:3030/football/sparql`.
+
+### SPARQL terminal (`scripts/sparql_terminal.py`)
+
+```bash
+python scripts/sparql_terminal.py                     # REPL on the local 5★ dataset
+python scripts/sparql_terminal.py --dataset 4star     # 4★ dataset (no links)
+python scripts/sparql_terminal.py -r standings        # run one example and exit
+python scripts/sparql_terminal.py -q "DESCRIBE player:erling_haaland"
+python scripts/sparql_terminal.py -f my_query.rq --format csv
+python scripts/sparql_terminal.py --endpoint http://127.0.0.1:5000/sparql   # talk to the endpoint
+```
 
 | Command | Description |
-|---------|-------------|
-| `:help` | Show help |
-| `:examples` | List all 14 named example queries |
-| `:run <name>` | Execute a named example query |
-| `:show <name>` | Print the SPARQL source of a named query |
-| `:prefixes` | Print the auto-prepended PREFIX block |
-| `:count` | Show total triple count |
-| `:quit` | Exit |
+|---|---|
+| `:examples` | list the named example queries |
+| `:run <name>` / `:show <name>` | run / print an example |
+| `:file <path>` | run a query from a file |
+| `:format table\|csv\|json` | output format |
+| `:prefixes`, `:count`, `:help`, `:quit` | |
 
-### Named Example Queries
+Prefixes are added automatically, including one per entity type, so queries can write
+`club:arsenal`, `player:erling_haaland`, `league:premier_league`.
 
-| Name | Description |
-|------|-------------|
-| `all_clubs` | All clubs with city and founding year |
-| `squad` | Arsenal full squad (position, nationality, jersey) |
-| `top_scorers` | Top 10 goal scorers |
-| `match_results` | All 15 match results with scores |
-| `high_value_transfers` | Transfers > €50M |
-| `stadiums` | Stadiums with capacity and GeoNames link |
-| `external_links` | DBpedia `owl:sameAs` links for clubs |
-| `wikidata_players` | Players with Wikidata links |
-| `matches_per_club` | Home and away match count per club |
-| `goals_per_match` | Matches ordered by total goals |
-| `managers` | All managers with club and nationality |
-| `arsenal_goals_detail` | All Arsenal goals (minute, penalty flag) |
-| `describe_haaland` | DESCRIBE — all triples about Haaland |
-| `count_triples` | Entity counts by ontology type |
+### Example queries (`queries/example_queries.sparql`)
 
-### Ad-hoc Query Example
-
-```sparql
-SPARQL> SELECT ?name ?marketValue
-     …  WHERE {
-     …      ?p a onto:Player ;
-     …         onto:name        ?name ;
-     …         onto:marketValue ?marketValue .
-     …  }
-     …  ORDER BY DESC(?marketValue)
-     …  LIMIT 5
-     …
-```
-*(press Enter on a blank line to submit)*
+23 queries covering SELECT, ASK, CONSTRUCT, DESCRIBE, aggregation (`standings` computes the
+league table), property paths, and link exploitation (`players_by_country`, `stadiums`,
+`linksets`). `federated_dbpedia_abstract` uses `SERVICE <https://dbpedia.org/sparql>` to follow
+our `owl:sameAs` links into live DBpedia (needs internet).
 
 ---
 
-## External Dataset Links
+## Validation (`scripts/validate.py`)
+
+Checks that all ontology terms are declared, every entity has a type and label, no reference
+is dangling, domains/ranges/datatypes are respected, goals add up to scores, links are
+well-formed with at most one per entity and dataset, the VoID file is present, and every
+example query returns a result.
+
+Current status: 0 errors, 1 warning — match `m002` (Liverpool 2–1 Tottenham) has no goal
+record for Tottenham's goal in `goals.csv`.
+
+## External datasets
 
 | Dataset | URL |
-|---------|-----|
+|---|---|
 | DBpedia | https://dbpedia.org |
 | Wikidata | https://www.wikidata.org |
-| GeoNames | https://sws.geonames.org |
+| GeoNames | https://www.geonames.org |
 | Schema.org | https://schema.org |

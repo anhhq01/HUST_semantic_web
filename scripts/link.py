@@ -1,291 +1,260 @@
 #!/usr/bin/env python3
 """
-link.py — Establishes links to external Linked Data datasets to achieve the
-5-star Linked Data standard:
+link.py — Step 4b of Topic 1: add links to other people's data to reach the
+5-star Linked Data standard ("link your data to other data to provide context").
 
-  ★★★★★  All of the above, plus link your data to other people's data to
-          provide context.
+Inputs
+  data/rdf/football_data.ttl          4★ graph from transform.py
+  data/raw/*.csv                      curated wikidata_id / dbpedia_uri / geonames_id
+  data/links/discovered_links.csv     links found by discover_links.py (optional)
+  data/links/dbpedia_enrichment.json  cached abstracts / thumbnails (optional)
 
-Strategy
---------
-1. Load the 4★ RDF graph produced by transform.py.
-2. For all entities that already carry owl:sameAs to DBpedia / Wikidata URIs
-   (embedded during transformation), verify / augment with additional
-   cross-dataset links.
-3. Add schema:sameAs, skos:exactMatch links where applicable.
-4. Enrich with foaf:depiction, schema:description pulled from DBpedia SPARQL
-   where the service is reachable (gracefully skipped if offline).
-5. Write the enriched graph to data/linked/football_linked.ttl.
+Links written
+  owl:sameAs               identity links: club, player, manager, stadium,
+                           league, season, city → DBpedia / Wikidata / GeoNames
+  onto:nationalityCountry  a nationality ("Norwegian") is not a country, so it
+                           is linked to the country with its own property
+                           instead of owl:sameAs
+  rdfs:comment / foaf:depiction   DBpedia abstract and image (if cached)
 
-The output is the full 5★ dataset: our data + links to DBpedia, Wikidata,
-schema.org, and GeoNames.
+Outputs
+  data/linked/football_linked.ttl / .nt   5★ dataset
+  data/linked/void.ttl                    VoID description: licence, SPARQL
+                                          endpoint, dumps, statistics and one
+                                          void:Linkset per external dataset
+
+The script never needs the network: discovery and enrichment results come
+from the cache files written by discover_links.py, so every run is
+reproducible.
 """
 
+from __future__ import annotations
+
+import csv
+import datetime as dt
+import json
+import os
 import sys
-import time
-from pathlib import Path
+from collections import Counter, defaultdict
 
-from rdflib import Graph, Namespace, URIRef, Literal, RDF, RDFS, OWL, XSD
-from rdflib.namespace import SKOS, FOAF
-try:
-    from SPARQLWrapper import SPARQLWrapper, JSON
-    SPARQL_AVAILABLE = True
-except ImportError:
-    SPARQL_AVAILABLE = False
+from rdflib import BNode, Graph, Literal, URIRef
+from rdflib.namespace import DCTERMS, FOAF, OWL, RDF, RDFS, XSD
 
-BASE_DIR   = Path(__file__).parent.parent
-RDF_DIR    = BASE_DIR / "data" / "rdf"
-LINKED_DIR = BASE_DIR / "data" / "linked"
-LINKED_DIR.mkdir(parents=True, exist_ok=True)
+from common import (DATA, DATASET_URI, DBR, DISCOVERED_LINKS_CSV, ENRICHMENT_JSON,
+                    GEONAMES, LICENSE_URI, LINKED_DIR, LINKED_TTL, ONTO, ONTOLOGY_URI,
+                    PROV, RDF_TTL, SCHEMA, VOID, VOID_TTL, WD, bind_prefixes,
+                    curated_links, normalize_uri, read_csv)
 
-ONTO   = Namespace("http://semantic-football.org/ontology#")
-DATA   = Namespace("http://semantic-football.org/data/")
-SCHEMA = Namespace("https://schema.org/")
-DC     = Namespace("http://purl.org/dc/elements/1.1/")
-GEO    = Namespace("http://www.geonames.org/ontology#")
-PROV   = Namespace("http://www.w3.org/ns/prov#")
+# Public address of the server started by app.py (used in the VoID file).
+PUBLIC_BASE = os.environ.get("FOOTBALL_PUBLIC_BASE", "http://127.0.0.1:5000").rstrip("/")
 
-# ── GeoNames URIs for stadium / club cities ──────────────────────────────────
-CITY_GEONAMES = {
-    "Manchester": "https://sws.geonames.org/2643123/",
-    "London":     "https://sws.geonames.org/2643743/",
-    "Liverpool":  "https://sws.geonames.org/2644210/",
-    "Birmingham": "https://sws.geonames.org/2655603/",
-}
-
-# ── Additional DBpedia links not already stored in the CSV ───────────────────
-#    format: (local_uri_suffix, dbpedia_URI)
-EXTRA_DBPEDIA = [
-    ("league/premier_league",
-     "http://dbpedia.org/resource/Premier_League"),
-    ("season/pl_2023_24",
-     "http://dbpedia.org/resource/2023%E2%80%9324_Premier_League_season"),
-    ("season/pl_2022_23",
-     "http://dbpedia.org/resource/2022%E2%80%9323_Premier_League_season"),
-]
-
-# ── Wikidata URIs for nationalities ─────────────────────────────────────────
-NATIONALITY_WIKIDATA = {
-    "english":     "Q145",
-    "norwegian":   "Q20",
-    "belgian":     "Q31",
-    "spanish":     "Q29",
-    "portuguese":  "Q45",
-    "french":      "Q142",
-    "brazilian":   "Q155",
-    "dutch":       "Q55",
-    "uruguayan":   "Q77",
-    "argentinian": "Q414",
-    "italian":     "Q38",
-    "egyptian":    "Q79",
-    "south_korean":"Q884",
-    "welsh":       "Q25",
-    "jamaican":    "Q766",
-    "senegalese":  "Q1041",
-    "australian":  "Q408",
-    "german":      "Q183",
+TARGETS = {   # external dataset → (namespace, VoID URI of that dataset)
+    "DBpedia":  ("http://dbpedia.org/resource/",    "http://dbpedia.org/void/Dataset"),
+    "Wikidata": ("http://www.wikidata.org/entity/", "http://www.wikidata.org/"),
+    "GeoNames": (str(GEONAMES),                     "http://sws.geonames.org/"),
 }
 
 
-def load_rdf_graph() -> Graph:
-    g = Graph()
-    g.bind("onto",   ONTO)
-    g.bind("data",   DATA)
-    g.bind("schema", SCHEMA)
-    g.bind("foaf",   FOAF)
-    g.bind("owl",    OWL)
-    g.bind("xsd",    XSD)
-    g.bind("rdfs",   RDFS)
-    g.bind("dc",     DC)
-    g.bind("skos",   SKOS)
-    g.bind("geo",    GEO)
-    g.bind("prov",   PROV)
-
-    ttl_path = RDF_DIR / "football_data.ttl"
-    if not ttl_path.exists():
-        print(f"ERROR: {ttl_path} not found. Run transform.py first.")
-        sys.exit(1)
-    g.parse(str(ttl_path), format="turtle")
-    print(f"  Loaded {len(g)} triples from 4★ graph.")
-    return g
+def target_of(uri: str) -> str | None:
+    for name, (ns, _) in TARGETS.items():
+        if uri.startswith(ns):
+            return name
+    return None
 
 
-def add_schema_same_as(g: Graph):
-    """
-    For every owl:sameAs triple we add the equivalent schema:sameAs triple
-    so the dataset is also consumable by schema.org-aware consumers
-    (e.g. Google Knowledge Graph).
-    """
-    same_as_pairs = list(g.subject_objects(OWL.sameAs))
-    added = 0
-    for subj, obj in same_as_pairs:
-        if (subj, SCHEMA.sameAs, obj) not in g:
-            g.add((subj, SCHEMA.sameAs, obj))
-            added += 1
-    print(f"  Added {added} schema:sameAs triples (mirroring owl:sameAs).")
+class Linker:
+    def __init__(self):
+        if not RDF_TTL.exists():
+            sys.exit(f"ERROR: {RDF_TTL} not found. Run transform.py first.")
+        self.g = bind_prefixes(Graph())
+        self.g.parse(RDF_TTL, format="turtle")
+        self.base_size = len(self.g)
+        self.stats = Counter()
+        print(f"  Loaded {self.base_size} triples from the 4★ graph.")
 
+    def exists(self, local: str) -> bool:
+        return (URIRef(local), RDF.type, None) in self.g
 
-def add_skos_exact_match(g: Graph):
-    """
-    Add skos:exactMatch from our entities to their DBpedia counterparts,
-    expressing that they refer to exactly the same real-world concept.
-    """
-    added = 0
-    for subj, obj in list(g.subject_objects(OWL.sameAs)):
-        obj_str = str(obj)
-        if "dbpedia.org" in obj_str:
-            if (subj, SKOS.exactMatch, obj) not in g:
-                g.add((subj, SKOS.exactMatch, obj))
-                added += 1
-    print(f"  Added {added} skos:exactMatch triples (to DBpedia).")
+    def same_as(self, local: str, external: str, source: str) -> bool:
+        s, o = URIRef(local), URIRef(external)
+        if (s, OWL.sameAs, o) in self.g:
+            return False
+        self.g.add((s, OWL.sameAs, o))
+        self.stats[source] += 1
+        return True
 
+    # ── 1. curated links from the CSV files ──────────────────
+    def add_curated(self):
+        skipped = 0
+        for local, external in curated_links():
+            if not self.exists(local):
+                skipped += 1
+                continue
+            self.same_as(local, external, "curated")
+        print(f"  Added {self.stats['curated']} curated owl:sameAs links"
+              + (f" ({skipped} skipped: unknown local entity)" if skipped else "") + ".")
 
-def add_extra_dbpedia_links(g: Graph):
-    """Add a few manually curated DBpedia links for seasons and league."""
-    added = 0
-    for local_suffix, dbpedia_uri in EXTRA_DBPEDIA:
-        subj = DATA[local_suffix]
-        obj  = URIRef(dbpedia_uri)
-        if (subj, OWL.sameAs, obj) not in g:
-            g.add((subj, OWL.sameAs, obj))
-            g.add((subj, SKOS.exactMatch, obj))
-            g.add((subj, SCHEMA.sameAs, obj))
-            added += 3
-    print(f"  Added {added} extra DBpedia link triples (seasons/league).")
+    # ── 2. nationality → country ─────────────────────────────
+    def add_nationality_countries(self):
+        n = 0
+        for row in read_csv("nationalities.csv"):
+            nat = DATA[f"nationality/{row['nationality_id']}"]
+            if (nat, RDF.type, ONTO.Nationality) not in self.g:
+                continue
+            for ext in (WD[row["country_wikidata_id"]] if row.get("country_wikidata_id") else None,
+                        URIRef(normalize_uri(row["country_dbpedia_uri"]))
+                        if row.get("country_dbpedia_uri") else None):
+                if ext is None:
+                    continue
+                self.g.add((nat, ONTO.nationalityCountry, ext))
+                self.g.add((ext, RDF.type, SCHEMA.Country))
+                self.g.add((ext, RDFS.label, Literal(row["country_name"], lang="en")))
+                n += 1
+        self.stats["nationality"] = n
+        print(f"  Added {n} onto:nationalityCountry links (nationality → Wikidata/DBpedia country).")
 
+    # ── 3. automatically discovered links ────────────────────
+    def add_discovered(self):
+        if not DISCOVERED_LINKS_CSV.exists():
+            print("  No discovered links yet (run discover_links.py with internet access).")
+            return
+        conflicts = 0
+        with open(DISCOVERED_LINKS_CSV, newline="", encoding="utf-8") as f:
+            rows = [r for r in csv.DictReader(f) if r["status"] == "accepted"]
+        for r in rows:
+            local = r["local_uri"]
+            if not self.exists(local):
+                continue
+            existing = {str(o) for o in self.g.objects(URIRef(local), OWL.sameAs)}
+            for ext in (r["dbpedia_uri"], r["wikidata_uri"]):
+                if not ext:
+                    continue
+                same_target = [e for e in existing if target_of(e) == target_of(ext)]
+                if same_target and normalize_uri(ext) not in map(normalize_uri, same_target):
+                    conflicts += 1      # curated link wins over an automatic one
+                    continue
+                self.same_as(local, normalize_uri(ext), "discovered")
+        print(f"  Added {self.stats['discovered']} discovered owl:sameAs links from "
+              f"{len(rows)} accepted matches"
+              + (f" ({conflicts} conflicting with curated links were ignored)" if conflicts else "")
+              + ".")
 
-def add_geonames_links(g: Graph):
-    """
-    Link stadium / club city literals to GeoNames URIs using schema:location.
-    """
-    added = 0
-    geo_ns = Namespace("https://sws.geonames.org/")
+    # ── 4. DBpedia enrichment (from cache) ───────────────────
+    def add_enrichment(self):
+        if not ENRICHMENT_JSON.exists():
+            print("  No DBpedia enrichment cache (run discover_links.py --enrich).")
+            return
+        cache = json.loads(ENRICHMENT_JSON.read_text(encoding="utf-8"))
+        n = 0
+        for s, o in list(self.g.subject_objects(OWL.sameAs)):
+            info = cache.get(normalize_uri(str(o)))
+            if not info or not str(s).startswith(str(DATA)):
+                continue
+            if info.get("comment"):
+                self.g.add((s, RDFS.comment, Literal(info["comment"], lang="en")))
+                n += 1
+            if info.get("thumbnail"):
+                self.g.add((s, FOAF.depiction, URIRef(info["thumbnail"])))
+                n += 1
+        print(f"  Added {n} rdfs:comment / foaf:depiction triples from the DBpedia cache.")
 
-    for entity, _, city_lit in list(g.triples((None, ONTO.city, None))):
-        city_str = str(city_lit)
-        if city_str in CITY_GEONAMES:
-            geo_uri = URIRef(CITY_GEONAMES[city_str])
-            g.add((geo_uri, RDF.type,  GEO.Feature))
-            g.add((geo_uri, GEO.name,  Literal(city_str)))
-            if (entity, SCHEMA.location, geo_uri) not in g:
-                g.add((entity, SCHEMA.location, geo_uri))
-                added += 1
-    print(f"  Added {added} GeoNames city links.")
+    # ── 5. VoID description ──────────────────────────────────
+    def build_void(self) -> Graph:
+        g, v = self.g, bind_prefixes(Graph())
+        ds = URIRef(DATASET_URI)
+        today = Literal(dt.date.today().isoformat(), datatype=XSD.date)
 
+        v.add((ds, RDF.type, VOID.Dataset))
+        v.add((ds, RDF.type, PROV.Entity))
+        v.add((ds, DCTERMS.title, Literal("Football Linked Data (Premier League 2023-24)", lang="en")))
+        v.add((ds, DCTERMS.description, Literal(
+            "Clubs, players, managers, stadiums, matches, goals and transfers of the 2023-24 "
+            "Premier League as 5-star Linked Data, linked to DBpedia, Wikidata and GeoNames.",
+            lang="en")))
+        v.add((ds, DCTERMS.license, URIRef(LICENSE_URI)))
+        v.add((ds, DCTERMS.creator, Literal("Semantic Web course project (IT6390E)")))
+        v.add((ds, DCTERMS.modified, today))
+        v.add((ds, DCTERMS.subject, DBR["Association_football"]))
+        v.add((ds, FOAF.homepage, URIRef(PUBLIC_BASE + "/")))
+        v.add((ds, VOID.sparqlEndpoint, URIRef(PUBLIC_BASE + "/sparql")))
+        for f in ("football_linked.ttl", "football_linked.nt"):
+            v.add((ds, VOID.dataDump, URIRef(f"{PUBLIC_BASE}/dump/{f}")))
+        v.add((ds, VOID.uriSpace, Literal(str(DATA))))
+        v.add((ds, VOID.exampleResource, DATA["player/erling_haaland"]))
+        v.add((ds, VOID.exampleResource, DATA["club/arsenal"]))
+        for vocab in (ONTOLOGY_URI + "#", str(SCHEMA), str(FOAF), "http://dbpedia.org/ontology/"):
+            v.add((ds, VOID.vocabulary, URIRef(vocab)))
 
-def add_nationality_wikidata_links(g: Graph):
-    """Link nationality individuals to Wikidata country entities."""
-    added = 0
-    for nat_uri, _, name_lit in list(g.triples((None, ONTO.name, None))):
-        if str(nat_uri).startswith(str(DATA) + "nationality/"):
-            nat_key = str(nat_uri).split("/nationality/")[-1]
-            if nat_key in NATIONALITY_WIKIDATA:
-                wd = URIRef(f"http://www.wikidata.org/entity/{NATIONALITY_WIKIDATA[nat_key]}")
-                if (nat_uri, OWL.sameAs, wd) not in g:
-                    g.add((nat_uri, OWL.sameAs, wd))
-                    g.add((nat_uri, SCHEMA.sameAs, wd))
-                    added += 2
-    print(f"  Added {added} nationality → Wikidata country links.")
+        # statistics
+        local = [s for s in set(g.subjects(RDF.type, None)) if str(s).startswith(str(DATA))]
+        v.add((ds, VOID.triples, Literal(len(g), datatype=XSD.integer)))
+        v.add((ds, VOID.entities, Literal(len(local), datatype=XSD.integer)))
+        v.add((ds, VOID.distinctSubjects, Literal(len(set(g.subjects())), datatype=XSD.integer)))
+        v.add((ds, VOID.properties, Literal(len(set(g.predicates())), datatype=XSD.integer)))
+        per_class = Counter(o for s, o in g.subject_objects(RDF.type)
+                            if str(s).startswith(str(DATA)) and str(o).startswith(str(ONTO)))
+        v.add((ds, VOID.classes, Literal(len(per_class), datatype=XSD.integer)))
+        for cls, n in sorted(per_class.items()):
+            part = URIRef(f"{DATASET_URI}#class-{str(cls).split('#')[-1]}")
+            v.add((ds, VOID.classPartition, part))
+            v.add((part, VOID["class"], cls))
+            v.add((part, VOID.entities, Literal(n, datatype=XSD.integer)))
 
+        # one void:Linkset per (target dataset, link predicate)
+        counts: dict[tuple[str, URIRef], int] = defaultdict(int)
+        for pred in (OWL.sameAs, ONTO.nationalityCountry):
+            for s, o in g.subject_objects(pred):
+                t = target_of(str(o))
+                if t and str(s).startswith(str(DATA)):
+                    counts[(t, pred)] += 1
+        for (t, pred), n in sorted(counts.items()):
+            ls = URIRef(f"{DATASET_URI}#linkset-{t.lower()}-{pred.split('#')[-1]}")
+            target = URIRef(TARGETS[t][1])
+            v.add((ds, VOID.subset, ls))
+            v.add((ls, RDF.type, VOID.Linkset))
+            v.add((ls, DCTERMS.title, Literal(f"{pred.split('#')[-1]} links to {t}")))
+            v.add((ls, VOID.subjectsTarget, ds))
+            v.add((ls, VOID.objectsTarget, target))
+            v.add((ls, VOID.linkPredicate, pred))
+            v.add((ls, VOID.triples, Literal(n, datatype=XSD.integer)))
+            v.add((target, RDF.type, VOID.Dataset))
+            v.add((target, DCTERMS.title, Literal(t)))
 
-def fetch_dbpedia_descriptions(g: Graph, limit: int = 10):
-    """
-    Optionally query DBpedia SPARQL to pull rdfs:comment descriptions for
-    clubs and players that have a dbpedia sameAs link.
-    Gracefully skipped if DBpedia is unreachable.
-    """
-    if not SPARQL_AVAILABLE:
-        print("  SPARQLWrapper not available – skipping DBpedia enrichment.")
-        return
-
-    # Collect (local_uri, dbpedia_uri) for clubs and players
-    pairs = []
-    for subj, _, obj in g.triples((None, OWL.sameAs, None)):
-        if "dbpedia.org/resource" in str(obj):
-            subj_str = str(subj)
-            if "/club/" in subj_str or "/player/" in subj_str:
-                pairs.append((subj, obj))
-    pairs = pairs[:limit]  # cap to avoid long delays
-
-    sparql = SPARQLWrapper("https://dbpedia.org/sparql")
-    sparql.setTimeout(10)
-    added = 0
-    errors = 0
-
-    for local_uri, dbpedia_uri in pairs:
-        query = f"""
-        SELECT ?comment ?thumbnail WHERE {{
-            OPTIONAL {{ <{dbpedia_uri}> rdfs:comment ?comment .
-                        FILTER(LANG(?comment) = 'en') }}
-            OPTIONAL {{ <{dbpedia_uri}> <http://dbpedia.org/ontology/thumbnail> ?thumbnail }}
-        }} LIMIT 1
-        """
-        try:
-            sparql.setQuery(query)
-            sparql.setReturnFormat(JSON)
-            results = sparql.query().convert()
-            bindings = results.get("results", {}).get("bindings", [])
-            if bindings:
-                b = bindings[0]
-                if "comment" in b:
-                    g.add((local_uri, RDFS.comment,
-                           Literal(b["comment"]["value"], lang="en")))
-                    added += 1
-                if "thumbnail" in b:
-                    g.add((local_uri, FOAF.depiction,
-                           URIRef(b["thumbnail"]["value"])))
-                    added += 1
-            time.sleep(0.2)  # polite crawl delay
-        except Exception:
-            errors += 1
-            if errors >= 3:
-                print("  DBpedia SPARQL unreachable – skipping remaining enrichment.")
-                break
-
-    if added:
-        print(f"  Fetched {added} property values from DBpedia SPARQL.")
-    else:
-        print("  No DBpedia enrichment fetched (network/timeout).")
-
-
-def add_provenance(g: Graph):
-    """Add basic provenance metadata to the dataset."""
-    ds = URIRef("http://semantic-football.org/data")
-    g.add((ds, RDF.type,        PROV.Entity))
-    g.add((ds, DC.title,        Literal("Football Linked Data – 5★ Dataset", lang="en")))
-    g.add((ds, DC.description,  Literal(
-        "Premier League 2023-24 football data (clubs, players, matches, goals, "
-        "transfers) enriched with owl:sameAs links to DBpedia and Wikidata, "
-        "skos:exactMatch links, GeoNames city links, and schema:sameAs triples.",
-        lang="en"
-    )))
-    g.add((ds, DC.creator,      Literal("Semantic Web Course Project")))
-    g.add((ds, DC.date,         Literal("2026-03-16", datatype=XSD.date)))
-    g.add((ds, PROV.wasGeneratedBy,
-           Literal("link.py — 5★ Linked Data enrichment script")))
-    print("  Added provenance metadata.")
+        # provenance of the pipeline run
+        act = BNode()
+        v.add((ds, PROV.wasGeneratedBy, act))
+        v.add((act, RDF.type, PROV.Activity))
+        v.add((act, RDFS.label, Literal("transform.py → discover_links.py → link.py")))
+        v.add((act, PROV.endedAtTime, Literal(dt.datetime.now().replace(microsecond=0).isoformat(),
+                                              datatype=XSD.dateTime)))
+        self.linkset_counts = counts
+        return v
 
 
 def main():
-    print("=== Establishing external dataset links (5★ Linked Data) ===\n")
-    g = load_rdf_graph()
+    print("=== Step 4b — Establishing external links (5★ Linked Data) ===\n")
+    linker = Linker()
+    linker.add_curated()
+    linker.add_nationality_countries()
+    linker.add_discovered()
+    linker.add_enrichment()
+    void = linker.build_void()
 
-    add_schema_same_as(g)
-    add_skos_exact_match(g)
-    add_extra_dbpedia_links(g)
-    add_geonames_links(g)
-    add_nationality_wikidata_links(g)
-    fetch_dbpedia_descriptions(g, limit=12)
-    add_provenance(g)
+    LINKED_DIR.mkdir(parents=True, exist_ok=True)
+    linker.g.serialize(destination=str(LINKED_TTL), format="turtle")
+    linker.g.serialize(destination=str(LINKED_TTL.with_suffix(".nt")), format="nt", encoding="utf-8")
+    void.serialize(destination=str(VOID_TTL), format="turtle")
 
-    out_ttl = LINKED_DIR / "football_linked.ttl"
-    out_nt  = LINKED_DIR / "football_linked.nt"
-
-    g.serialize(destination=str(out_ttl), format="turtle")
-    g.serialize(destination=str(out_nt),  format="nt")
-
-    print(f"\n✓ 5★ dataset: {len(g)} triples → {out_ttl}")
-    print(f"✓ N-Triples  → {out_nt}")
+    total_links = sum(linker.linkset_counts.values())
+    print(f"\n  Links per external dataset:")
+    for (t, pred), n in sorted(linker.linkset_counts.items()):
+        print(f"    {t:<9} {pred.split('#')[-1]:<20} {n}")
+    dbp = sum(n for (t, _), n in linker.linkset_counts.items() if t == "DBpedia")
+    print(f"  Total external links: {total_links}"
+          f"  (LOD Cloud asks for ≥ 50 links to one dataset — DBpedia: {dbp})")
+    print(f"\n✓ 5★ dataset: {len(linker.g)} triples → {LINKED_TTL}")
+    print(f"✓ N-Triples → {LINKED_TTL.with_suffix('.nt')}")
+    print(f"✓ VoID      → {VOID_TTL} ({len(void)} triples)")
 
 
 if __name__ == "__main__":

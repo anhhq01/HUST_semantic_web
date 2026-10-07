@@ -1,7 +1,7 @@
 player_id,name,date_of_birth,nationality,position,jersey_number,height_cm,market_value_m,club_id,wikidata_id,dbpedia_uri
 erling_haaland,Erling Haaland,2000-07-21,Norwegian,Forward,9,194,180.0,man_city,Q61908496,http://dbpedia.org/resource/Erling_Haaland
 kevin_de_bruyne,Kevin De Bruyne,1991-06-28,Belgian,Midfielder,17,181,100.0,man_city,Q50756,http://dbpedia.org/resource/Kevin_De_Bruyne
-rodri,Rodri,1996-06-22,Spanish,Midfielder,16,191,120.0,man_city,Q30621485,http://dbpedia.org/resource/Rodri_(footballer,_born_1996)
+rodri,Rodri,1996-06-22,Spanish,Midfielder,16,191,120.0,man_city,Q30621485,"http://dbpedia.org/resource/Rodri_(footballer,_born_1996)"
 bernardo_silva,Bernardo Silva,1994-08-10,Portuguese,Midfielder,20,173,80.0,man_city,Q17361079,http://dbpedia.org/resource/Bernardo_Silva
 ruben_dias,Ruben Dias,1997-05-14,Portuguese,Defender,3,187,80.0,man_city,Q55613571,http://dbpedia.org/resource/Rúben_Dias
 bukayo_saka,Bukayo Saka,2001-09-05,English,Forward,7,178,120.0,arsenal,Q57482297,http://dbpedia.org/resource/Bukayo_Saka
@@ -29,3 +29,4 @@ nicolas_jackson,Nicolas Jackson,2001-06-20,Senegalese,Forward,15,185,60.0,chelse
 enzo_fernandez,Enzo Fernandez,2001-01-17,Argentinian,Midfielder,8,178,70.0,chelsea,Q110450879,http://dbpedia.org/resource/Enzo_Fernández_(footballer)
 reece_james,Reece James,2000-12-08,English,Defender,24,180,55.0,chelsea,Q62052199,http://dbpedia.org/resource/Reece_James
 robert_sanchez,Robert Sanchez,1997-11-18,Spanish,Goalkeeper,1,197,18.0,chelsea,Q30688008,http://dbpedia.org/resource/Robert_Sánchez_(goalkeeper)
+leandro_trossard,Leandro Trossard,1994-12-04,Belgian,Forward,19,172,,arsenal,,http://dbpedia.org/resource/Leandro_Trossard

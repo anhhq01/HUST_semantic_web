@@ -1,0 +1,19 @@
+nationality_id,label,country_name,country_wikidata_id,country_dbpedia_uri
+english,English,England,Q21,http://dbpedia.org/resource/England
+welsh,Welsh,Wales,Q25,http://dbpedia.org/resource/Wales
+norwegian,Norwegian,Norway,Q20,http://dbpedia.org/resource/Norway
+belgian,Belgian,Belgium,Q31,http://dbpedia.org/resource/Belgium
+spanish,Spanish,Spain,Q29,http://dbpedia.org/resource/Spain
+portuguese,Portuguese,Portugal,Q45,http://dbpedia.org/resource/Portugal
+french,French,France,Q142,http://dbpedia.org/resource/France
+brazilian,Brazilian,Brazil,Q155,http://dbpedia.org/resource/Brazil
+dutch,Dutch,Netherlands,Q55,http://dbpedia.org/resource/Netherlands
+uruguayan,Uruguayan,Uruguay,Q77,http://dbpedia.org/resource/Uruguay
+argentinian,Argentinian,Argentina,Q414,http://dbpedia.org/resource/Argentina
+italian,Italian,Italy,Q38,http://dbpedia.org/resource/Italy
+egyptian,Egyptian,Egypt,Q79,http://dbpedia.org/resource/Egypt
+south_korean,South Korean,South Korea,Q884,http://dbpedia.org/resource/South_Korea
+jamaican,Jamaican,Jamaica,Q766,http://dbpedia.org/resource/Jamaica
+senegalese,Senegalese,Senegal,Q1041,http://dbpedia.org/resource/Senegal
+australian,Australian,Australia,Q408,http://dbpedia.org/resource/Australia
+german,German,Germany,Q183,http://dbpedia.org/resource/Germany

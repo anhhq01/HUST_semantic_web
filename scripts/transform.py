@@ -1,314 +1,296 @@
 #!/usr/bin/env python3
 """
-transform.py — Converts raw CSV data into RDF (Turtle) following the 4-star
-Linked Data standard:
-  ★★★★  URIs for all entities, machine-readable RDF, open format, use open standards.
+transform.py — Step 3 of Topic 1: convert the raw CSV data into RDF that
+meets the 4-star Linked Data standard.
 
-Output: data/rdf/football_data.ttl
+    ★      open licence, on the web            (licence declared in VoID)
+    ★★     machine-readable structured data
+    ★★★    non-proprietary format              (RDF: Turtle + N-Triples)
+    ★★★★   URIs to denote things               (every entity gets an HTTP URI
+                                                 under http://semantic-football.org/data/)
+
+Deliberately contains NO links to external datasets: those are the 5th star
+and are added by link.py. This keeps the 4★ and 5★ outputs clearly separated
+(compare data/rdf/ with data/linked/).
+
+Output: data/rdf/football_data.ttl and data/rdf/football_data.nt
 """
 
-import csv
-import os
-from pathlib import Path
-from rdflib import Graph, Namespace, URIRef, Literal, RDF, RDFS, OWL, XSD
+from __future__ import annotations
 
-# ─────────────────────────────────────────────────────────────
-#  Namespaces
-# ─────────────────────────────────────────────────────────────
-ONTO  = Namespace("http://semantic-football.org/ontology#")
-DATA  = Namespace("http://semantic-football.org/data/")
-SCHEMA = Namespace("https://schema.org/")
-FOAF  = Namespace("http://xmlns.com/foaf/0.1/")
-DC    = Namespace("http://purl.org/dc/elements/1.1/")
+import re
+import unicodedata
 
-BASE_DIR = Path(__file__).parent.parent
-RAW_DIR  = BASE_DIR / "data" / "raw"
-RDF_DIR  = BASE_DIR / "data" / "rdf"
-RDF_DIR.mkdir(parents=True, exist_ok=True)
+from rdflib import Graph, Literal, URIRef
+from rdflib.namespace import DC, FOAF, OWL, RDF, RDFS, XSD
 
-# ─────────────────────────────────────────────────────────────
-#  Graph initialisation
-# ─────────────────────────────────────────────────────────────
-def create_graph() -> Graph:
-    g = Graph()
-    g.bind("onto",   ONTO)
-    g.bind("data",   DATA)
-    g.bind("schema", SCHEMA)
-    g.bind("foaf",   FOAF)
-    g.bind("owl",    OWL)
-    g.bind("xsd",    XSD)
-    g.bind("rdfs",   RDFS)
-    g.bind("dc",     DC)
-    # Import ontology
-    g.add((URIRef("http://semantic-football.org/data"),
-           OWL.imports,
-           URIRef("http://semantic-football.org/ontology")))
-    return g
+from common import (DATA, ONTO, ONTOLOGY_URI, DATASET_URI, RDF_DIR, RDF_TTL,
+                    bind_prefixes, read_csv)
+
+POSITIONS = {
+    "Goalkeeper": ONTO.Goalkeeper,
+    "Defender":   ONTO.Defender,
+    "Midfielder": ONTO.Midfielder,
+    "Forward":    ONTO.Forward,
+}
 
 
-def read_csv(filename: str) -> list[dict]:
-    path = RAW_DIR / filename
-    with open(path, newline="", encoding="utf-8") as f:
-        return list(csv.DictReader(f))
+def slug(text: str) -> str:
+    """'Nott'm Forest' → 'nottm_forest', 'Jürgen' → 'jurgen'."""
+    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]+", "_", text.lower()).strip("_")
 
 
 def uri(path: str) -> URIRef:
     return DATA[path]
 
 
-# ─────────────────────────────────────────────────────────────
-#  Loaders
-# ─────────────────────────────────────────────────────────────
-
-def load_leagues(g: Graph):
-    for row in read_csv("leagues.csv"):
-        league = uri(f"league/{row['league_id']}")
-        g.add((league, RDF.type,           ONTO.League))
-        g.add((league, ONTO.name,          Literal(row["name"], lang="en")))
-        g.add((league, ONTO.shortName,     Literal(row["short_name"])))
-        g.add((league, ONTO.country,       Literal(row["country"])))
-        g.add((league, DC.identifier,      Literal(row["league_id"])))
-        if row.get("founded"):
-            g.add((league, ONTO.founded,   Literal(int(row["founded"]), datatype=XSD.integer)))
-        if row.get("wikidata_id"):
-            g.add((league, OWL.sameAs,
-                   URIRef(f"http://www.wikidata.org/entity/{row['wikidata_id']}")))
-        if row.get("dbpedia_uri"):
-            g.add((league, OWL.sameAs, URIRef(row["dbpedia_uri"])))
-    print(f"  Loaded {len(read_csv('leagues.csv'))} leagues")
+def add_label(g: Graph, node: URIRef, text: str, lang: str | None = "en"):
+    """onto:name for our own queries + rdfs:label for generic LOD tools."""
+    g.add((node, ONTO.name, Literal(text)))
+    g.add((node, RDFS.label, Literal(text, lang=lang)))
 
 
-def load_seasons(g: Graph):
-    for row in read_csv("seasons.csv"):
-        season = uri(f"season/{row['season_id']}")
-        g.add((season, RDF.type,          ONTO.Season))
-        g.add((season, ONTO.seasonLabel,  Literal(row["label"])))
-        g.add((season, DC.identifier,     Literal(row["season_id"])))
-        g.add((season, ONTO.name,         Literal(row["label"])))
-        # link to league
-        league = uri(f"league/{row['league_id']}")
-        g.add((league, ONTO.hasSeason,    season))
-    print(f"  Loaded {len(read_csv('seasons.csv'))} seasons")
+def add_int(g, node, prop, value):
+    if value not in (None, ""):
+        g.add((node, prop, Literal(int(value), datatype=XSD.integer)))
 
 
-def load_stadiums(g: Graph):
-    for row in read_csv("stadiums.csv"):
-        stadium = uri(f"stadium/{row['stadium_id']}")
-        g.add((stadium, RDF.type,         ONTO.Stadium))
-        g.add((stadium, ONTO.name,        Literal(row["name"], lang="en")))
-        g.add((stadium, ONTO.city,        Literal(row["city"])))
-        g.add((stadium, ONTO.country,     Literal(row["country"])))
-        g.add((stadium, DC.identifier,    Literal(row["stadium_id"])))
-        if row.get("capacity"):
-            g.add((stadium, ONTO.capacity,
-                   Literal(int(row["capacity"]), datatype=XSD.integer)))
-        if row.get("opened"):
-            g.add((stadium, ONTO.founded,
-                   Literal(int(row["opened"]), datatype=XSD.integer)))
-        if row.get("wikidata_id"):
-            g.add((stadium, OWL.sameAs,
-                   URIRef(f"http://www.wikidata.org/entity/{row['wikidata_id']}")))
-        if row.get("dbpedia_uri"):
-            g.add((stadium, OWL.sameAs, URIRef(row["dbpedia_uri"])))
-    print(f"  Loaded {len(read_csv('stadiums.csv'))} stadiums")
+def add_decimal(g, node, prop, value):
+    if value not in (None, ""):
+        g.add((node, prop, Literal(str(value), datatype=XSD.decimal)))
 
 
-def load_clubs(g: Graph):
-    for row in read_csv("clubs.csv"):
+def add_date(g, node, prop, value):
+    if value:
+        g.add((node, prop, Literal(value, datatype=XSD.date)))
+
+
+class Transformer:
+    def __init__(self):
+        self.g = bind_prefixes(Graph())
+        self.g.add((URIRef(DATASET_URI), OWL.imports, URIRef(ONTOLOGY_URI)))
+        self.known_cities: set[str] = set()
+
+    # ── helpers that create shared resources ─────────────────
+    def city(self, name: str, country: str = "") -> URIRef:
+        node = uri(f"city/{slug(name)}")
+        if name not in self.known_cities:
+            self.known_cities.add(name)
+            self.g.add((node, RDF.type, ONTO.City))
+            add_label(self.g, node, name)
+            if country:
+                self.g.add((node, ONTO.country, Literal(country)))
+        return node
+
+    def nationality(self, label: str) -> URIRef:
+        node = uri(f"nationality/{slug(label)}")
+        if (node, RDF.type, ONTO.Nationality) not in self.g:
+            self.g.add((node, RDF.type, ONTO.Nationality))
+            add_label(self.g, node, label)
+        return node
+
+    # ── loaders ──────────────────────────────────────────────
+    def load_cities(self):
+        rows = read_csv("cities.csv")
+        for row in rows:
+            self.city(row["name"], row.get("country", ""))
+        print(f"  Loaded {len(rows)} cities")
+
+    def load_nationalities(self):
+        rows = read_csv("nationalities.csv")
+        for row in rows:
+            self.nationality(row["label"])
+        print(f"  Loaded {len(rows)} nationalities")
+
+    def load_leagues(self):
+        rows = read_csv("leagues.csv")
+        for row in rows:
+            league = uri(f"league/{row['league_id']}")
+            self.g.add((league, RDF.type, ONTO.League))
+            add_label(self.g, league, row["name"])
+            self.g.add((league, ONTO.shortName, Literal(row["short_name"])))
+            self.g.add((league, ONTO.country, Literal(row["country"])))
+            self.g.add((league, DC.identifier, Literal(row["league_id"])))
+            add_int(self.g, league, ONTO.founded, row.get("founded"))
+        print(f"  Loaded {len(rows)} leagues")
+
+    def load_seasons(self):
+        rows = read_csv("seasons.csv")
+        for row in rows:
+            season = uri(f"season/{row['season_id']}")
+            self.g.add((season, RDF.type, ONTO.Season))
+            add_label(self.g, season, f"Premier League {row['label']}")
+            self.g.add((season, ONTO.seasonLabel, Literal(row["label"])))
+            self.g.add((season, DC.identifier, Literal(row["season_id"])))
+            self.g.add((uri(f"league/{row['league_id']}"), ONTO.hasSeason, season))
+        print(f"  Loaded {len(rows)} seasons")
+
+    def load_stadiums(self):
+        rows = read_csv("stadiums.csv")
+        for row in rows:
+            stadium = uri(f"stadium/{row['stadium_id']}")
+            self.g.add((stadium, RDF.type, ONTO.Stadium))
+            add_label(self.g, stadium, row["name"])
+            self.g.add((stadium, ONTO.city, Literal(row["city"])))
+            self.g.add((stadium, ONTO.country, Literal(row["country"])))
+            self.g.add((stadium, ONTO.locatedIn, self.city(row["city"], row["country"])))
+            self.g.add((stadium, DC.identifier, Literal(row["stadium_id"])))
+            add_int(self.g, stadium, ONTO.capacity, row.get("capacity"))
+            add_int(self.g, stadium, ONTO.opened, row.get("opened"))
+        print(f"  Loaded {len(rows)} stadiums")
+
+    def _club_common(self, row: dict) -> URIRef:
         club = uri(f"club/{row['club_id']}")
-        g.add((club, RDF.type,           ONTO.FootballClub))
-        g.add((club, ONTO.name,          Literal(row["name"], lang="en")))
-        g.add((club, ONTO.shortName,     Literal(row["short_name"])))
-        g.add((club, ONTO.city,          Literal(row["city"])))
-        g.add((club, ONTO.country,       Literal(row["country"])))
-        g.add((club, DC.identifier,      Literal(row["club_id"])))
-        if row.get("founded"):
-            g.add((club, ONTO.founded,
-                   Literal(int(row["founded"]), datatype=XSD.integer)))
-        # stadium link
-        if row.get("stadium_id"):
-            g.add((club, ONTO.hasStadium, uri(f"stadium/{row['stadium_id']}")))
-        # league (Premier League hard-coded as only league here)
-        g.add((club, ONTO.participatesIn, uri("league/premier_league")))
-        # external URIs
-        if row.get("wikidata_id"):
-            g.add((club, OWL.sameAs,
-                   URIRef(f"http://www.wikidata.org/entity/{row['wikidata_id']}")))
-        if row.get("dbpedia_uri"):
-            g.add((club, OWL.sameAs, URIRef(row["dbpedia_uri"])))
-    print(f"  Loaded {len(read_csv('clubs.csv'))} clubs")
+        self.g.add((club, RDF.type, ONTO.FootballClub))
+        add_label(self.g, club, row["name"])
+        self.g.add((club, ONTO.shortName, Literal(row["short_name"])))
+        self.g.add((club, DC.identifier, Literal(row["club_id"])))
+        if row.get("city"):
+            self.g.add((club, ONTO.city, Literal(row["city"])))
+            self.g.add((club, ONTO.locatedIn, self.city(row["city"], row.get("country", ""))))
+        if row.get("country"):
+            self.g.add((club, ONTO.country, Literal(row["country"])))
+        return club
 
+    def load_clubs(self):
+        rows = read_csv("clubs.csv")
+        for row in rows:
+            club = self._club_common(row)
+            add_int(self.g, club, ONTO.founded, row.get("founded"))
+            if row.get("stadium_id"):
+                self.g.add((club, ONTO.hasStadium, uri(f"stadium/{row['stadium_id']}")))
+            # Only these clubs are tracked as Premier League participants.
+            self.g.add((club, ONTO.participatesIn, uri("league/premier_league")))
+        print(f"  Loaded {len(rows)} Premier League clubs")
 
-def load_managers(g: Graph):
-    position_map = {
-        "Goalkeeper": ONTO.Goalkeeper,
-        "Defender":   ONTO.Defender,
-        "Midfielder":  ONTO.Midfielder,
-        "Forward":    ONTO.Forward,
-    }
-    for row in read_csv("managers.csv"):
-        manager = uri(f"manager/{row['manager_id']}")
-        g.add((manager, RDF.type,          ONTO.Manager))
-        g.add((manager, FOAF.name,         Literal(row["name"])))
-        g.add((manager, ONTO.name,         Literal(row["name"])))
-        g.add((manager, ONTO.country,      Literal(row["nationality"])))
-        g.add((manager, DC.identifier,     Literal(row["manager_id"])))
-        if row.get("date_of_birth"):
-            g.add((manager, ONTO.dateOfBirth,
-                   Literal(row["date_of_birth"], datatype=XSD.date)))
-        # link club -> manager
-        if row.get("club_id"):
-            club = uri(f"club/{row['club_id']}")
-            g.add((club, ONTO.managedBy, manager))
-        if row.get("wikidata_id"):
-            g.add((manager, OWL.sameAs,
-                   URIRef(f"http://www.wikidata.org/entity/{row['wikidata_id']}")))
-        if row.get("dbpedia_uri"):
-            g.add((manager, OWL.sameAs, URIRef(row["dbpedia_uri"])))
-    print(f"  Loaded {len(read_csv('managers.csv'))} managers")
+    def load_other_clubs(self):
+        """Clubs that only appear as the origin/destination of a transfer."""
+        rows = read_csv("other_clubs.csv")
+        for row in rows:
+            self._club_common(row)
+        print(f"  Loaded {len(rows)} other clubs (transfer counterparts)")
 
+    def load_managers(self):
+        rows = read_csv("managers.csv")
+        for row in rows:
+            manager = uri(f"manager/{row['manager_id']}")
+            self.g.add((manager, RDF.type, ONTO.Manager))
+            add_label(self.g, manager, row["name"], lang=None)
+            self.g.add((manager, FOAF.name, Literal(row["name"])))
+            self.g.add((manager, DC.identifier, Literal(row["manager_id"])))
+            add_date(self.g, manager, ONTO.dateOfBirth, row.get("date_of_birth"))
+            if row.get("nationality"):
+                self.g.add((manager, ONTO.hasNationality, self.nationality(row["nationality"])))
+            if row.get("club_id"):
+                self.g.add((uri(f"club/{row['club_id']}"), ONTO.managedBy, manager))
+        print(f"  Loaded {len(rows)} managers")
 
-def load_players(g: Graph):
-    position_map = {
-        "Goalkeeper": ONTO.Goalkeeper,
-        "Defender":   ONTO.Defender,
-        "Midfielder":  ONTO.Midfielder,
-        "Forward":    ONTO.Forward,
-    }
-    for row in read_csv("players.csv"):
-        player = uri(f"player/{row['player_id']}")
-        g.add((player, RDF.type,          ONTO.Player))
-        g.add((player, FOAF.name,         Literal(row["name"])))
-        g.add((player, ONTO.name,         Literal(row["name"])))
-        g.add((player, DC.identifier,     Literal(row["player_id"])))
-        if row.get("date_of_birth"):
-            g.add((player, ONTO.dateOfBirth,
-                   Literal(row["date_of_birth"], datatype=XSD.date)))
-        if row.get("nationality"):
-            nat_id = row["nationality"].lower().replace(" ", "_")
-            nat_uri = uri(f"nationality/{nat_id}")
-            g.add((nat_uri, RDF.type,     ONTO.Nationality))
-            g.add((nat_uri, ONTO.name,    Literal(row["nationality"])))
-            g.add((player, ONTO.hasNationality, nat_uri))
-        pos_label = row.get("position", "")
-        if pos_label in position_map:
-            g.add((player, ONTO.hasPosition, position_map[pos_label]))
-        if row.get("jersey_number"):
-            g.add((player, ONTO.jerseyNumber,
-                   Literal(int(row["jersey_number"]), datatype=XSD.integer)))
-        if row.get("height_cm"):
-            g.add((player, ONTO.height,
-                   Literal(float(row["height_cm"]), datatype=XSD.decimal)))
-        if row.get("market_value_m"):
-            g.add((player, ONTO.marketValue,
-                   Literal(float(row["market_value_m"]), datatype=XSD.decimal)))
-        if row.get("club_id"):
-            g.add((player, ONTO.playsFor, uri(f"club/{row['club_id']}")))
-        if row.get("wikidata_id"):
-            g.add((player, OWL.sameAs,
-                   URIRef(f"http://www.wikidata.org/entity/{row['wikidata_id']}")))
-        if row.get("dbpedia_uri"):
-            g.add((player, OWL.sameAs, URIRef(row["dbpedia_uri"])))
-    print(f"  Loaded {len(read_csv('players.csv'))} players")
+    def load_players(self):
+        rows = read_csv("players.csv")
+        for row in rows:
+            player = uri(f"player/{row['player_id']}")
+            self.g.add((player, RDF.type, ONTO.Player))
+            add_label(self.g, player, row["name"], lang=None)
+            self.g.add((player, FOAF.name, Literal(row["name"])))
+            self.g.add((player, DC.identifier, Literal(row["player_id"])))
+            add_date(self.g, player, ONTO.dateOfBirth, row.get("date_of_birth"))
+            if row.get("nationality"):
+                self.g.add((player, ONTO.hasNationality, self.nationality(row["nationality"])))
+            if row.get("position") in POSITIONS:
+                self.g.add((player, ONTO.hasPosition, POSITIONS[row["position"]]))
+            add_int(self.g, player, ONTO.jerseyNumber, row.get("jersey_number"))
+            add_decimal(self.g, player, ONTO.height, row.get("height_cm"))
+            add_decimal(self.g, player, ONTO.marketValue, row.get("market_value_m"))
+            if row.get("club_id"):
+                self.g.add((player, ONTO.playsFor, uri(f"club/{row['club_id']}")))
+        print(f"  Loaded {len(rows)} players")
 
+    def load_matches(self):
+        rows = read_csv("matches.csv")
+        short = {r["club_id"]: r["short_name"] for r in read_csv("clubs.csv")}
+        for row in rows:
+            match = uri(f"match/{row['match_id']}")
+            home, away = uri(f"club/{row['home_team']}"), uri(f"club/{row['away_team']}")
+            hs, as_ = int(row["home_score"]), int(row["away_score"])
+            self.g.add((match, RDF.type, ONTO.Match))
+            self.g.add((match, DC.identifier, Literal(row["match_id"])))
+            self.g.add((match, ONTO.homeTeam, home))
+            self.g.add((match, ONTO.awayTeam, away))
+            add_date(self.g, match, ONTO.matchDate, row["match_date"])
+            add_int(self.g, match, ONTO.matchWeek, row["match_week"])
+            add_int(self.g, match, ONTO.homeScore, hs)
+            add_int(self.g, match, ONTO.awayScore, as_)
+            # derived fact: winner (no onto:wonBy triple for a draw)
+            if hs != as_:
+                self.g.add((match, ONTO.wonBy, home if hs > as_ else away))
+            self.g.add((match, ONTO.partOfLeague, uri(f"league/{row['league_id']}")))
+            self.g.add((match, ONTO.partOfSeason, uri(f"season/{row['season_id']}")))
+            h = short.get(row["home_team"], row["home_team"])
+            a = short.get(row["away_team"], row["away_team"])
+            self.g.add((match, RDFS.label,
+                        Literal(f"{h} {hs}-{as_} {a} ({row['match_date']})", lang="en")))
+        print(f"  Loaded {len(rows)} matches")
 
-def load_matches(g: Graph):
-    rows = read_csv("matches.csv")
-    for row in rows:
-        match = uri(f"match/{row['match_id']}")
-        g.add((match, RDF.type,           ONTO.Match))
-        g.add((match, DC.identifier,      Literal(row["match_id"])))
-        g.add((match, ONTO.homeTeam,      uri(f"club/{row['home_team']}")))
-        g.add((match, ONTO.awayTeam,      uri(f"club/{row['away_team']}")))
-        g.add((match, ONTO.matchDate,
-               Literal(row["match_date"], datatype=XSD.date)))
-        g.add((match, ONTO.matchWeek,
-               Literal(int(row["match_week"]), datatype=XSD.integer)))
-        home_score = int(row["home_score"])
-        away_score = int(row["away_score"])
-        g.add((match, ONTO.homeScore,
-               Literal(home_score, datatype=XSD.integer)))
-        g.add((match, ONTO.awayScore,
-               Literal(away_score, datatype=XSD.integer)))
-        # derived: winner
-        if home_score > away_score:
-            g.add((match, ONTO.wonBy, uri(f"club/{row['home_team']}")))
-        elif away_score > home_score:
-            g.add((match, ONTO.wonBy, uri(f"club/{row['away_team']}")))
-        # else draw — no wonBy triple
-        g.add((match, ONTO.partOfLeague,  uri(f"league/{row['league_id']}")))
-        g.add((match, ONTO.partOfSeason,  uri(f"season/{row['season_id']}")))
-        # human-readable label
-        g.add((match, RDFS.label,
-               Literal(f"{row['home_team']} vs {row['away_team']} ({row['match_date']})")))
-    print(f"  Loaded {len(rows)} matches")
+    def load_goals(self):
+        rows = read_csv("goals.csv")
+        for row in rows:
+            goal = uri(f"goal/{row['goal_id']}")
+            self.g.add((goal, RDF.type, ONTO.Goal))
+            self.g.add((goal, DC.identifier, Literal(row["goal_id"])))
+            self.g.add((goal, RDFS.label, Literal(f"Goal {row['goal_id']} ({row['minute']}')", lang="en")))
+            self.g.add((goal, ONTO.scoredInMatch, uri(f"match/{row['match_id']}")))
+            self.g.add((goal, ONTO.scoredForTeam, uri(f"club/{row['team_id']}")))
+            add_int(self.g, goal, ONTO.goalMinute, row["minute"])
+            self.g.add((goal, ONTO.isPenalty,
+                        Literal(row["is_penalty"].lower() == "true", datatype=XSD.boolean)))
+            self.g.add((goal, ONTO.isOwnGoal,
+                        Literal(row["is_own_goal"].lower() == "true", datatype=XSD.boolean)))
+            if row.get("scorer_id"):
+                self.g.add((goal, ONTO.scoredBy, uri(f"player/{row['scorer_id']}")))
+        print(f"  Loaded {len(rows)} goals")
 
+    def load_transfers(self):
+        rows = read_csv("transfers.csv")
+        for row in rows:
+            transfer = uri(f"transfer/{row['transfer_id']}")
+            self.g.add((transfer, RDF.type, ONTO.Transfer))
+            self.g.add((transfer, DC.identifier, Literal(row["transfer_id"])))
+            self.g.add((transfer, RDFS.label, Literal(
+                f"Transfer of {row['player_id']}: {row['from_club']} → {row['to_club']}", lang="en")))
+            self.g.add((transfer, ONTO.transferredPlayer, uri(f"player/{row['player_id']}")))
+            self.g.add((transfer, ONTO.fromClub, uri(f"club/{row['from_club']}")))
+            self.g.add((transfer, ONTO.toClub, uri(f"club/{row['to_club']}")))
+            add_date(self.g, transfer, ONTO.transferDate, row.get("transfer_date"))
+            add_decimal(self.g, transfer, ONTO.transferFee, row.get("fee_million_eur"))
+            if row.get("season_id"):
+                self.g.add((transfer, ONTO.inSeason, uri(f"season/{row['season_id']}")))
+        print(f"  Loaded {len(rows)} transfers")
 
-def load_goals(g: Graph):
-    rows = read_csv("goals.csv")
-    for row in rows:
-        goal = uri(f"goal/{row['goal_id']}")
-        g.add((goal, RDF.type,              ONTO.Goal))
-        g.add((goal, DC.identifier,         Literal(row["goal_id"])))
-        g.add((goal, ONTO.scoredInMatch,    uri(f"match/{row['match_id']}")))
-        g.add((goal, ONTO.scoredForTeam,    uri(f"club/{row['team_id']}")))
-        g.add((goal, ONTO.goalMinute,
-               Literal(int(row["minute"]), datatype=XSD.integer)))
-        g.add((goal, ONTO.isPenalty,
-               Literal(row["is_penalty"].lower() == "true", datatype=XSD.boolean)))
-        g.add((goal, ONTO.isOwnGoal,
-               Literal(row["is_own_goal"].lower() == "true", datatype=XSD.boolean)))
-        if row.get("scorer_id"):
-            g.add((goal, ONTO.scoredBy,     uri(f"player/{row['scorer_id']}")))
-    print(f"  Loaded {len(rows)} goals")
+    def run(self) -> Graph:
+        self.load_cities()
+        self.load_nationalities()
+        self.load_leagues()
+        self.load_seasons()
+        self.load_stadiums()
+        self.load_clubs()
+        self.load_other_clubs()
+        self.load_managers()
+        self.load_players()
+        self.load_matches()
+        self.load_goals()
+        self.load_transfers()
+        return self.g
 
-
-def load_transfers(g: Graph):
-    rows = read_csv("transfers.csv")
-    for row in rows:
-        transfer = uri(f"transfer/{row['transfer_id']}")
-        g.add((transfer, RDF.type,               ONTO.Transfer))
-        g.add((transfer, DC.identifier,          Literal(row["transfer_id"])))
-        g.add((transfer, ONTO.transferredPlayer, uri(f"player/{row['player_id']}")))
-        g.add((transfer, ONTO.fromClub,          uri(f"club/{row['from_club']}")))
-        g.add((transfer, ONTO.toClub,            uri(f"club/{row['to_club']}")))
-        if row.get("transfer_date"):
-            g.add((transfer, ONTO.transferDate,
-                   Literal(row["transfer_date"], datatype=XSD.date)))
-        if row.get("fee_million_eur"):
-            g.add((transfer, ONTO.transferFee,
-                   Literal(float(row["fee_million_eur"]), datatype=XSD.decimal)))
-        if row.get("season_id"):
-            g.add((transfer, ONTO.inSeason, uri(f"season/{row['season_id']}")))
-    print(f"  Loaded {len(rows)} transfers")
-
-
-# ─────────────────────────────────────────────────────────────
-#  Main
-# ─────────────────────────────────────────────────────────────
 
 def main():
-    print("=== Transforming raw CSV data to RDF (4★ Linked Data) ===\n")
-    g = create_graph()
-
-    load_leagues(g)
-    load_seasons(g)
-    load_stadiums(g)
-    load_clubs(g)
-    load_managers(g)
-    load_players(g)
-    load_matches(g)
-    load_goals(g)
-    load_transfers(g)
-
-    output_path = RDF_DIR / "football_data.ttl"
-    g.serialize(destination=str(output_path), format="turtle")
-    print(f"\n✓ Serialised {len(g)} triples → {output_path}")
-
-    # Also produce N-Triples for maximum interoperability
-    nt_path = RDF_DIR / "football_data.nt"
-    g.serialize(destination=str(nt_path), format="nt")
-    print(f"✓ Serialised N-Triples → {nt_path}")
+    print("=== Step 3 — Transforming raw CSV data to RDF (4★ Linked Data) ===\n")
+    g = Transformer().run()
+    RDF_DIR.mkdir(parents=True, exist_ok=True)
+    g.serialize(destination=str(RDF_TTL), format="turtle")
+    g.serialize(destination=str(RDF_TTL.with_suffix(".nt")), format="nt", encoding="utf-8")
+    print(f"\n✓ {len(g)} triples → {RDF_TTL}")
+    print(f"✓ N-Triples        → {RDF_TTL.with_suffix('.nt')}")
 
 
 if __name__ == "__main__":

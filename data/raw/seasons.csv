@@ -1,5 +1,5 @@
-season_id,label,start_year,end_year,league_id
-pl_2023_24,2023-24,2023,2024,premier_league
-pl_2022_23,2022-23,2022,2023,premier_league
-pl_2021_22,2021-22,2021,2022,premier_league
-pl_2018_19,2018-19,2018,2019,premier_league
+season_id,label,start_year,end_year,league_id,dbpedia_uri
+pl_2023_24,2023-24,2023,2024,premier_league,http://dbpedia.org/resource/2023–24_Premier_League
+pl_2022_23,2022-23,2022,2023,premier_league,http://dbpedia.org/resource/2022–23_Premier_League
+pl_2021_22,2021-22,2021,2022,premier_league,http://dbpedia.org/resource/2021–22_Premier_League
+pl_2018_19,2018-19,2018,2019,premier_league,http://dbpedia.org/resource/2018–19_Premier_League
