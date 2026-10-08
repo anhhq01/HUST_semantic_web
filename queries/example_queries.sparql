@@ -53,8 +53,8 @@ ORDER BY ?name
 
 
 #@name: squad
-#@desc: Arsenal squad — name, position, nationality, jersey number
-SELECT ?playerName ?position ?nationality ?jersey
+#@desc: Arsenal players in the dataset — name, position, nationality, height
+SELECT ?playerName ?position ?nationality ?height
 WHERE {
     ?player a onto:Player ;
             onto:name     ?playerName ;
@@ -63,7 +63,7 @@ WHERE {
                ?pos    onto:shortName   ?position }
     OPTIONAL { ?player onto:hasNationality ?nat .
                ?nat    onto:name          ?nationality }
-    OPTIONAL { ?player onto:jerseyNumber ?jersey }
+    OPTIONAL { ?player onto:height ?height }
 }
 ORDER BY ?position ?playerName
 
@@ -124,11 +124,11 @@ GROUP BY ?club
 ORDER BY DESC(?points) DESC(?goalDiff) DESC(?goalsFor)
 
 
-#@name: unbeaten_clubs
-#@desc: Clubs that never lost a match in the dataset (uses onto:wonBy)
+#@name: fewest_defeats
+#@desc: Clubs with at most one defeat in the dataset (uses onto:wonBy)
 SELECT ?clubName
        (COUNT(?match) AS ?played)
-       (SUM(?w) AS ?wins) (SUM(?d) AS ?draws)
+       (SUM(?w) AS ?wins) (SUM(?d) AS ?draws) (SUM(?l) AS ?losses)
 WHERE {
     ?club a onto:FootballClub ;
           onto:name ?clubName .
@@ -139,12 +139,12 @@ WHERE {
     BIND(IF(BOUND(?winner) && ?winner != ?club, 1, 0) AS ?l)
 }
 GROUP BY ?clubName
-HAVING (SUM(?l) = 0)
+HAVING (SUM(?l) <= 1)
 ORDER BY DESC(?wins)
 
 
 #@name: high_value_transfers
-#@desc: Transfers with a fee above 50 million EUR
+#@desc: Transfers with a reported initial fee above £50 million
 SELECT ?playerName ?fromClub ?toClub ?fee ?date
 WHERE {
     ?transfer a onto:Transfer ;
@@ -305,29 +305,32 @@ WHERE {
 ORDER BY DESC(?height)
 
 
-#@name: market_value
-#@desc: Players ordered by market value (million EUR)
-SELECT ?name ?club ?position ?marketValue
+#@name: added_time_goals
+#@desc: Goals scored in stoppage time (e.g. 90+6), with scorer and match
+SELECT ?minute ?addedTime ?scorer ?forClub ?homeClub ?awayClub ?ownGoal
 WHERE {
-    ?player a onto:Player ;
-            onto:name        ?name ;
-            onto:marketValue ?marketValue ;
-            onto:playsFor    ?c .
-    ?c onto:shortName ?club .
-    OPTIONAL { ?player onto:hasPosition ?pos .
-               ?pos    onto:shortName   ?position }
+    ?goal a onto:Goal ;
+          onto:goalMinute    ?minute ;
+          onto:addedTime     ?addedTime ;
+          onto:scoredBy      ?p ;
+          onto:scoredForTeam ?c ;
+          onto:isOwnGoal     ?ownGoal ;
+          onto:scoredInMatch ?m .
+    ?p onto:name ?scorer .
+    ?c onto:shortName ?forClub .
+    ?m onto:homeTeam/onto:shortName ?homeClub ;
+       onto:awayTeam/onto:shortName ?awayClub .
 }
-ORDER BY DESC(?marketValue)
-LIMIT 15
+ORDER BY ?minute ?addedTime
 
 
-#@name: ask_city_won_away_at_spurs
-#@desc: ASK — did Man City win an away match at Tottenham?
+#@name: ask_villa_beat_city
+#@desc: ASK — did Aston Villa beat Man City at home?
 ASK {
     ?match a onto:Match ;
-           onto:homeTeam club:tottenham ;
+           onto:homeTeam club:aston_villa ;
            onto:awayTeam club:man_city ;
-           onto:wonBy    club:man_city .
+           onto:wonBy    club:aston_villa .
 }
 
 

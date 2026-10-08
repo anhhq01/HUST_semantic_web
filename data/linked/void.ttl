@@ -32,7 +32,7 @@
     void:entities 15 .
 
 <http://semantic-football.org/data#class-Nationality> void:class onto:Nationality ;
-    void:entities 18 .
+    void:entities 23 .
 
 <http://semantic-football.org/data#class-Player> void:class onto:Player ;
     void:entities 31 .
@@ -51,14 +51,14 @@
     void:linkPredicate onto:nationalityCountry ;
     void:objectsTarget <http://dbpedia.org/void/Dataset> ;
     void:subjectsTarget <http://semantic-football.org/data> ;
-    void:triples 18 .
+    void:triples 23 .
 
 <http://semantic-football.org/data#linkset-dbpedia-sameAs> a void:Linkset ;
     dcterms:title "sameAs links to DBpedia" ;
     void:linkPredicate owl:sameAs ;
     void:objectsTarget <http://dbpedia.org/void/Dataset> ;
     void:subjectsTarget <http://semantic-football.org/data> ;
-    void:triples 58 .
+    void:triples 70 .
 
 <http://semantic-football.org/data#linkset-geonames-sameAs> a void:Linkset ;
     dcterms:title "sameAs links to GeoNames" ;
@@ -72,14 +72,14 @@
     void:linkPredicate onto:nationalityCountry ;
     void:objectsTarget <http://www.wikidata.org/> ;
     void:subjectsTarget <http://semantic-football.org/data> ;
-    void:triples 18 .
+    void:triples 23 .
 
 <http://semantic-football.org/data#linkset-wikidata-sameAs> a void:Linkset ;
     dcterms:title "sameAs links to Wikidata" ;
     void:linkPredicate owl:sameAs ;
     void:objectsTarget <http://www.wikidata.org/> ;
     void:subjectsTarget <http://semantic-football.org/data> ;
-    void:triples 53 .
+    void:triples 68 .
 
 geonames: a void:Dataset ;
     dcterms:title "GeoNames" .
@@ -95,7 +95,7 @@ geonames: a void:Dataset ;
     dcterms:creator "Semantic Web course project (IT6390E)" ;
     dcterms:description "Clubs, players, managers, stadiums, matches, goals and transfers of the 2023-24 Premier League as 5-star Linked Data, linked to DBpedia, Wikidata and GeoNames."@en ;
     dcterms:license <https://creativecommons.org/licenses/by/4.0/> ;
-    dcterms:modified "2026-10-07"^^xsd:date ;
+    dcterms:modified "2026-10-08"^^xsd:date ;
     dcterms:subject dbr:Association_football ;
     dcterms:title "Football Linked Data (Premier League 2023-24)"@en ;
     void:classPartition <http://semantic-football.org/data#class-City>,
@@ -112,18 +112,18 @@ geonames: a void:Dataset ;
     void:classes 11 ;
     void:dataDump <http://127.0.0.1:5000/dump/football_linked.nt>,
         <http://127.0.0.1:5000/dump/football_linked.ttl> ;
-    void:distinctSubjects 195 ;
-    void:entities 158 ;
+    void:distinctSubjects 210 ;
+    void:entities 163 ;
     void:exampleResource club:arsenal,
         player:erling_haaland ;
-    void:properties 48 ;
+    void:properties 47 ;
     void:sparqlEndpoint <http://127.0.0.1:5000/sparql> ;
     void:subset <http://semantic-football.org/data#linkset-dbpedia-nationalityCountry>,
         <http://semantic-football.org/data#linkset-dbpedia-sameAs>,
         <http://semantic-football.org/data#linkset-geonames-sameAs>,
         <http://semantic-football.org/data#linkset-wikidata-nationalityCountry>,
         <http://semantic-football.org/data#linkset-wikidata-sameAs> ;
-    void:triples 1608 ;
+    void:triples 1627 ;
     void:uriSpace "http://semantic-football.org/data/" ;
     void:vocabulary dbo:,
         onto:,
@@ -131,6 +131,6 @@ geonames: a void:Dataset ;
         schema: ;
     prov:wasGeneratedBy [ a prov:Activity ;
             rdfs:label "transform.py → discover_links.py → link.py" ;
-            prov:endedAtTime "2026-10-07T15:39:56"^^xsd:dateTime ] ;
+            prov:endedAtTime "2026-10-08T10:54:48"^^xsd:dateTime ] ;
     foaf:homepage <http://127.0.0.1:5000/> .
 

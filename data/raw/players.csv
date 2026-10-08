@@ -1,32 +1,32 @@
-player_id,name,date_of_birth,nationality,position,jersey_number,height_cm,market_value_m,club_id,wikidata_id,dbpedia_uri
-erling_haaland,Erling Haaland,2000-07-21,Norwegian,Forward,9,194,180.0,man_city,Q61908496,http://dbpedia.org/resource/Erling_Haaland
-kevin_de_bruyne,Kevin De Bruyne,1991-06-28,Belgian,Midfielder,17,181,100.0,man_city,Q50756,http://dbpedia.org/resource/Kevin_De_Bruyne
-rodri,Rodri,1996-06-22,Spanish,Midfielder,16,191,120.0,man_city,Q30621485,"http://dbpedia.org/resource/Rodri_(footballer,_born_1996)"
-bernardo_silva,Bernardo Silva,1994-08-10,Portuguese,Midfielder,20,173,80.0,man_city,Q17361079,http://dbpedia.org/resource/Bernardo_Silva
-ruben_dias,Ruben Dias,1997-05-14,Portuguese,Defender,3,187,80.0,man_city,Q55613571,http://dbpedia.org/resource/Rúben_Dias
-bukayo_saka,Bukayo Saka,2001-09-05,English,Forward,7,178,120.0,arsenal,Q57482297,http://dbpedia.org/resource/Bukayo_Saka
-martin_odegaard,Martin Odegaard,1998-12-17,Norwegian,Midfielder,8,178,100.0,arsenal,Q16062438,http://dbpedia.org/resource/Martin_Ødegaard
-gabriel_martinelli,Gabriel Martinelli,2001-06-18,Brazilian,Forward,11,172,70.0,arsenal,Q67091416,http://dbpedia.org/resource/Gabriel_Martinelli
-declan_rice,Declan Rice,1999-01-14,English,Midfielder,41,188,80.0,arsenal,Q55623584,http://dbpedia.org/resource/Declan_Rice
-william_saliba,William Saliba,2001-03-24,French,Defender,12,192,80.0,arsenal,Q57482320,http://dbpedia.org/resource/William_Saliba
-mohamed_salah,Mohamed Salah,1992-06-15,Egyptian,Forward,11,175,60.0,liverpool,Q16225,http://dbpedia.org/resource/Mohamed_Salah
-virgil_van_dijk,Virgil van Dijk,1991-07-08,Dutch,Defender,4,193,45.0,liverpool,Q2335800,http://dbpedia.org/resource/Virgil_van_Dijk
-trent_alexander_arnold,Trent Alexander-Arnold,1998-10-07,English,Defender,66,175,70.0,liverpool,Q26835349,http://dbpedia.org/resource/Trent_Alexander-Arnold
-darwin_nunez,Darwin Nunez,1999-06-24,Uruguayan,Forward,9,187,70.0,liverpool,Q97252671,http://dbpedia.org/resource/Darwin_Núñez
-alisson_becker,Alisson Becker,1992-10-02,Brazilian,Goalkeeper,1,191,40.0,liverpool,Q19591773,http://dbpedia.org/resource/Alisson_Becker
-ollie_watkins,Ollie Watkins,1995-12-30,English,Forward,11,180,65.0,aston_villa,Q19754026,http://dbpedia.org/resource/Ollie_Watkins
-leon_bailey,Leon Bailey,1997-08-09,Jamaican,Forward,7,174,35.0,aston_villa,Q31188836,http://dbpedia.org/resource/Leon_Bailey
-emiliano_martinez,Emiliano Martinez,1992-09-02,Argentinian,Goalkeeper,1,195,25.0,aston_villa,Q11790437,http://dbpedia.org/resource/Emiliano_Martínez
-morgan_rogers,Morgan Rogers,2002-07-26,English,Midfielder,10,185,35.0,aston_villa,Q110451038,http://dbpedia.org/resource/Morgan_Rogers
-pau_torres,Pau Torres,1997-01-16,Spanish,Defender,14,191,45.0,aston_villa,Q30621502,http://dbpedia.org/resource/Pau_Torres
-son_heung_min,Son Heung-min,1992-07-08,South Korean,Forward,7,183,45.0,tottenham,Q313482,http://dbpedia.org/resource/Son_Heung-min
-james_maddison,James Maddison,1996-11-23,English,Midfielder,10,175,55.0,tottenham,Q23004116,http://dbpedia.org/resource/James_Maddison
-cristian_romero,Cristian Romero,1998-04-27,Argentinian,Defender,17,185,60.0,tottenham,Q55623698,http://dbpedia.org/resource/Cristian_Romero
-brennan_johnson,Brennan Johnson,2001-05-23,Welsh,Forward,22,178,45.0,tottenham,Q107467791,http://dbpedia.org/resource/Brennan_Johnson
-guglielmo_vicario,Guglielmo Vicario,1996-10-07,Italian,Goalkeeper,13,197,25.0,tottenham,Q30688014,http://dbpedia.org/resource/Guglielmo_Vicario
-cole_palmer,Cole Palmer,2002-05-06,English,Midfielder,20,189,80.0,chelsea,Q104663313,http://dbpedia.org/resource/Cole_Palmer
-nicolas_jackson,Nicolas Jackson,2001-06-20,Senegalese,Forward,15,185,60.0,chelsea,Q111498283,http://dbpedia.org/resource/Nicolas_Jackson_(footballer)
-enzo_fernandez,Enzo Fernandez,2001-01-17,Argentinian,Midfielder,8,178,70.0,chelsea,Q110450879,http://dbpedia.org/resource/Enzo_Fernández_(footballer)
-reece_james,Reece James,2000-12-08,English,Defender,24,180,55.0,chelsea,Q62052199,http://dbpedia.org/resource/Reece_James
-robert_sanchez,Robert Sanchez,1997-11-18,Spanish,Goalkeeper,1,197,18.0,chelsea,Q30688008,http://dbpedia.org/resource/Robert_Sánchez_(goalkeeper)
-leandro_trossard,Leandro Trossard,1994-12-04,Belgian,Forward,19,172,,arsenal,,http://dbpedia.org/resource/Leandro_Trossard
+player_id,name,date_of_birth,nationality,position,height_cm,club_id,wikidata_id,dbpedia_uri
+gabriel_martinelli,Gabriel Martinelli,2001-06-18,Brazilian,Forward,178,arsenal,Q61460651,http://dbpedia.org/resource/Gabriel_Martinelli
+bukayo_saka,Bukayo Saka,2001-09-05,English,Forward,178,arsenal,Q59306386,http://dbpedia.org/resource/Bukayo_Saka
+leandro_trossard,Leandro Trossard,1994-12-04,Belgian,Forward,172,arsenal,Q6509762,http://dbpedia.org/resource/Leandro_Trossard
+declan_rice,Declan Rice,1999-01-14,English,Midfielder,188,arsenal,Q30007142,http://dbpedia.org/resource/Declan_Rice
+gabriel_magalhaes,Gabriel Magalhães,1997-12-19,Brazilian,Defender,190,arsenal,Q25175970,http://dbpedia.org/resource/Gabriel_Magalhães
+erling_haaland,Erling Haaland,2000-07-21,Norwegian,Forward,195,man_city,Q28967995,http://dbpedia.org/resource/Erling_Haaland
+phil_foden,Phil Foden,2000-05-28,English,Midfielder,171,man_city,Q30729096,http://dbpedia.org/resource/Phil_Foden
+jack_grealish,Jack Grealish,1995-09-10,English,Forward,180,man_city,Q16056053,http://dbpedia.org/resource/Jack_Grealish
+rodri,Rodri,1996-06-22,Spanish,Midfielder,190,man_city,,"http://dbpedia.org/resource/Rodri_(footballer,_born_1996)"
+trent_alexander_arnold,Trent Alexander-Arnold,1998-10-07,English,Defender,180,liverpool,Q27569376,http://dbpedia.org/resource/Trent_Alexander-Arnold
+dominik_szoboszlai,Dominik Szoboszlai,2000-10-25,Hungarian,Midfielder,186,liverpool,Q30134278,http://dbpedia.org/resource/Dominik_Szoboszlai
+mohamed_salah,Mohamed Salah,1992-06-15,Egyptian,Forward,175,liverpool,Q1354960,http://dbpedia.org/resource/Mohamed_Salah
+cody_gakpo,Cody Gakpo,1999-05-07,Dutch,Forward,193,liverpool,Q28801927,http://dbpedia.org/resource/Cody_Gakpo
+diogo_jota,Diogo Jota,1996-12-04,Portuguese,Forward,178,liverpool,Q19518278,http://dbpedia.org/resource/Diogo_Jota
+conor_bradley,Conor Bradley,2003-07-09,Northern Irish,Defender,180,liverpool,Q107031318,http://dbpedia.org/resource/Conor_Bradley
+luis_diaz,Luis Díaz,1997-01-13,Colombian,Forward,180,liverpool,,"http://dbpedia.org/resource/Luis_Díaz_(footballer,_born_1997)"
+joel_matip,Joël Matip,1991-08-08,Cameroonian,Defender,195,liverpool,Q57567,http://dbpedia.org/resource/Joël_Matip
+john_mcginn,John McGinn,1994-10-18,Scottish,Midfielder,178,aston_villa,Q10547335,http://dbpedia.org/resource/John_McGinn
+leon_bailey,Leon Bailey,1997-08-09,Jamaican,Forward,178,aston_villa,Q20890178,http://dbpedia.org/resource/Leon_Bailey
+pau_torres,Pau Torres,1997-01-16,Spanish,Defender,191,aston_villa,Q43384100,http://dbpedia.org/resource/Pau_Torres
+ollie_watkins,Ollie Watkins,1995-12-30,English,Forward,180,aston_villa,Q16911979,http://dbpedia.org/resource/Ollie_Watkins
+matty_cash,Matty Cash,1997-08-07,Polish,Defender,185,aston_villa,Q23041943,http://dbpedia.org/resource/Matty_Cash
+son_heung_min,Son Heung-min,1992-07-08,South Korean,Forward,183,tottenham,Q439722,http://dbpedia.org/resource/Son_Heung-min
+giovani_lo_celso,Giovani Lo Celso,1996-04-09,Argentine,Midfielder,177,tottenham,Q20743436,http://dbpedia.org/resource/Giovani_Lo_Celso
+dejan_kulusevski,Dejan Kulusevski,2000-04-25,Swedish,Midfielder,186,tottenham,Q59914139,http://dbpedia.org/resource/Dejan_Kulusevski
+cristian_romero,Cristian Romero,1998-04-27,Argentine,Defender,185,tottenham,Q28058687,http://dbpedia.org/resource/Cristian_Romero
+cole_palmer,Cole Palmer,2002-05-06,English,Midfielder,185,chelsea,Q99760796,http://dbpedia.org/resource/Cole_Palmer
+mykhailo_mudryk,Mykhailo Mudryk,2001-01-05,Ukrainian,Forward,175,chelsea,Q58494476,http://dbpedia.org/resource/Mykhailo_Mudryk
+raheem_sterling,Raheem Sterling,1994-12-08,English,Forward,172,chelsea,Q312157,http://dbpedia.org/resource/Raheem_Sterling
+christopher_nkunku,Christopher Nkunku,1997-11-14,French,Forward,177,chelsea,Q21693199,http://dbpedia.org/resource/Christopher_Nkunku
+nicolas_jackson,Nicolas Jackson,2001-06-20,Senegalese,Forward,187,chelsea,Q100144350,http://dbpedia.org/resource/Nicolas_Jackson

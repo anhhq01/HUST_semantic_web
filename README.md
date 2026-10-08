@@ -91,9 +91,15 @@ CC BY 4.0 (`dcterms:license`).
 
 ## Step 2 — Data (`data/raw/`)
 
-Hand-collected CSV files for the 2023–24 Premier League: 6 clubs (+7 clubs that appear only
-in transfers), 31 players, 6 managers, 6 stadiums, 15 matches, 45 goals, 10 transfers,
-4 seasons, 9 cities, 18 nationalities. The CSVs also hold the *curated* external identifiers
+CSV files collected by hand from public sources: fifteen real 2023–24 Premier League
+matches, one for every pair of the six clubs, with all 45 goals (scorer, minute, added time,
+penalty, own goal). `players.csv` contains exactly the 31 players who scored in those
+matches. Further files: 6 clubs (+7 clubs that appear only in transfers), 6 managers,
+6 stadiums, 10 transfers, 4 seasons, 9 cities, 23 nationalities.
+
+Every file's source (openfootball, 11v11.com match pages, Wikipedia, Wikidata, GeoNames) is
+listed in [`data/raw/SOURCES.md`](data/raw/SOURCES.md); values that could not be confirmed
+are left empty rather than guessed. The CSVs also hold the *curated* external identifiers
 (`wikidata_id`, `dbpedia_uri`, `geonames_id`) that serve as the gold standard for link discovery.
 
 ## Step 3 — 4★ transformation (`scripts/transform.py`)
@@ -141,7 +147,7 @@ DBpedia abstracts and thumbnails.
 `link.py` also writes **`data/linked/void.ttl`**, a [VoID](https://www.w3.org/TR/void/)
 description with the licence, SPARQL endpoint, data dumps, statistics and one `void:Linkset`
 per external dataset — the metadata the [LOD Cloud](https://lod-cloud.net/) asks for
-(≥ 1000 triples and ≥ 50 links to an existing LOD dataset; this dataset has 58 to DBpedia).
+(≥ 1000 triples and ≥ 50 links to an existing LOD dataset; this dataset has 70 to DBpedia).
 
 | ★ | Criterion | How it is met |
 |---|---|---|
@@ -229,8 +235,8 @@ is dangling, domains/ranges/datatypes are respected, goals add up to scores, lin
 well-formed with at most one per entity and dataset, the VoID file is present, and every
 example query returns a result.
 
-Current status: 0 errors, 1 warning — match `m002` (Liverpool 2–1 Tottenham) has no goal
-record for Tottenham's goal in `goals.csv`.
+Current status: 0 errors, 0 warnings. The goal records of all 15 matches add up to the
+official scores.
 
 ## External datasets
 

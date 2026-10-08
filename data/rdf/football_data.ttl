@@ -19,399 +19,404 @@
 <http://semantic-football.org/data> owl:imports <http://semantic-football.org/ontology> .
 
 goal:g001 a onto:Goal ;
-    rdfs:label "Goal g001 (60')"@en ;
+    rdfs:label "Goal g001 (86')"@en ;
     dc:identifier "g001" ;
-    onto:goalMinute 60 ;
+    onto:goalMinute 86 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:bukayo_saka ;
+    onto:scoredBy player:gabriel_martinelli ;
     onto:scoredForTeam club:arsenal ;
     onto:scoredInMatch match:m001 .
 
 goal:g002 a onto:Goal ;
-    rdfs:label "Goal g002 (27')"@en ;
+    rdfs:label "Goal g002 (36')"@en ;
     dc:identifier "g002" ;
-    onto:goalMinute 27 ;
+    onto:goalMinute 36 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:darwin_nunez ;
-    onto:scoredForTeam club:liverpool ;
+    onto:scoredBy player:son_heung_min ;
+    onto:scoredForTeam club:tottenham ;
     onto:scoredInMatch match:m002 .
 
 goal:g003 a onto:Goal ;
-    rdfs:label "Goal g003 (55')"@en ;
+    rdfs:label "Goal g003 (45+4')"@en ;
     dc:identifier "g003" ;
-    onto:goalMinute 55 ;
+    onto:addedTime 4 ;
+    onto:goalMinute 45 ;
     onto:isOwnGoal false ;
-    onto:isPenalty true ;
-    onto:scoredBy player:mohamed_salah ;
+    onto:isPenalty false ;
+    onto:scoredBy player:cody_gakpo ;
     onto:scoredForTeam club:liverpool ;
     onto:scoredInMatch match:m002 .
 
 goal:g004 a onto:Goal ;
-    rdfs:label "Goal g004 (76')"@en ;
+    rdfs:label "Goal g004 (90+6')"@en ;
     dc:identifier "g004" ;
-    onto:goalMinute 76 ;
+    onto:addedTime 6 ;
+    onto:goalMinute 90 ;
+    onto:isOwnGoal true ;
+    onto:isPenalty false ;
+    onto:scoredBy player:joel_matip ;
+    onto:scoredForTeam club:tottenham ;
+    onto:scoredInMatch match:m002 .
+
+goal:g005 a onto:Goal ;
+    rdfs:label "Goal g005 (27')"@en ;
+    dc:identifier "g005" ;
+    onto:goalMinute 27 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
     onto:scoredBy player:erling_haaland ;
     onto:scoredForTeam club:man_city ;
     onto:scoredInMatch match:m003 .
 
-goal:g005 a onto:Goal ;
-    rdfs:label "Goal g005 (18')"@en ;
-    dc:identifier "g005" ;
-    onto:goalMinute 18 ;
+goal:g006 a onto:Goal ;
+    rdfs:label "Goal g006 (80')"@en ;
+    dc:identifier "g006" ;
+    onto:goalMinute 80 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:darwin_nunez ;
+    onto:scoredBy player:trent_alexander_arnold ;
     onto:scoredForTeam club:liverpool ;
     onto:scoredInMatch match:m003 .
 
-goal:g006 a onto:Goal ;
-    rdfs:label "Goal g006 (70')"@en ;
-    dc:identifier "g006" ;
-    onto:goalMinute 70 ;
+goal:g007 a onto:Goal ;
+    rdfs:label "Goal g007 (15')"@en ;
+    dc:identifier "g007" ;
+    onto:goalMinute 15 ;
     onto:isOwnGoal false ;
     onto:isPenalty true ;
     onto:scoredBy player:cole_palmer ;
     onto:scoredForTeam club:chelsea ;
     onto:scoredInMatch match:m004 .
 
-goal:g007 a onto:Goal ;
-    rdfs:label "Goal g007 (90')"@en ;
-    dc:identifier "g007" ;
-    onto:goalMinute 90 ;
+goal:g008 a onto:Goal ;
+    rdfs:label "Goal g008 (48')"@en ;
+    dc:identifier "g008" ;
+    onto:goalMinute 48 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:nicolas_jackson ;
+    onto:scoredBy player:mykhailo_mudryk ;
     onto:scoredForTeam club:chelsea ;
     onto:scoredInMatch match:m004 .
 
-goal:g008 a onto:Goal ;
-    rdfs:label "Goal g008 (54')"@en ;
-    dc:identifier "g008" ;
-    onto:goalMinute 54 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:bukayo_saka ;
-    onto:scoredForTeam club:arsenal ;
-    onto:scoredInMatch match:m004 .
-
 goal:g009 a onto:Goal ;
-    rdfs:label "Goal g009 (66')"@en ;
+    rdfs:label "Goal g009 (77')"@en ;
     dc:identifier "g009" ;
-    onto:goalMinute 66 ;
+    onto:goalMinute 77 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:gabriel_martinelli ;
+    onto:scoredBy player:declan_rice ;
     onto:scoredForTeam club:arsenal ;
     onto:scoredInMatch match:m004 .
 
 goal:g010 a onto:Goal ;
-    rdfs:label "Goal g010 (88')"@en ;
+    rdfs:label "Goal g010 (84')"@en ;
     dc:identifier "g010" ;
-    onto:goalMinute 88 ;
+    onto:goalMinute 84 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:leandro_trossard ;
+    onto:scoredForTeam club:arsenal ;
+    onto:scoredInMatch match:m004 .
+
+goal:g011 a onto:Goal ;
+    rdfs:label "Goal g011 (22')"@en ;
+    dc:identifier "g011" ;
+    onto:goalMinute 22 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:giovani_lo_celso ;
+    onto:scoredForTeam club:tottenham ;
+    onto:scoredInMatch match:m005 .
+
+goal:g012 a onto:Goal ;
+    rdfs:label "Goal g012 (45+7')"@en ;
+    dc:identifier "g012" ;
+    onto:addedTime 7 ;
+    onto:goalMinute 45 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:pau_torres ;
+    onto:scoredForTeam club:aston_villa ;
+    onto:scoredInMatch match:m005 .
+
+goal:g013 a onto:Goal ;
+    rdfs:label "Goal g013 (61')"@en ;
+    dc:identifier "g013" ;
+    onto:goalMinute 61 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
     onto:scoredBy player:ollie_watkins ;
     onto:scoredForTeam club:aston_villa ;
     onto:scoredInMatch match:m005 .
 
-goal:g011 a onto:Goal ;
-    rdfs:label "Goal g011 (50')"@en ;
-    dc:identifier "g011" ;
-    onto:goalMinute 50 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:erling_haaland ;
-    onto:scoredForTeam club:man_city ;
-    onto:scoredInMatch match:m006 .
-
-goal:g012 a onto:Goal ;
-    rdfs:label "Goal g012 (35')"@en ;
-    dc:identifier "g012" ;
-    onto:goalMinute 35 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:bernardo_silva ;
-    onto:scoredForTeam club:man_city ;
-    onto:scoredInMatch match:m006 .
-
-goal:g013 a onto:Goal ;
-    rdfs:label "Goal g013 (79')"@en ;
-    dc:identifier "g013" ;
-    onto:goalMinute 79 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:kevin_de_bruyne ;
-    onto:scoredForTeam club:man_city ;
-    onto:scoredInMatch match:m006 .
-
 goal:g014 a onto:Goal ;
-    rdfs:label "Goal g014 (12')"@en ;
+    rdfs:label "Goal g014 (6')"@en ;
     dc:identifier "g014" ;
-    onto:goalMinute 12 ;
+    onto:goalMinute 6 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:erling_haaland ;
-    onto:scoredForTeam club:man_city ;
-    onto:scoredInMatch match:m007 .
+    onto:scoredBy player:son_heung_min ;
+    onto:scoredForTeam club:tottenham ;
+    onto:scoredInMatch match:m006 .
 
 goal:g015 a onto:Goal ;
-    rdfs:label "Goal g015 (45')"@en ;
+    rdfs:label "Goal g015 (9')"@en ;
     dc:identifier "g015" ;
-    onto:goalMinute 45 ;
-    onto:isOwnGoal false ;
+    onto:goalMinute 9 ;
+    onto:isOwnGoal true ;
     onto:isPenalty false ;
-    onto:scoredBy player:erling_haaland ;
+    onto:scoredBy player:son_heung_min ;
     onto:scoredForTeam club:man_city ;
-    onto:scoredInMatch match:m007 .
+    onto:scoredInMatch match:m006 .
 
 goal:g016 a onto:Goal ;
-    rdfs:label "Goal g016 (77')"@en ;
+    rdfs:label "Goal g016 (31')"@en ;
     dc:identifier "g016" ;
-    onto:goalMinute 77 ;
+    onto:goalMinute 31 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:kevin_de_bruyne ;
+    onto:scoredBy player:phil_foden ;
     onto:scoredForTeam club:man_city ;
-    onto:scoredInMatch match:m007 .
+    onto:scoredInMatch match:m006 .
 
 goal:g017 a onto:Goal ;
-    rdfs:label "Goal g017 (29')"@en ;
+    rdfs:label "Goal g017 (69')"@en ;
     dc:identifier "g017" ;
-    onto:goalMinute 29 ;
+    onto:goalMinute 69 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:ollie_watkins ;
-    onto:scoredForTeam club:aston_villa ;
-    onto:scoredInMatch match:m007 .
+    onto:scoredBy player:giovani_lo_celso ;
+    onto:scoredForTeam club:tottenham ;
+    onto:scoredInMatch match:m006 .
 
 goal:g018 a onto:Goal ;
-    rdfs:label "Goal g018 (68')"@en ;
+    rdfs:label "Goal g018 (81')"@en ;
     dc:identifier "g018" ;
-    onto:goalMinute 68 ;
+    onto:goalMinute 81 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:jack_grealish ;
+    onto:scoredForTeam club:man_city ;
+    onto:scoredInMatch match:m006 .
+
+goal:g019 a onto:Goal ;
+    rdfs:label "Goal g019 (90')"@en ;
+    dc:identifier "g019" ;
+    onto:goalMinute 90 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:dejan_kulusevski ;
+    onto:scoredForTeam club:tottenham ;
+    onto:scoredInMatch match:m006 .
+
+goal:g020 a onto:Goal ;
+    rdfs:label "Goal g020 (74')"@en ;
+    dc:identifier "g020" ;
+    onto:goalMinute 74 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
     onto:scoredBy player:leon_bailey ;
     onto:scoredForTeam club:aston_villa ;
     onto:scoredInMatch match:m007 .
 
-goal:g019 a onto:Goal ;
-    rdfs:label "Goal g019 (85')"@en ;
-    dc:identifier "g019" ;
-    onto:goalMinute 85 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:morgan_rogers ;
-    onto:scoredForTeam club:aston_villa ;
-    onto:scoredInMatch match:m007 .
-
-goal:g020 a onto:Goal ;
-    rdfs:label "Goal g020 (9')"@en ;
-    dc:identifier "g020" ;
-    onto:goalMinute 9 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty true ;
-    onto:scoredBy player:bukayo_saka ;
-    onto:scoredForTeam club:arsenal ;
-    onto:scoredInMatch match:m008 .
-
 goal:g021 a onto:Goal ;
-    rdfs:label "Goal g021 (23')"@en ;
+    rdfs:label "Goal g021 (7')"@en ;
     dc:identifier "g021" ;
-    onto:goalMinute 23 ;
+    onto:goalMinute 7 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:gabriel_martinelli ;
-    onto:scoredForTeam club:arsenal ;
+    onto:scoredBy player:john_mcginn ;
+    onto:scoredForTeam club:aston_villa ;
     onto:scoredInMatch match:m008 .
 
 goal:g022 a onto:Goal ;
-    rdfs:label "Goal g022 (41')"@en ;
+    rdfs:label "Goal g022 (3')"@en ;
     dc:identifier "g022" ;
-    onto:goalMinute 41 ;
+    onto:goalMinute 3 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:martin_odegaard ;
-    onto:scoredForTeam club:arsenal ;
-    onto:scoredInMatch match:m008 .
-
-goal:g023 a onto:Goal ;
-    rdfs:label "Goal g023 (60')"@en ;
-    dc:identifier "g023" ;
-    onto:goalMinute 60 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:declan_rice ;
-    onto:scoredForTeam club:arsenal ;
-    onto:scoredInMatch match:m008 .
-
-goal:g024 a onto:Goal ;
-    rdfs:label "Goal g024 (75')"@en ;
-    dc:identifier "g024" ;
-    onto:goalMinute 75 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:bukayo_saka ;
-    onto:scoredForTeam club:arsenal ;
-    onto:scoredInMatch match:m008 .
-
-goal:g025 a onto:Goal ;
-    rdfs:label "Goal g025 (82')"@en ;
-    dc:identifier "g025" ;
-    onto:goalMinute 82 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:erling_haaland ;
-    onto:scoredForTeam club:man_city ;
+    onto:scoredBy player:dominik_szoboszlai ;
+    onto:scoredForTeam club:liverpool ;
     onto:scoredInMatch match:m009 .
 
+goal:g023 a onto:Goal ;
+    rdfs:label "Goal g023 (22')"@en ;
+    dc:identifier "g023" ;
+    onto:goalMinute 22 ;
+    onto:isOwnGoal true ;
+    onto:isPenalty false ;
+    onto:scoredBy player:matty_cash ;
+    onto:scoredForTeam club:liverpool ;
+    onto:scoredInMatch match:m009 .
+
+goal:g024 a onto:Goal ;
+    rdfs:label "Goal g024 (55')"@en ;
+    dc:identifier "g024" ;
+    onto:goalMinute 55 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:mohamed_salah ;
+    onto:scoredForTeam club:liverpool ;
+    onto:scoredInMatch match:m009 .
+
+goal:g025 a onto:Goal ;
+    rdfs:label "Goal g025 (23')"@en ;
+    dc:identifier "g025" ;
+    onto:goalMinute 23 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:diogo_jota ;
+    onto:scoredForTeam club:liverpool ;
+    onto:scoredInMatch match:m010 .
+
 goal:g026 a onto:Goal ;
-    rdfs:label "Goal g026 (65')"@en ;
+    rdfs:label "Goal g026 (39')"@en ;
     dc:identifier "g026" ;
+    onto:goalMinute 39 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:conor_bradley ;
+    onto:scoredForTeam club:liverpool ;
+    onto:scoredInMatch match:m010 .
+
+goal:g027 a onto:Goal ;
+    rdfs:label "Goal g027 (65')"@en ;
+    dc:identifier "g027" ;
     onto:goalMinute 65 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:darwin_nunez ;
+    onto:scoredBy player:dominik_szoboszlai ;
     onto:scoredForTeam club:liverpool ;
-    onto:scoredInMatch match:m009 .
-
-goal:g027 a onto:Goal ;
-    rdfs:label "Goal g027 (61')"@en ;
-    dc:identifier "g027" ;
-    onto:goalMinute 61 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:cole_palmer ;
-    onto:scoredForTeam club:chelsea ;
     onto:scoredInMatch match:m010 .
 
 goal:g028 a onto:Goal ;
-    rdfs:label "Goal g028 (90')"@en ;
+    rdfs:label "Goal g028 (71')"@en ;
     dc:identifier "g028" ;
-    onto:goalMinute 90 ;
+    onto:goalMinute 71 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:darwin_nunez ;
-    onto:scoredForTeam club:liverpool ;
+    onto:scoredBy player:christopher_nkunku ;
+    onto:scoredForTeam club:chelsea ;
     onto:scoredInMatch match:m010 .
 
 goal:g029 a onto:Goal ;
-    rdfs:label "Goal g029 (24')"@en ;
+    rdfs:label "Goal g029 (79')"@en ;
     dc:identifier "g029" ;
-    onto:goalMinute 24 ;
+    onto:goalMinute 79 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:luis_diaz ;
+    onto:scoredForTeam club:liverpool ;
+    onto:scoredInMatch match:m010 .
+
+goal:g030 a onto:Goal ;
+    rdfs:label "Goal g030 (14')"@en ;
+    dc:identifier "g030" ;
+    onto:goalMinute 14 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
     onto:scoredBy player:bukayo_saka ;
-    onto:scoredForTeam club:arsenal ;
-    onto:scoredInMatch match:m011 .
-
-goal:g030 a onto:Goal ;
-    rdfs:label "Goal g030 (30')"@en ;
-    dc:identifier "g030" ;
-    onto:goalMinute 30 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:gabriel_martinelli ;
     onto:scoredForTeam club:arsenal ;
     onto:scoredInMatch match:m011 .
 
 goal:g031 a onto:Goal ;
-    rdfs:label "Goal g031 (55')"@en ;
+    rdfs:label "Goal g031 (45+3')"@en ;
     dc:identifier "g031" ;
-    onto:goalMinute 55 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty true ;
-    onto:scoredBy player:martin_odegaard ;
-    onto:scoredForTeam club:arsenal ;
+    onto:addedTime 3 ;
+    onto:goalMinute 45 ;
+    onto:isOwnGoal true ;
+    onto:isPenalty false ;
+    onto:scoredBy player:gabriel_magalhaes ;
+    onto:scoredForTeam club:liverpool ;
     onto:scoredInMatch match:m011 .
 
 goal:g032 a onto:Goal ;
-    rdfs:label "Goal g032 (69')"@en ;
+    rdfs:label "Goal g032 (67')"@en ;
     dc:identifier "g032" ;
-    onto:goalMinute 69 ;
+    onto:goalMinute 67 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:gabriel_martinelli ;
+    onto:scoredForTeam club:arsenal ;
+    onto:scoredInMatch match:m011 .
+
+goal:g033 a onto:Goal ;
+    rdfs:label "Goal g033 (90+2')"@en ;
+    dc:identifier "g033" ;
+    onto:addedTime 2 ;
+    onto:goalMinute 90 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
     onto:scoredBy player:leandro_trossard ;
     onto:scoredForTeam club:arsenal ;
     onto:scoredInMatch match:m011 .
 
-goal:g033 a onto:Goal ;
-    rdfs:label "Goal g033 (88')"@en ;
-    dc:identifier "g033" ;
-    onto:goalMinute 88 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:declan_rice ;
-    onto:scoredForTeam club:arsenal ;
-    onto:scoredInMatch match:m011 .
-
 goal:g034 a onto:Goal ;
-    rdfs:label "Goal g034 (80')"@en ;
+    rdfs:label "Goal g034 (42')"@en ;
     dc:identifier "g034" ;
-    onto:goalMinute 80 ;
+    onto:goalMinute 42 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:erling_haaland ;
-    onto:scoredForTeam club:man_city ;
-    onto:scoredInMatch match:m012 .
-
-goal:g035 a onto:Goal ;
-    rdfs:label "Goal g035 (43')"@en ;
-    dc:identifier "g035" ;
-    onto:goalMinute 43 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:cole_palmer ;
+    onto:scoredBy player:raheem_sterling ;
     onto:scoredForTeam club:chelsea ;
     onto:scoredInMatch match:m012 .
 
-goal:g036 a onto:Goal ;
-    rdfs:label "Goal g036 (10')"@en ;
-    dc:identifier "g036" ;
-    onto:goalMinute 10 ;
+goal:g035 a onto:Goal ;
+    rdfs:label "Goal g035 (83')"@en ;
+    dc:identifier "g035" ;
+    onto:goalMinute 83 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:bukayo_saka ;
+    onto:scoredBy player:rodri ;
+    onto:scoredForTeam club:man_city ;
+    onto:scoredInMatch match:m012 .
+
+goal:g036 a onto:Goal ;
+    rdfs:label "Goal g036 (26')"@en ;
+    dc:identifier "g036" ;
+    onto:goalMinute 26 ;
+    onto:isOwnGoal true ;
+    onto:isPenalty false ;
+    onto:scoredBy player:cristian_romero ;
     onto:scoredForTeam club:arsenal ;
     onto:scoredInMatch match:m013 .
 
 goal:g037 a onto:Goal ;
-    rdfs:label "Goal g037 (35')"@en ;
+    rdfs:label "Goal g037 (42')"@en ;
     dc:identifier "g037" ;
-    onto:goalMinute 35 ;
+    onto:goalMinute 42 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:martin_odegaard ;
-    onto:scoredForTeam club:arsenal ;
+    onto:scoredBy player:son_heung_min ;
+    onto:scoredForTeam club:tottenham ;
     onto:scoredInMatch match:m013 .
 
 goal:g038 a onto:Goal ;
-    rdfs:label "Goal g038 (78')"@en ;
+    rdfs:label "Goal g038 (54')"@en ;
     dc:identifier "g038" ;
-    onto:goalMinute 78 ;
+    onto:goalMinute 54 ;
     onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:declan_rice ;
+    onto:isPenalty true ;
+    onto:scoredBy player:bukayo_saka ;
     onto:scoredForTeam club:arsenal ;
     onto:scoredInMatch match:m013 .
 
 goal:g039 a onto:Goal ;
-    rdfs:label "Goal g039 (49')"@en ;
+    rdfs:label "Goal g039 (55')"@en ;
     dc:identifier "g039" ;
-    onto:goalMinute 49 ;
+    onto:goalMinute 55 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:ollie_watkins ;
-    onto:scoredForTeam club:aston_villa ;
-    onto:scoredInMatch match:m014 .
+    onto:scoredBy player:son_heung_min ;
+    onto:scoredForTeam club:tottenham ;
+    onto:scoredInMatch match:m013 .
 
 goal:g040 a onto:Goal ;
-    rdfs:label "Goal g040 (77')"@en ;
+    rdfs:label "Goal g040 (73')"@en ;
     dc:identifier "g040" ;
-    onto:goalMinute 77 ;
+    onto:goalMinute 73 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
     onto:scoredBy player:ollie_watkins ;
@@ -419,331 +424,180 @@ goal:g040 a onto:Goal ;
     onto:scoredInMatch match:m014 .
 
 goal:g041 a onto:Goal ;
-    rdfs:label "Goal g041 (90')"@en ;
+    rdfs:label "Goal g041 (6')"@en ;
     dc:identifier "g041" ;
+    onto:goalMinute 6 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:dejan_kulusevski ;
+    onto:scoredForTeam club:tottenham ;
+    onto:scoredInMatch match:m015 .
+
+goal:g042 a onto:Goal ;
+    rdfs:label "Goal g042 (35')"@en ;
+    dc:identifier "g042" ;
+    onto:goalMinute 35 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty true ;
+    onto:scoredBy player:cole_palmer ;
+    onto:scoredForTeam club:chelsea ;
+    onto:scoredInMatch match:m015 .
+
+goal:g043 a onto:Goal ;
+    rdfs:label "Goal g043 (75')"@en ;
+    dc:identifier "g043" ;
+    onto:goalMinute 75 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:nicolas_jackson ;
+    onto:scoredForTeam club:chelsea ;
+    onto:scoredInMatch match:m015 .
+
+goal:g044 a onto:Goal ;
+    rdfs:label "Goal g044 (90+4')"@en ;
+    dc:identifier "g044" ;
+    onto:addedTime 4 ;
     onto:goalMinute 90 ;
     onto:isOwnGoal false ;
     onto:isPenalty false ;
-    onto:scoredBy player:leon_bailey ;
-    onto:scoredForTeam club:aston_villa ;
-    onto:scoredInMatch match:m014 .
-
-goal:g042 a onto:Goal ;
-    rdfs:label "Goal g042 (14')"@en ;
-    dc:identifier "g042" ;
-    onto:goalMinute 14 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:darwin_nunez ;
-    onto:scoredForTeam club:liverpool ;
-    onto:scoredInMatch match:m014 .
-
-goal:g043 a onto:Goal ;
-    rdfs:label "Goal g043 (37')"@en ;
-    dc:identifier "g043" ;
-    onto:goalMinute 37 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:mohamed_salah ;
-    onto:scoredForTeam club:liverpool ;
-    onto:scoredInMatch match:m014 .
-
-goal:g044 a onto:Goal ;
-    rdfs:label "Goal g044 (60')"@en ;
-    dc:identifier "g044" ;
-    onto:goalMinute 60 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:trent_alexander_arnold ;
-    onto:scoredForTeam club:liverpool ;
-    onto:scoredInMatch match:m014 .
-
-goal:g045 a onto:Goal ;
-    rdfs:label "Goal g045 (77')"@en ;
-    dc:identifier "g045" ;
-    onto:goalMinute 77 ;
-    onto:isOwnGoal false ;
-    onto:isPenalty false ;
-    onto:scoredBy player:declan_rice ;
-    onto:scoredForTeam club:arsenal ;
+    onto:scoredBy player:nicolas_jackson ;
+    onto:scoredForTeam club:chelsea ;
     onto:scoredInMatch match:m015 .
 
-player:alisson_becker a onto:Player ;
-    rdfs:label "Alisson Becker" ;
-    dc:identifier "alisson_becker" ;
-    onto:dateOfBirth "1992-10-02"^^xsd:date ;
-    onto:hasNationality nationality:brazilian ;
-    onto:hasPosition onto:Goalkeeper ;
-    onto:height 191.0 ;
-    onto:jerseyNumber 1 ;
-    onto:marketValue 40.0 ;
-    onto:name "Alisson Becker" ;
-    onto:playsFor club:liverpool ;
-    foaf:name "Alisson Becker" .
-
-player:cristian_romero a onto:Player ;
-    rdfs:label "Cristian Romero" ;
-    dc:identifier "cristian_romero" ;
-    onto:dateOfBirth "1998-04-27"^^xsd:date ;
-    onto:hasNationality nationality:argentinian ;
-    onto:hasPosition onto:Defender ;
-    onto:height 185.0 ;
-    onto:jerseyNumber 17 ;
-    onto:marketValue 60.0 ;
-    onto:name "Cristian Romero" ;
-    onto:playsFor club:tottenham ;
-    foaf:name "Cristian Romero" .
-
-player:emiliano_martinez a onto:Player ;
-    rdfs:label "Emiliano Martinez" ;
-    dc:identifier "emiliano_martinez" ;
-    onto:dateOfBirth "1992-09-02"^^xsd:date ;
-    onto:hasNationality nationality:argentinian ;
-    onto:hasPosition onto:Goalkeeper ;
-    onto:height 195.0 ;
-    onto:jerseyNumber 1 ;
-    onto:marketValue 25.0 ;
-    onto:name "Emiliano Martinez" ;
-    onto:playsFor club:aston_villa ;
-    foaf:name "Emiliano Martinez" .
-
-player:guglielmo_vicario a onto:Player ;
-    rdfs:label "Guglielmo Vicario" ;
-    dc:identifier "guglielmo_vicario" ;
-    onto:dateOfBirth "1996-10-07"^^xsd:date ;
-    onto:hasNationality nationality:italian ;
-    onto:hasPosition onto:Goalkeeper ;
-    onto:height 197.0 ;
-    onto:jerseyNumber 13 ;
-    onto:marketValue 25.0 ;
-    onto:name "Guglielmo Vicario" ;
-    onto:playsFor club:tottenham ;
-    foaf:name "Guglielmo Vicario" .
-
-player:reece_james a onto:Player ;
-    rdfs:label "Reece James" ;
-    dc:identifier "reece_james" ;
-    onto:dateOfBirth "2000-12-08"^^xsd:date ;
-    onto:hasNationality nationality:english ;
-    onto:hasPosition onto:Defender ;
-    onto:height 180.0 ;
-    onto:jerseyNumber 24 ;
-    onto:marketValue 55.0 ;
-    onto:name "Reece James" ;
-    onto:playsFor club:chelsea ;
-    foaf:name "Reece James" .
-
-player:robert_sanchez a onto:Player ;
-    rdfs:label "Robert Sanchez" ;
-    dc:identifier "robert_sanchez" ;
-    onto:dateOfBirth "1997-11-18"^^xsd:date ;
-    onto:hasNationality nationality:spanish ;
-    onto:hasPosition onto:Goalkeeper ;
-    onto:height 197.0 ;
-    onto:jerseyNumber 1 ;
-    onto:marketValue 18.0 ;
-    onto:name "Robert Sanchez" ;
-    onto:playsFor club:chelsea ;
-    foaf:name "Robert Sanchez" .
-
-player:rodri a onto:Player ;
-    rdfs:label "Rodri" ;
-    dc:identifier "rodri" ;
-    onto:dateOfBirth "1996-06-22"^^xsd:date ;
-    onto:hasNationality nationality:spanish ;
-    onto:hasPosition onto:Midfielder ;
-    onto:height 191.0 ;
-    onto:jerseyNumber 16 ;
-    onto:marketValue 120.0 ;
-    onto:name "Rodri" ;
-    onto:playsFor club:man_city ;
-    foaf:name "Rodri" .
-
-player:ruben_dias a onto:Player ;
-    rdfs:label "Ruben Dias" ;
-    dc:identifier "ruben_dias" ;
-    onto:dateOfBirth "1997-05-14"^^xsd:date ;
-    onto:hasNationality nationality:portuguese ;
-    onto:hasPosition onto:Defender ;
-    onto:height 187.0 ;
-    onto:jerseyNumber 3 ;
-    onto:marketValue 80.0 ;
-    onto:name "Ruben Dias" ;
-    onto:playsFor club:man_city ;
-    foaf:name "Ruben Dias" .
-
-player:son_heung_min a onto:Player ;
-    rdfs:label "Son Heung-min" ;
-    dc:identifier "son_heung_min" ;
-    onto:dateOfBirth "1992-07-08"^^xsd:date ;
-    onto:hasNationality nationality:south_korean ;
-    onto:hasPosition onto:Forward ;
-    onto:height 183.0 ;
-    onto:jerseyNumber 7 ;
-    onto:marketValue 45.0 ;
-    onto:name "Son Heung-min" ;
-    onto:playsFor club:tottenham ;
-    foaf:name "Son Heung-min" .
-
-player:virgil_van_dijk a onto:Player ;
-    rdfs:label "Virgil van Dijk" ;
-    dc:identifier "virgil_van_dijk" ;
-    onto:dateOfBirth "1991-07-08"^^xsd:date ;
-    onto:hasNationality nationality:dutch ;
-    onto:hasPosition onto:Defender ;
-    onto:height 193.0 ;
-    onto:jerseyNumber 4 ;
-    onto:marketValue 45.0 ;
-    onto:name "Virgil van Dijk" ;
-    onto:playsFor club:liverpool ;
-    foaf:name "Virgil van Dijk" .
-
-player:william_saliba a onto:Player ;
-    rdfs:label "William Saliba" ;
-    dc:identifier "william_saliba" ;
-    onto:dateOfBirth "2001-03-24"^^xsd:date ;
-    onto:hasNationality nationality:french ;
-    onto:hasPosition onto:Defender ;
-    onto:height 192.0 ;
-    onto:jerseyNumber 12 ;
-    onto:marketValue 80.0 ;
-    onto:name "William Saliba" ;
-    onto:playsFor club:arsenal ;
-    foaf:name "William Saliba" .
+goal:g045 a onto:Goal ;
+    rdfs:label "Goal g045 (90+7')"@en ;
+    dc:identifier "g045" ;
+    onto:addedTime 7 ;
+    onto:goalMinute 90 ;
+    onto:isOwnGoal false ;
+    onto:isPenalty false ;
+    onto:scoredBy player:nicolas_jackson ;
+    onto:scoredForTeam club:chelsea ;
+    onto:scoredInMatch match:m015 .
 
 transfer:t001 a onto:Transfer ;
-    rdfs:label "Transfer of erling_haaland: borussia_dortmund → man_city"@en ;
-    dc:identifier "t001" ;
-    onto:fromClub club:borussia_dortmund ;
-    onto:inSeason season:pl_2022_23 ;
-    onto:toClub club:man_city ;
-    onto:transferDate "2022-06-13"^^xsd:date ;
-    onto:transferFee 60.0 ;
-    onto:transferredPlayer player:erling_haaland .
-
-transfer:t002 a onto:Transfer ;
     rdfs:label "Transfer of declan_rice: west_ham → arsenal"@en ;
-    dc:identifier "t002" ;
+    dc:identifier "t001" ;
     onto:fromClub club:west_ham ;
     onto:inSeason season:pl_2023_24 ;
     onto:toClub club:arsenal ;
     onto:transferDate "2023-07-15"^^xsd:date ;
-    onto:transferFee 116.6 ;
+    onto:transferFee 100.0 ;
     onto:transferredPlayer player:declan_rice .
 
-transfer:t003 a onto:Transfer ;
+transfer:t002 a onto:Transfer ;
     rdfs:label "Transfer of cole_palmer: man_city → chelsea"@en ;
-    dc:identifier "t003" ;
+    dc:identifier "t002" ;
     onto:fromClub club:man_city ;
     onto:inSeason season:pl_2023_24 ;
     onto:toClub club:chelsea ;
-    onto:transferDate "2023-08-05"^^xsd:date ;
-    onto:transferFee 47.0 ;
+    onto:transferDate "2023-09-01"^^xsd:date ;
+    onto:transferFee 40.0 ;
     onto:transferredPlayer player:cole_palmer .
 
-transfer:t004 a onto:Transfer ;
-    rdfs:label "Transfer of darwin_nunez: sl_benfica → liverpool"@en ;
-    dc:identifier "t004" ;
-    onto:fromClub club:sl_benfica ;
-    onto:inSeason season:pl_2022_23 ;
+transfer:t003 a onto:Transfer ;
+    rdfs:label "Transfer of dominik_szoboszlai: rb_leipzig → liverpool"@en ;
+    dc:identifier "t003" ;
+    onto:fromClub club:rb_leipzig ;
+    onto:inSeason season:pl_2023_24 ;
     onto:toClub club:liverpool ;
-    onto:transferDate "2022-07-14"^^xsd:date ;
-    onto:transferFee 75.0 ;
-    onto:transferredPlayer player:darwin_nunez .
+    onto:transferDate "2023-07-02"^^xsd:date ;
+    onto:transferFee 60.0 ;
+    onto:transferredPlayer player:dominik_szoboszlai .
+
+transfer:t004 a onto:Transfer ;
+    rdfs:label "Transfer of christopher_nkunku: rb_leipzig → chelsea"@en ;
+    dc:identifier "t004" ;
+    onto:fromClub club:rb_leipzig ;
+    onto:inSeason season:pl_2023_24 ;
+    onto:toClub club:chelsea ;
+    onto:transferDate "2023-07-01"^^xsd:date ;
+    onto:transferFee 52.0 ;
+    onto:transferredPlayer player:christopher_nkunku .
 
 transfer:t005 a onto:Transfer ;
-    rdfs:label "Transfer of enzo_fernandez: sl_benfica → chelsea"@en ;
-    dc:identifier "t005" ;
-    onto:fromClub club:sl_benfica ;
-    onto:inSeason season:pl_2022_23 ;
-    onto:toClub club:chelsea ;
-    onto:transferDate "2023-01-26"^^xsd:date ;
-    onto:transferFee 121.0 ;
-    onto:transferredPlayer player:enzo_fernandez .
-
-transfer:t006 a onto:Transfer ;
-    rdfs:label "Transfer of james_maddison: leicester_city → tottenham"@en ;
-    dc:identifier "t006" ;
-    onto:fromClub club:leicester_city ;
-    onto:inSeason season:pl_2023_24 ;
-    onto:toClub club:tottenham ;
-    onto:transferDate "2023-07-07"^^xsd:date ;
-    onto:transferFee 45.0 ;
-    onto:transferredPlayer player:james_maddison .
-
-transfer:t007 a onto:Transfer ;
-    rdfs:label "Transfer of brennan_johnson: nottingham_forest → tottenham"@en ;
-    dc:identifier "t007" ;
-    onto:fromClub club:nottingham_forest ;
-    onto:inSeason season:pl_2023_24 ;
-    onto:toClub club:tottenham ;
-    onto:transferDate "2023-08-31"^^xsd:date ;
-    onto:transferFee 50.0 ;
-    onto:transferredPlayer player:brennan_johnson .
-
-transfer:t008 a onto:Transfer ;
-    rdfs:label "Transfer of morgan_rogers: man_city → aston_villa"@en ;
-    dc:identifier "t008" ;
-    onto:fromClub club:man_city ;
-    onto:inSeason season:pl_2023_24 ;
-    onto:toClub club:aston_villa ;
-    onto:transferDate "2024-01-20"^^xsd:date ;
-    onto:transferFee 8.5 ;
-    onto:transferredPlayer player:morgan_rogers .
-
-transfer:t009 a onto:Transfer ;
     rdfs:label "Transfer of pau_torres: villarreal → aston_villa"@en ;
-    dc:identifier "t009" ;
+    dc:identifier "t005" ;
     onto:fromClub club:villarreal ;
     onto:inSeason season:pl_2023_24 ;
     onto:toClub club:aston_villa ;
-    onto:transferDate "2023-07-14"^^xsd:date ;
-    onto:transferFee 35.0 ;
+    onto:transferDate "2023-07-12"^^xsd:date ;
+    onto:transferFee 31.5 ;
     onto:transferredPlayer player:pau_torres .
 
+transfer:t006 a onto:Transfer ;
+    rdfs:label "Transfer of nicolas_jackson: villarreal → chelsea"@en ;
+    dc:identifier "t006" ;
+    onto:fromClub club:villarreal ;
+    onto:inSeason season:pl_2023_24 ;
+    onto:toClub club:chelsea ;
+    onto:transferDate "2023-06-30"^^xsd:date ;
+    onto:transferFee 32.0 ;
+    onto:transferredPlayer player:nicolas_jackson .
+
+transfer:t007 a onto:Transfer ;
+    rdfs:label "Transfer of mykhailo_mudryk: shakhtar_donetsk → chelsea"@en ;
+    dc:identifier "t007" ;
+    onto:fromClub club:shakhtar_donetsk ;
+    onto:inSeason season:pl_2022_23 ;
+    onto:toClub club:chelsea ;
+    onto:transferDate "2023-01-15"^^xsd:date ;
+    onto:transferFee 62.0 ;
+    onto:transferredPlayer player:mykhailo_mudryk .
+
+transfer:t008 a onto:Transfer ;
+    rdfs:label "Transfer of cody_gakpo: psv → liverpool"@en ;
+    dc:identifier "t008" ;
+    onto:fromClub club:psv ;
+    onto:inSeason season:pl_2022_23 ;
+    onto:toClub club:liverpool ;
+    onto:transferDate "2023-01-01"^^xsd:date ;
+    onto:transferredPlayer player:cody_gakpo .
+
+transfer:t009 a onto:Transfer ;
+    rdfs:label "Transfer of erling_haaland: borussia_dortmund → man_city"@en ;
+    dc:identifier "t009" ;
+    onto:fromClub club:borussia_dortmund ;
+    onto:inSeason season:pl_2022_23 ;
+    onto:toClub club:man_city ;
+    onto:transferDate "2022-07-01"^^xsd:date ;
+    onto:transferFee 51.2 ;
+    onto:transferredPlayer player:erling_haaland .
+
 transfer:t010 a onto:Transfer ;
-    rdfs:label "Transfer of bukayo_saka: arsenal_academy → arsenal"@en ;
+    rdfs:label "Transfer of ollie_watkins: brentford → aston_villa"@en ;
     dc:identifier "t010" ;
-    onto:fromClub club:arsenal_academy ;
-    onto:inSeason season:pl_2018_19 ;
-    onto:toClub club:arsenal ;
-    onto:transferDate "2018-07-01"^^xsd:date ;
-    onto:transferFee 0.0 ;
-    onto:transferredPlayer player:bukayo_saka .
+    onto:fromClub club:brentford ;
+    onto:inSeason season:pl_2020_21 ;
+    onto:toClub club:aston_villa ;
+    onto:transferDate "2020-09-09"^^xsd:date ;
+    onto:transferFee 28.0 ;
+    onto:transferredPlayer player:ollie_watkins .
+
+city:donetsk a onto:City ;
+    rdfs:label "Donetsk"@en ;
+    onto:country "Ukraine" ;
+    onto:name "Donetsk" .
 
 city:dortmund a onto:City ;
     rdfs:label "Dortmund"@en ;
     onto:country "Germany" ;
     onto:name "Dortmund" .
 
-city:leicester a onto:City ;
-    rdfs:label "Leicester"@en ;
-    onto:country "England" ;
-    onto:name "Leicester" .
+city:eindhoven a onto:City ;
+    rdfs:label "Eindhoven"@en ;
+    onto:country "Netherlands" ;
+    onto:name "Eindhoven" .
 
-city:lisbon a onto:City ;
-    rdfs:label "Lisbon"@en ;
-    onto:country "Portugal" ;
-    onto:name "Lisbon" .
-
-city:nottingham a onto:City ;
-    rdfs:label "Nottingham"@en ;
-    onto:country "England" ;
-    onto:name "Nottingham" .
+city:leipzig a onto:City ;
+    rdfs:label "Leipzig"@en ;
+    onto:country "Germany" ;
+    onto:name "Leipzig" .
 
 city:villarreal a onto:City ;
     rdfs:label "Villarreal"@en ;
     onto:country "Spain" ;
     onto:name "Villarreal" .
-
-club:arsenal_academy a onto:FootballClub ;
-    rdfs:label "Arsenal Academy"@en ;
-    dc:identifier "arsenal_academy" ;
-    onto:city "London" ;
-    onto:country "England" ;
-    onto:locatedIn city:london ;
-    onto:name "Arsenal Academy" ;
-    onto:shortName "Arsenal U18" .
 
 club:borussia_dortmund a onto:FootballClub ;
     rdfs:label "Borussia Dortmund"@en ;
@@ -754,32 +608,32 @@ club:borussia_dortmund a onto:FootballClub ;
     onto:name "Borussia Dortmund" ;
     onto:shortName "Dortmund" .
 
-club:leicester_city a onto:FootballClub ;
-    rdfs:label "Leicester City FC"@en ;
-    dc:identifier "leicester_city" ;
-    onto:city "Leicester" ;
+club:brentford a onto:FootballClub ;
+    rdfs:label "Brentford FC"@en ;
+    dc:identifier "brentford" ;
+    onto:city "London" ;
     onto:country "England" ;
-    onto:locatedIn city:leicester ;
-    onto:name "Leicester City FC" ;
-    onto:shortName "Leicester" .
+    onto:locatedIn city:london ;
+    onto:name "Brentford FC" ;
+    onto:shortName "Brentford" .
 
-club:nottingham_forest a onto:FootballClub ;
-    rdfs:label "Nottingham Forest FC"@en ;
-    dc:identifier "nottingham_forest" ;
-    onto:city "Nottingham" ;
-    onto:country "England" ;
-    onto:locatedIn city:nottingham ;
-    onto:name "Nottingham Forest FC" ;
-    onto:shortName "Nott'm Forest" .
+club:psv a onto:FootballClub ;
+    rdfs:label "PSV Eindhoven"@en ;
+    dc:identifier "psv" ;
+    onto:city "Eindhoven" ;
+    onto:country "Netherlands" ;
+    onto:locatedIn city:eindhoven ;
+    onto:name "PSV Eindhoven" ;
+    onto:shortName "PSV" .
 
-club:villarreal a onto:FootballClub ;
-    rdfs:label "Villarreal CF"@en ;
-    dc:identifier "villarreal" ;
-    onto:city "Villarreal" ;
-    onto:country "Spain" ;
-    onto:locatedIn city:villarreal ;
-    onto:name "Villarreal CF" ;
-    onto:shortName "Villarreal" .
+club:shakhtar_donetsk a onto:FootballClub ;
+    rdfs:label "FC Shakhtar Donetsk"@en ;
+    dc:identifier "shakhtar_donetsk" ;
+    onto:city "Donetsk" ;
+    onto:country "Ukraine" ;
+    onto:locatedIn city:donetsk ;
+    onto:name "FC Shakhtar Donetsk" ;
+    onto:shortName "Shakhtar" .
 
 club:west_ham a onto:FootballClub ;
     rdfs:label "West Ham United FC"@en ;
@@ -799,18 +653,18 @@ manager:ange_postecoglou a onto:Manager ;
     foaf:name "Ange Postecoglou" .
 
 manager:jurgen_klopp a onto:Manager ;
-    rdfs:label "Jurgen Klopp" ;
+    rdfs:label "Jürgen Klopp" ;
     dc:identifier "jurgen_klopp" ;
     onto:dateOfBirth "1967-06-16"^^xsd:date ;
     onto:hasNationality nationality:german ;
-    onto:name "Jurgen Klopp" ;
-    foaf:name "Jurgen Klopp" .
+    onto:name "Jürgen Klopp" ;
+    foaf:name "Jürgen Klopp" .
 
 manager:mauricio_pochettino a onto:Manager ;
     rdfs:label "Mauricio Pochettino" ;
     dc:identifier "mauricio_pochettino" ;
     onto:dateOfBirth "1972-03-02"^^xsd:date ;
-    onto:hasNationality nationality:argentinian ;
+    onto:hasNationality nationality:argentine ;
     onto:name "Mauricio Pochettino" ;
     foaf:name "Mauricio Pochettino" .
 
@@ -851,35 +705,60 @@ match:m001 a onto:Match ;
     onto:partOfSeason season:pl_2023_24 ;
     onto:wonBy club:arsenal .
 
-match:m005 a onto:Match ;
-    rdfs:label "Aston Villa 1-0 Spurs (2023-09-16)"@en ;
-    dc:identifier "m005" ;
+match:m007 a onto:Match ;
+    rdfs:label "Aston Villa 1-0 Man City (2023-12-06)"@en ;
+    dc:identifier "m007" ;
     onto:awayScore 0 ;
-    onto:awayTeam club:tottenham ;
+    onto:awayTeam club:man_city ;
     onto:homeScore 1 ;
     onto:homeTeam club:aston_villa ;
-    onto:matchDate "2023-09-16"^^xsd:date ;
-    onto:matchWeek 5 ;
+    onto:matchDate "2023-12-06"^^xsd:date ;
+    onto:matchWeek 15 ;
     onto:partOfLeague league:premier_league ;
     onto:partOfSeason season:pl_2023_24 ;
     onto:wonBy club:aston_villa .
 
-match:m015 a onto:Match ;
-    rdfs:label "Man City 0-1 Arsenal (2024-03-31)"@en ;
-    dc:identifier "m015" ;
-    onto:awayScore 1 ;
+match:m008 a onto:Match ;
+    rdfs:label "Aston Villa 1-0 Arsenal (2023-12-09)"@en ;
+    dc:identifier "m008" ;
+    onto:awayScore 0 ;
     onto:awayTeam club:arsenal ;
-    onto:homeScore 0 ;
-    onto:homeTeam club:man_city ;
-    onto:matchDate "2024-03-31"^^xsd:date ;
-    onto:matchWeek 30 ;
+    onto:homeScore 1 ;
+    onto:homeTeam club:aston_villa ;
+    onto:matchDate "2023-12-09"^^xsd:date ;
+    onto:matchWeek 16 ;
     onto:partOfLeague league:premier_league ;
     onto:partOfSeason season:pl_2023_24 ;
-    onto:wonBy club:arsenal .
+    onto:wonBy club:aston_villa .
+
+match:m014 a onto:Match ;
+    rdfs:label "Chelsea 0-1 Aston Villa (2023-09-24)"@en ;
+    dc:identifier "m014" ;
+    onto:awayScore 1 ;
+    onto:awayTeam club:aston_villa ;
+    onto:homeScore 0 ;
+    onto:homeTeam club:chelsea ;
+    onto:matchDate "2023-09-24"^^xsd:date ;
+    onto:matchWeek 6 ;
+    onto:partOfLeague league:premier_league ;
+    onto:partOfSeason season:pl_2023_24 ;
+    onto:wonBy club:aston_villa .
 
 nationality:australian a onto:Nationality ;
     rdfs:label "Australian"@en ;
     onto:name "Australian" .
+
+nationality:belgian a onto:Nationality ;
+    rdfs:label "Belgian"@en ;
+    onto:name "Belgian" .
+
+nationality:cameroonian a onto:Nationality ;
+    rdfs:label "Cameroonian"@en ;
+    onto:name "Cameroonian" .
+
+nationality:colombian a onto:Nationality ;
+    rdfs:label "Colombian"@en ;
+    onto:name "Colombian" .
 
 nationality:dutch a onto:Nationality ;
     rdfs:label "Dutch"@en ;
@@ -897,13 +776,33 @@ nationality:german a onto:Nationality ;
     rdfs:label "German"@en ;
     onto:name "German" .
 
-nationality:italian a onto:Nationality ;
-    rdfs:label "Italian"@en ;
-    onto:name "Italian" .
+nationality:hungarian a onto:Nationality ;
+    rdfs:label "Hungarian"@en ;
+    onto:name "Hungarian" .
 
 nationality:jamaican a onto:Nationality ;
     rdfs:label "Jamaican"@en ;
     onto:name "Jamaican" .
+
+nationality:northern_irish a onto:Nationality ;
+    rdfs:label "Northern Irish"@en ;
+    onto:name "Northern Irish" .
+
+nationality:norwegian a onto:Nationality ;
+    rdfs:label "Norwegian"@en ;
+    onto:name "Norwegian" .
+
+nationality:polish a onto:Nationality ;
+    rdfs:label "Polish"@en ;
+    onto:name "Polish" .
+
+nationality:portuguese a onto:Nationality ;
+    rdfs:label "Portuguese"@en ;
+    onto:name "Portuguese" .
+
+nationality:scottish a onto:Nationality ;
+    rdfs:label "Scottish"@en ;
+    onto:name "Scottish" .
 
 nationality:senegalese a onto:Nationality ;
     rdfs:label "Senegalese"@en ;
@@ -913,103 +812,167 @@ nationality:south_korean a onto:Nationality ;
     rdfs:label "South Korean"@en ;
     onto:name "South Korean" .
 
-nationality:uruguayan a onto:Nationality ;
-    rdfs:label "Uruguayan"@en ;
-    onto:name "Uruguayan" .
+nationality:swedish a onto:Nationality ;
+    rdfs:label "Swedish"@en ;
+    onto:name "Swedish" .
 
-nationality:welsh a onto:Nationality ;
-    rdfs:label "Welsh"@en ;
-    onto:name "Welsh" .
+nationality:ukrainian a onto:Nationality ;
+    rdfs:label "Ukrainian"@en ;
+    onto:name "Ukrainian" .
 
-player:bernardo_silva a onto:Player ;
-    rdfs:label "Bernardo Silva" ;
-    dc:identifier "bernardo_silva" ;
-    onto:dateOfBirth "1994-08-10"^^xsd:date ;
+player:conor_bradley a onto:Player ;
+    rdfs:label "Conor Bradley" ;
+    dc:identifier "conor_bradley" ;
+    onto:dateOfBirth "2003-07-09"^^xsd:date ;
+    onto:hasNationality nationality:northern_irish ;
+    onto:hasPosition onto:Defender ;
+    onto:height 180.0 ;
+    onto:name "Conor Bradley" ;
+    onto:playsFor club:liverpool ;
+    foaf:name "Conor Bradley" .
+
+player:cristian_romero a onto:Player ;
+    rdfs:label "Cristian Romero" ;
+    dc:identifier "cristian_romero" ;
+    onto:dateOfBirth "1998-04-27"^^xsd:date ;
+    onto:hasNationality nationality:argentine ;
+    onto:hasPosition onto:Defender ;
+    onto:height 185.0 ;
+    onto:name "Cristian Romero" ;
+    onto:playsFor club:tottenham ;
+    foaf:name "Cristian Romero" .
+
+player:diogo_jota a onto:Player ;
+    rdfs:label "Diogo Jota" ;
+    dc:identifier "diogo_jota" ;
+    onto:dateOfBirth "1996-12-04"^^xsd:date ;
     onto:hasNationality nationality:portuguese ;
-    onto:hasPosition onto:Midfielder ;
-    onto:height 173.0 ;
-    onto:jerseyNumber 20 ;
-    onto:marketValue 80.0 ;
-    onto:name "Bernardo Silva" ;
-    onto:playsFor club:man_city ;
-    foaf:name "Bernardo Silva" .
-
-player:brennan_johnson a onto:Player ;
-    rdfs:label "Brennan Johnson" ;
-    dc:identifier "brennan_johnson" ;
-    onto:dateOfBirth "2001-05-23"^^xsd:date ;
-    onto:hasNationality nationality:welsh ;
     onto:hasPosition onto:Forward ;
     onto:height 178.0 ;
-    onto:jerseyNumber 22 ;
-    onto:marketValue 45.0 ;
-    onto:name "Brennan Johnson" ;
-    onto:playsFor club:tottenham ;
-    foaf:name "Brennan Johnson" .
+    onto:name "Diogo Jota" ;
+    onto:playsFor club:liverpool ;
+    foaf:name "Diogo Jota" .
 
-player:enzo_fernandez a onto:Player ;
-    rdfs:label "Enzo Fernandez" ;
-    dc:identifier "enzo_fernandez" ;
-    onto:dateOfBirth "2001-01-17"^^xsd:date ;
-    onto:hasNationality nationality:argentinian ;
+player:gabriel_magalhaes a onto:Player ;
+    rdfs:label "Gabriel Magalhães" ;
+    dc:identifier "gabriel_magalhaes" ;
+    onto:dateOfBirth "1997-12-19"^^xsd:date ;
+    onto:hasNationality nationality:brazilian ;
+    onto:hasPosition onto:Defender ;
+    onto:height 190.0 ;
+    onto:name "Gabriel Magalhães" ;
+    onto:playsFor club:arsenal ;
+    foaf:name "Gabriel Magalhães" .
+
+player:jack_grealish a onto:Player ;
+    rdfs:label "Jack Grealish" ;
+    dc:identifier "jack_grealish" ;
+    onto:dateOfBirth "1995-09-10"^^xsd:date ;
+    onto:hasNationality nationality:english ;
+    onto:hasPosition onto:Forward ;
+    onto:height 180.0 ;
+    onto:name "Jack Grealish" ;
+    onto:playsFor club:man_city ;
+    foaf:name "Jack Grealish" .
+
+player:joel_matip a onto:Player ;
+    rdfs:label "Joël Matip" ;
+    dc:identifier "joel_matip" ;
+    onto:dateOfBirth "1991-08-08"^^xsd:date ;
+    onto:hasNationality nationality:cameroonian ;
+    onto:hasPosition onto:Defender ;
+    onto:height 195.0 ;
+    onto:name "Joël Matip" ;
+    onto:playsFor club:liverpool ;
+    foaf:name "Joël Matip" .
+
+player:john_mcginn a onto:Player ;
+    rdfs:label "John McGinn" ;
+    dc:identifier "john_mcginn" ;
+    onto:dateOfBirth "1994-10-18"^^xsd:date ;
+    onto:hasNationality nationality:scottish ;
     onto:hasPosition onto:Midfielder ;
     onto:height 178.0 ;
-    onto:jerseyNumber 8 ;
-    onto:marketValue 70.0 ;
-    onto:name "Enzo Fernandez" ;
-    onto:playsFor club:chelsea ;
-    foaf:name "Enzo Fernandez" .
+    onto:name "John McGinn" ;
+    onto:playsFor club:aston_villa ;
+    foaf:name "John McGinn" .
 
-player:james_maddison a onto:Player ;
-    rdfs:label "James Maddison" ;
-    dc:identifier "james_maddison" ;
-    onto:dateOfBirth "1996-11-23"^^xsd:date ;
+player:leon_bailey a onto:Player ;
+    rdfs:label "Leon Bailey" ;
+    dc:identifier "leon_bailey" ;
+    onto:dateOfBirth "1997-08-09"^^xsd:date ;
+    onto:hasNationality nationality:jamaican ;
+    onto:hasPosition onto:Forward ;
+    onto:height 178.0 ;
+    onto:name "Leon Bailey" ;
+    onto:playsFor club:aston_villa ;
+    foaf:name "Leon Bailey" .
+
+player:luis_diaz a onto:Player ;
+    rdfs:label "Luis Díaz" ;
+    dc:identifier "luis_diaz" ;
+    onto:dateOfBirth "1997-01-13"^^xsd:date ;
+    onto:hasNationality nationality:colombian ;
+    onto:hasPosition onto:Forward ;
+    onto:height 180.0 ;
+    onto:name "Luis Díaz" ;
+    onto:playsFor club:liverpool ;
+    foaf:name "Luis Díaz" .
+
+player:matty_cash a onto:Player ;
+    rdfs:label "Matty Cash" ;
+    dc:identifier "matty_cash" ;
+    onto:dateOfBirth "1997-08-07"^^xsd:date ;
+    onto:hasNationality nationality:polish ;
+    onto:hasPosition onto:Defender ;
+    onto:height 185.0 ;
+    onto:name "Matty Cash" ;
+    onto:playsFor club:aston_villa ;
+    foaf:name "Matty Cash" .
+
+player:mohamed_salah a onto:Player ;
+    rdfs:label "Mohamed Salah" ;
+    dc:identifier "mohamed_salah" ;
+    onto:dateOfBirth "1992-06-15"^^xsd:date ;
+    onto:hasNationality nationality:egyptian ;
+    onto:hasPosition onto:Forward ;
+    onto:height 175.0 ;
+    onto:name "Mohamed Salah" ;
+    onto:playsFor club:liverpool ;
+    foaf:name "Mohamed Salah" .
+
+player:phil_foden a onto:Player ;
+    rdfs:label "Phil Foden" ;
+    dc:identifier "phil_foden" ;
+    onto:dateOfBirth "2000-05-28"^^xsd:date ;
     onto:hasNationality nationality:english ;
     onto:hasPosition onto:Midfielder ;
-    onto:height 175.0 ;
-    onto:jerseyNumber 10 ;
-    onto:marketValue 55.0 ;
-    onto:name "James Maddison" ;
-    onto:playsFor club:tottenham ;
-    foaf:name "James Maddison" .
+    onto:height 171.0 ;
+    onto:name "Phil Foden" ;
+    onto:playsFor club:man_city ;
+    foaf:name "Phil Foden" .
 
-player:leandro_trossard a onto:Player ;
-    rdfs:label "Leandro Trossard" ;
-    dc:identifier "leandro_trossard" ;
-    onto:dateOfBirth "1994-12-04"^^xsd:date ;
-    onto:hasNationality nationality:belgian ;
+player:raheem_sterling a onto:Player ;
+    rdfs:label "Raheem Sterling" ;
+    dc:identifier "raheem_sterling" ;
+    onto:dateOfBirth "1994-12-08"^^xsd:date ;
+    onto:hasNationality nationality:english ;
     onto:hasPosition onto:Forward ;
     onto:height 172.0 ;
-    onto:jerseyNumber 19 ;
-    onto:name "Leandro Trossard" ;
-    onto:playsFor club:arsenal ;
-    foaf:name "Leandro Trossard" .
-
-player:nicolas_jackson a onto:Player ;
-    rdfs:label "Nicolas Jackson" ;
-    dc:identifier "nicolas_jackson" ;
-    onto:dateOfBirth "2001-06-20"^^xsd:date ;
-    onto:hasNationality nationality:senegalese ;
-    onto:hasPosition onto:Forward ;
-    onto:height 185.0 ;
-    onto:jerseyNumber 15 ;
-    onto:marketValue 60.0 ;
-    onto:name "Nicolas Jackson" ;
+    onto:name "Raheem Sterling" ;
     onto:playsFor club:chelsea ;
-    foaf:name "Nicolas Jackson" .
+    foaf:name "Raheem Sterling" .
 
-player:pau_torres a onto:Player ;
-    rdfs:label "Pau Torres" ;
-    dc:identifier "pau_torres" ;
-    onto:dateOfBirth "1997-01-16"^^xsd:date ;
+player:rodri a onto:Player ;
+    rdfs:label "Rodri" ;
+    dc:identifier "rodri" ;
+    onto:dateOfBirth "1996-06-22"^^xsd:date ;
     onto:hasNationality nationality:spanish ;
-    onto:hasPosition onto:Defender ;
-    onto:height 191.0 ;
-    onto:jerseyNumber 14 ;
-    onto:marketValue 45.0 ;
-    onto:name "Pau Torres" ;
-    onto:playsFor club:aston_villa ;
-    foaf:name "Pau Torres" .
+    onto:hasPosition onto:Midfielder ;
+    onto:height 190.0 ;
+    onto:name "Rodri" ;
+    onto:playsFor club:man_city ;
+    foaf:name "Rodri" .
 
 player:trent_alexander_arnold a onto:Player ;
     rdfs:label "Trent Alexander-Arnold" ;
@@ -1017,9 +980,7 @@ player:trent_alexander_arnold a onto:Player ;
     onto:dateOfBirth "1998-10-07"^^xsd:date ;
     onto:hasNationality nationality:english ;
     onto:hasPosition onto:Defender ;
-    onto:height 175.0 ;
-    onto:jerseyNumber 66 ;
-    onto:marketValue 70.0 ;
+    onto:height 180.0 ;
     onto:name "Trent Alexander-Arnold" ;
     onto:playsFor club:liverpool ;
     foaf:name "Trent Alexander-Arnold" .
@@ -1053,7 +1014,7 @@ stadium:emirates a onto:Stadium ;
 stadium:etihad a onto:Stadium ;
     rdfs:label "Etihad Stadium"@en ;
     dc:identifier "etihad" ;
-    onto:capacity 53400 ;
+    onto:capacity 61038 ;
     onto:city "Manchester" ;
     onto:country "England" ;
     onto:locatedIn city:manchester ;
@@ -1063,7 +1024,7 @@ stadium:etihad a onto:Stadium ;
 stadium:stamford_bridge a onto:Stadium ;
     rdfs:label "Stamford Bridge"@en ;
     dc:identifier "stamford_bridge" ;
-    onto:capacity 40853 ;
+    onto:capacity 40044 ;
     onto:city "London" ;
     onto:country "England" ;
     onto:locatedIn city:london ;
@@ -1083,7 +1044,7 @@ stadium:tottenham_stadium a onto:Stadium ;
 stadium:villa_park a onto:Stadium ;
     rdfs:label "Villa Park"@en ;
     dc:identifier "villa_park" ;
-    onto:capacity 42657 ;
+    onto:capacity 43205 ;
     onto:city "Birmingham" ;
     onto:country "England" ;
     onto:locatedIn city:birmingham ;
@@ -1105,27 +1066,23 @@ city:manchester a onto:City ;
     onto:country "England" ;
     onto:name "Manchester" .
 
-club:sl_benfica a onto:FootballClub ;
-    rdfs:label "SL Benfica"@en ;
-    dc:identifier "sl_benfica" ;
-    onto:city "Lisbon" ;
-    onto:country "Portugal" ;
-    onto:locatedIn city:lisbon ;
-    onto:name "SL Benfica" ;
-    onto:shortName "Benfica" .
+club:rb_leipzig a onto:FootballClub ;
+    rdfs:label "RB Leipzig"@en ;
+    dc:identifier "rb_leipzig" ;
+    onto:city "Leipzig" ;
+    onto:country "Germany" ;
+    onto:locatedIn city:leipzig ;
+    onto:name "RB Leipzig" ;
+    onto:shortName "Leipzig" .
 
-match:m002 a onto:Match ;
-    rdfs:label "Liverpool 2-1 Spurs (2023-09-30)"@en ;
-    dc:identifier "m002" ;
-    onto:awayScore 1 ;
-    onto:awayTeam club:tottenham ;
-    onto:homeScore 2 ;
-    onto:homeTeam club:liverpool ;
-    onto:matchDate "2023-09-30"^^xsd:date ;
-    onto:matchWeek 7 ;
-    onto:partOfLeague league:premier_league ;
-    onto:partOfSeason season:pl_2023_24 ;
-    onto:wonBy club:liverpool .
+club:villarreal a onto:FootballClub ;
+    rdfs:label "Villarreal CF"@en ;
+    dc:identifier "villarreal" ;
+    onto:city "Villarreal" ;
+    onto:country "Spain" ;
+    onto:locatedIn city:villarreal ;
+    onto:name "Villarreal CF" ;
+    onto:shortName "Villarreal" .
 
 match:m003 a onto:Match ;
     rdfs:label "Man City 1-1 Liverpool (2023-11-25)"@en ;
@@ -1136,30 +1093,6 @@ match:m003 a onto:Match ;
     onto:homeTeam club:man_city ;
     onto:matchDate "2023-11-25"^^xsd:date ;
     onto:matchWeek 13 ;
-    onto:partOfLeague league:premier_league ;
-    onto:partOfSeason season:pl_2023_24 .
-
-match:m009 a onto:Match ;
-    rdfs:label "Liverpool 1-1 Man City (2024-03-10)"@en ;
-    dc:identifier "m009" ;
-    onto:awayScore 1 ;
-    onto:awayTeam club:man_city ;
-    onto:homeScore 1 ;
-    onto:homeTeam club:liverpool ;
-    onto:matchDate "2024-03-10"^^xsd:date ;
-    onto:matchWeek 28 ;
-    onto:partOfLeague league:premier_league ;
-    onto:partOfSeason season:pl_2023_24 .
-
-match:m010 a onto:Match ;
-    rdfs:label "Chelsea 1-1 Liverpool (2024-01-13)"@en ;
-    dc:identifier "m010" ;
-    onto:awayScore 1 ;
-    onto:awayTeam club:liverpool ;
-    onto:homeScore 1 ;
-    onto:homeTeam club:chelsea ;
-    onto:matchDate "2024-01-13"^^xsd:date ;
-    onto:matchWeek 21 ;
     onto:partOfLeague league:premier_league ;
     onto:partOfSeason season:pl_2023_24 .
 
@@ -1175,105 +1108,75 @@ match:m012 a onto:Match ;
     onto:partOfLeague league:premier_league ;
     onto:partOfSeason season:pl_2023_24 .
 
-nationality:belgian a onto:Nationality ;
-    rdfs:label "Belgian"@en ;
-    onto:name "Belgian" .
-
 nationality:brazilian a onto:Nationality ;
     rdfs:label "Brazilian"@en ;
     onto:name "Brazilian" .
 
-nationality:norwegian a onto:Nationality ;
-    rdfs:label "Norwegian"@en ;
-    onto:name "Norwegian" .
-
-nationality:portuguese a onto:Nationality ;
-    rdfs:label "Portuguese"@en ;
-    onto:name "Portuguese" .
-
-player:kevin_de_bruyne a onto:Player ;
-    rdfs:label "Kevin De Bruyne" ;
-    dc:identifier "kevin_de_bruyne" ;
-    onto:dateOfBirth "1991-06-28"^^xsd:date ;
-    onto:hasNationality nationality:belgian ;
-    onto:hasPosition onto:Midfielder ;
-    onto:height 181.0 ;
-    onto:jerseyNumber 17 ;
-    onto:marketValue 100.0 ;
-    onto:name "Kevin De Bruyne" ;
-    onto:playsFor club:man_city ;
-    foaf:name "Kevin De Bruyne" .
-
-player:leon_bailey a onto:Player ;
-    rdfs:label "Leon Bailey" ;
-    dc:identifier "leon_bailey" ;
-    onto:dateOfBirth "1997-08-09"^^xsd:date ;
-    onto:hasNationality nationality:jamaican ;
+player:bukayo_saka a onto:Player ;
+    rdfs:label "Bukayo Saka" ;
+    dc:identifier "bukayo_saka" ;
+    onto:dateOfBirth "2001-09-05"^^xsd:date ;
+    onto:hasNationality nationality:english ;
     onto:hasPosition onto:Forward ;
-    onto:height 174.0 ;
-    onto:jerseyNumber 7 ;
-    onto:marketValue 35.0 ;
-    onto:name "Leon Bailey" ;
-    onto:playsFor club:aston_villa ;
-    foaf:name "Leon Bailey" .
+    onto:height 178.0 ;
+    onto:name "Bukayo Saka" ;
+    onto:playsFor club:arsenal ;
+    foaf:name "Bukayo Saka" .
 
-player:mohamed_salah a onto:Player ;
-    rdfs:label "Mohamed Salah" ;
-    dc:identifier "mohamed_salah" ;
-    onto:dateOfBirth "1992-06-15"^^xsd:date ;
-    onto:hasNationality nationality:egyptian ;
+player:christopher_nkunku a onto:Player ;
+    rdfs:label "Christopher Nkunku" ;
+    dc:identifier "christopher_nkunku" ;
+    onto:dateOfBirth "1997-11-14"^^xsd:date ;
+    onto:hasNationality nationality:french ;
     onto:hasPosition onto:Forward ;
-    onto:height 175.0 ;
-    onto:jerseyNumber 11 ;
-    onto:marketValue 60.0 ;
-    onto:name "Mohamed Salah" ;
+    onto:height 177.0 ;
+    onto:name "Christopher Nkunku" ;
+    onto:playsFor club:chelsea ;
+    foaf:name "Christopher Nkunku" .
+
+player:cody_gakpo a onto:Player ;
+    rdfs:label "Cody Gakpo" ;
+    dc:identifier "cody_gakpo" ;
+    onto:dateOfBirth "1999-05-07"^^xsd:date ;
+    onto:hasNationality nationality:dutch ;
+    onto:hasPosition onto:Forward ;
+    onto:height 193.0 ;
+    onto:name "Cody Gakpo" ;
     onto:playsFor club:liverpool ;
-    foaf:name "Mohamed Salah" .
+    foaf:name "Cody Gakpo" .
 
-player:morgan_rogers a onto:Player ;
-    rdfs:label "Morgan Rogers" ;
-    dc:identifier "morgan_rogers" ;
-    onto:dateOfBirth "2002-07-26"^^xsd:date ;
+player:declan_rice a onto:Player ;
+    rdfs:label "Declan Rice" ;
+    dc:identifier "declan_rice" ;
+    onto:dateOfBirth "1999-01-14"^^xsd:date ;
     onto:hasNationality nationality:english ;
     onto:hasPosition onto:Midfielder ;
-    onto:height 185.0 ;
-    onto:jerseyNumber 10 ;
-    onto:marketValue 35.0 ;
-    onto:name "Morgan Rogers" ;
-    onto:playsFor club:aston_villa ;
-    foaf:name "Morgan Rogers" .
+    onto:height 188.0 ;
+    onto:name "Declan Rice" ;
+    onto:playsFor club:arsenal ;
+    foaf:name "Declan Rice" .
 
-season:pl_2018_19 a onto:Season ;
-    rdfs:label "Premier League 2018-19"@en ;
-    dc:identifier "pl_2018_19" ;
-    onto:name "Premier League 2018-19" ;
-    onto:seasonLabel "2018-19" .
+player:dejan_kulusevski a onto:Player ;
+    rdfs:label "Dejan Kulusevski" ;
+    dc:identifier "dejan_kulusevski" ;
+    onto:dateOfBirth "2000-04-25"^^xsd:date ;
+    onto:hasNationality nationality:swedish ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 186.0 ;
+    onto:name "Dejan Kulusevski" ;
+    onto:playsFor club:tottenham ;
+    foaf:name "Dejan Kulusevski" .
 
-match:m006 a onto:Match ;
-    rdfs:label "Spurs 0-3 Man City (2023-12-03)"@en ;
-    dc:identifier "m006" ;
-    onto:awayScore 3 ;
-    onto:awayTeam club:man_city ;
-    onto:homeScore 0 ;
-    onto:homeTeam club:tottenham ;
-    onto:matchDate "2023-12-03"^^xsd:date ;
-    onto:matchWeek 15 ;
-    onto:partOfLeague league:premier_league ;
-    onto:partOfSeason season:pl_2023_24 ;
-    onto:wonBy club:man_city .
-
-match:m013 a onto:Match ;
-    rdfs:label "Spurs 0-3 Arsenal (2024-04-28)"@en ;
-    dc:identifier "m013" ;
-    onto:awayScore 3 ;
-    onto:awayTeam club:arsenal ;
-    onto:homeScore 0 ;
-    onto:homeTeam club:tottenham ;
-    onto:matchDate "2024-04-28"^^xsd:date ;
-    onto:matchWeek 35 ;
-    onto:partOfLeague league:premier_league ;
-    onto:partOfSeason season:pl_2023_24 ;
-    onto:wonBy club:arsenal .
+player:erling_haaland a onto:Player ;
+    rdfs:label "Erling Haaland" ;
+    dc:identifier "erling_haaland" ;
+    onto:dateOfBirth "2000-07-21"^^xsd:date ;
+    onto:hasNationality nationality:norwegian ;
+    onto:hasPosition onto:Forward ;
+    onto:height 195.0 ;
+    onto:name "Erling Haaland" ;
+    onto:playsFor club:man_city ;
+    foaf:name "Erling Haaland" .
 
 player:gabriel_martinelli a onto:Player ;
     rdfs:label "Gabriel Martinelli" ;
@@ -1281,25 +1184,136 @@ player:gabriel_martinelli a onto:Player ;
     onto:dateOfBirth "2001-06-18"^^xsd:date ;
     onto:hasNationality nationality:brazilian ;
     onto:hasPosition onto:Forward ;
-    onto:height 172.0 ;
-    onto:jerseyNumber 11 ;
-    onto:marketValue 70.0 ;
+    onto:height 178.0 ;
     onto:name "Gabriel Martinelli" ;
     onto:playsFor club:arsenal ;
     foaf:name "Gabriel Martinelli" .
 
-player:martin_odegaard a onto:Player ;
-    rdfs:label "Martin Odegaard" ;
-    dc:identifier "martin_odegaard" ;
-    onto:dateOfBirth "1998-12-17"^^xsd:date ;
-    onto:hasNationality nationality:norwegian ;
+player:giovani_lo_celso a onto:Player ;
+    rdfs:label "Giovani Lo Celso" ;
+    dc:identifier "giovani_lo_celso" ;
+    onto:dateOfBirth "1996-04-09"^^xsd:date ;
+    onto:hasNationality nationality:argentine ;
     onto:hasPosition onto:Midfielder ;
-    onto:height 178.0 ;
-    onto:jerseyNumber 8 ;
-    onto:marketValue 100.0 ;
-    onto:name "Martin Odegaard" ;
+    onto:height 177.0 ;
+    onto:name "Giovani Lo Celso" ;
+    onto:playsFor club:tottenham ;
+    foaf:name "Giovani Lo Celso" .
+
+player:leandro_trossard a onto:Player ;
+    rdfs:label "Leandro Trossard" ;
+    dc:identifier "leandro_trossard" ;
+    onto:dateOfBirth "1994-12-04"^^xsd:date ;
+    onto:hasNationality nationality:belgian ;
+    onto:hasPosition onto:Forward ;
+    onto:height 172.0 ;
+    onto:name "Leandro Trossard" ;
     onto:playsFor club:arsenal ;
-    foaf:name "Martin Odegaard" .
+    foaf:name "Leandro Trossard" .
+
+player:mykhailo_mudryk a onto:Player ;
+    rdfs:label "Mykhailo Mudryk" ;
+    dc:identifier "mykhailo_mudryk" ;
+    onto:dateOfBirth "2001-01-05"^^xsd:date ;
+    onto:hasNationality nationality:ukrainian ;
+    onto:hasPosition onto:Forward ;
+    onto:height 175.0 ;
+    onto:name "Mykhailo Mudryk" ;
+    onto:playsFor club:chelsea ;
+    foaf:name "Mykhailo Mudryk" .
+
+player:pau_torres a onto:Player ;
+    rdfs:label "Pau Torres" ;
+    dc:identifier "pau_torres" ;
+    onto:dateOfBirth "1997-01-16"^^xsd:date ;
+    onto:hasNationality nationality:spanish ;
+    onto:hasPosition onto:Defender ;
+    onto:height 191.0 ;
+    onto:name "Pau Torres" ;
+    onto:playsFor club:aston_villa ;
+    foaf:name "Pau Torres" .
+
+season:pl_2020_21 a onto:Season ;
+    rdfs:label "Premier League 2020-21"@en ;
+    dc:identifier "pl_2020_21" ;
+    onto:name "Premier League 2020-21" ;
+    onto:seasonLabel "2020-21" .
+
+match:m002 a onto:Match ;
+    rdfs:label "Spurs 2-1 Liverpool (2023-09-30)"@en ;
+    dc:identifier "m002" ;
+    onto:awayScore 1 ;
+    onto:awayTeam club:liverpool ;
+    onto:homeScore 2 ;
+    onto:homeTeam club:tottenham ;
+    onto:matchDate "2023-09-30"^^xsd:date ;
+    onto:matchWeek 7 ;
+    onto:partOfLeague league:premier_league ;
+    onto:partOfSeason season:pl_2023_24 ;
+    onto:wonBy club:tottenham .
+
+match:m005 a onto:Match ;
+    rdfs:label "Spurs 1-2 Aston Villa (2023-11-26)"@en ;
+    dc:identifier "m005" ;
+    onto:awayScore 2 ;
+    onto:awayTeam club:aston_villa ;
+    onto:homeScore 1 ;
+    onto:homeTeam club:tottenham ;
+    onto:matchDate "2023-11-26"^^xsd:date ;
+    onto:matchWeek 13 ;
+    onto:partOfLeague league:premier_league ;
+    onto:partOfSeason season:pl_2023_24 ;
+    onto:wonBy club:aston_villa .
+
+match:m009 a onto:Match ;
+    rdfs:label "Liverpool 3-0 Aston Villa (2023-09-03)"@en ;
+    dc:identifier "m009" ;
+    onto:awayScore 0 ;
+    onto:awayTeam club:aston_villa ;
+    onto:homeScore 3 ;
+    onto:homeTeam club:liverpool ;
+    onto:matchDate "2023-09-03"^^xsd:date ;
+    onto:matchWeek 4 ;
+    onto:partOfLeague league:premier_league ;
+    onto:partOfSeason season:pl_2023_24 ;
+    onto:wonBy club:liverpool .
+
+nationality:argentine a onto:Nationality ;
+    rdfs:label "Argentine"@en ;
+    onto:name "Argentine" .
+
+player:cole_palmer a onto:Player ;
+    rdfs:label "Cole Palmer" ;
+    dc:identifier "cole_palmer" ;
+    onto:dateOfBirth "2002-05-06"^^xsd:date ;
+    onto:hasNationality nationality:english ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 185.0 ;
+    onto:name "Cole Palmer" ;
+    onto:playsFor club:chelsea ;
+    foaf:name "Cole Palmer" .
+
+player:dominik_szoboszlai a onto:Player ;
+    rdfs:label "Dominik Szoboszlai" ;
+    dc:identifier "dominik_szoboszlai" ;
+    onto:dateOfBirth "2000-10-25"^^xsd:date ;
+    onto:hasNationality nationality:hungarian ;
+    onto:hasPosition onto:Midfielder ;
+    onto:height 186.0 ;
+    onto:name "Dominik Szoboszlai" ;
+    onto:playsFor club:liverpool ;
+    foaf:name "Dominik Szoboszlai" .
+
+player:ollie_watkins a onto:Player ;
+    rdfs:label "Ollie Watkins" ;
+    dc:identifier "ollie_watkins" ;
+    onto:dateOfBirth "1995-12-30"^^xsd:date ;
+    onto:hasNationality nationality:english ;
+    onto:hasPosition onto:Forward ;
+    onto:height 180.0 ;
+    onto:name "Ollie Watkins" ;
+    onto:playsFor club:aston_villa ;
+    foaf:name "Ollie Watkins" .
 
 match:m004 a onto:Match ;
     rdfs:label "Chelsea 2-2 Arsenal (2023-10-21)"@en ;
@@ -1313,61 +1327,12 @@ match:m004 a onto:Match ;
     onto:partOfLeague league:premier_league ;
     onto:partOfSeason season:pl_2023_24 .
 
-nationality:argentinian a onto:Nationality ;
-    rdfs:label "Argentinian"@en ;
-    onto:name "Argentinian" .
-
-player:cole_palmer a onto:Player ;
-    rdfs:label "Cole Palmer" ;
-    dc:identifier "cole_palmer" ;
-    onto:dateOfBirth "2002-05-06"^^xsd:date ;
-    onto:hasNationality nationality:english ;
-    onto:hasPosition onto:Midfielder ;
-    onto:height 189.0 ;
-    onto:jerseyNumber 20 ;
-    onto:marketValue 80.0 ;
-    onto:name "Cole Palmer" ;
-    onto:playsFor club:chelsea ;
-    foaf:name "Cole Palmer" .
-
-player:ollie_watkins a onto:Player ;
-    rdfs:label "Ollie Watkins" ;
-    dc:identifier "ollie_watkins" ;
-    onto:dateOfBirth "1995-12-30"^^xsd:date ;
-    onto:hasNationality nationality:english ;
-    onto:hasPosition onto:Forward ;
-    onto:height 180.0 ;
-    onto:jerseyNumber 11 ;
-    onto:marketValue 65.0 ;
-    onto:name "Ollie Watkins" ;
-    onto:playsFor club:aston_villa ;
-    foaf:name "Ollie Watkins" .
-
-season:pl_2022_23 a onto:Season ;
-    rdfs:label "Premier League 2022-23"@en ;
-    dc:identifier "pl_2022_23" ;
-    onto:name "Premier League 2022-23" ;
-    onto:seasonLabel "2022-23" .
-
-match:m008 a onto:Match ;
-    rdfs:label "Arsenal 5-0 Chelsea (2023-12-05)"@en ;
-    dc:identifier "m008" ;
-    onto:awayScore 0 ;
-    onto:awayTeam club:chelsea ;
-    onto:homeScore 5 ;
-    onto:homeTeam club:arsenal ;
-    onto:matchDate "2023-12-05"^^xsd:date ;
-    onto:matchWeek 15 ;
-    onto:partOfLeague league:premier_league ;
-    onto:partOfSeason season:pl_2023_24 ;
-    onto:wonBy club:arsenal .
-
 match:m011 a onto:Match ;
-    rdfs:label "Arsenal 5-0 Aston Villa (2024-02-04)"@en ;
+    rdfs:label "Arsenal 3-1 Liverpool (2024-02-04)"@en ;
     dc:identifier "m011" ;
-    onto:awayScore 0 ;
-    onto:awayTeam club:aston_villa ;
-    onto:homeScore 5 ;
+    onto:awayScore 1 ;
+    onto:awayTeam club:liverpool ;
+    onto:homeScore 3 ;
     onto:homeTeam club:arsenal ;
     onto:matchDate "2024-02-04"^^xsd:date ;
     onto:matchWeek 23 ;
@@ -1375,85 +1340,87 @@ match:m011 a onto:Match ;
     onto:partOfSeason season:pl_2023_24 ;
     onto:wonBy club:arsenal .
 
-player:declan_rice a onto:Player ;
-    rdfs:label "Declan Rice" ;
-    dc:identifier "declan_rice" ;
-    onto:dateOfBirth "1999-01-14"^^xsd:date ;
-    onto:hasNationality nationality:english ;
-    onto:hasPosition onto:Midfielder ;
-    onto:height 188.0 ;
-    onto:jerseyNumber 41 ;
-    onto:marketValue 80.0 ;
-    onto:name "Declan Rice" ;
-    onto:playsFor club:arsenal ;
-    foaf:name "Declan Rice" .
-
-match:m007 a onto:Match ;
-    rdfs:label "Man City 3-3 Aston Villa (2023-12-06)"@en ;
-    dc:identifier "m007" ;
-    onto:awayScore 3 ;
-    onto:awayTeam club:aston_villa ;
-    onto:homeScore 3 ;
-    onto:homeTeam club:man_city ;
-    onto:matchDate "2023-12-06"^^xsd:date ;
-    onto:matchWeek 15 ;
+match:m013 a onto:Match ;
+    rdfs:label "Arsenal 2-2 Spurs (2023-09-24)"@en ;
+    dc:identifier "m013" ;
+    onto:awayScore 2 ;
+    onto:awayTeam club:tottenham ;
+    onto:homeScore 2 ;
+    onto:homeTeam club:arsenal ;
+    onto:matchDate "2023-09-24"^^xsd:date ;
+    onto:matchWeek 6 ;
     onto:partOfLeague league:premier_league ;
     onto:partOfSeason season:pl_2023_24 .
 
-match:m014 a onto:Match ;
-    rdfs:label "Aston Villa 3-3 Liverpool (2024-03-31)"@en ;
-    dc:identifier "m014" ;
-    onto:awayScore 3 ;
-    onto:awayTeam club:liverpool ;
-    onto:homeScore 3 ;
-    onto:homeTeam club:aston_villa ;
-    onto:matchDate "2024-03-31"^^xsd:date ;
-    onto:matchWeek 30 ;
+player:nicolas_jackson a onto:Player ;
+    rdfs:label "Nicolas Jackson" ;
+    dc:identifier "nicolas_jackson" ;
+    onto:dateOfBirth "2001-06-20"^^xsd:date ;
+    onto:hasNationality nationality:senegalese ;
+    onto:hasPosition onto:Forward ;
+    onto:height 187.0 ;
+    onto:name "Nicolas Jackson" ;
+    onto:playsFor club:chelsea ;
+    foaf:name "Nicolas Jackson" .
+
+season:pl_2022_23 a onto:Season ;
+    rdfs:label "Premier League 2022-23"@en ;
+    dc:identifier "pl_2022_23" ;
+    onto:name "Premier League 2022-23" ;
+    onto:seasonLabel "2022-23" .
+
+match:m010 a onto:Match ;
+    rdfs:label "Liverpool 4-1 Chelsea (2024-01-31)"@en ;
+    dc:identifier "m010" ;
+    onto:awayScore 1 ;
+    onto:awayTeam club:chelsea ;
+    onto:homeScore 4 ;
+    onto:homeTeam club:liverpool ;
+    onto:matchDate "2024-01-31"^^xsd:date ;
+    onto:matchWeek 22 ;
     onto:partOfLeague league:premier_league ;
-    onto:partOfSeason season:pl_2023_24 .
+    onto:partOfSeason season:pl_2023_24 ;
+    onto:wonBy club:liverpool .
+
+match:m015 a onto:Match ;
+    rdfs:label "Spurs 1-4 Chelsea (2023-11-06)"@en ;
+    dc:identifier "m015" ;
+    onto:awayScore 4 ;
+    onto:awayTeam club:chelsea ;
+    onto:homeScore 1 ;
+    onto:homeTeam club:tottenham ;
+    onto:matchDate "2023-11-06"^^xsd:date ;
+    onto:matchWeek 11 ;
+    onto:partOfLeague league:premier_league ;
+    onto:partOfSeason season:pl_2023_24 ;
+    onto:wonBy club:chelsea .
 
 nationality:spanish a onto:Nationality ;
     rdfs:label "Spanish"@en ;
     onto:name "Spanish" .
 
-player:darwin_nunez a onto:Player ;
-    rdfs:label "Darwin Nunez" ;
-    dc:identifier "darwin_nunez" ;
-    onto:dateOfBirth "1999-06-24"^^xsd:date ;
-    onto:hasNationality nationality:uruguayan ;
+player:son_heung_min a onto:Player ;
+    rdfs:label "Son Heung-min" ;
+    dc:identifier "son_heung_min" ;
+    onto:dateOfBirth "1992-07-08"^^xsd:date ;
+    onto:hasNationality nationality:south_korean ;
     onto:hasPosition onto:Forward ;
-    onto:height 187.0 ;
-    onto:jerseyNumber 9 ;
-    onto:marketValue 70.0 ;
-    onto:name "Darwin Nunez" ;
-    onto:playsFor club:liverpool ;
-    foaf:name "Darwin Nunez" .
+    onto:height 183.0 ;
+    onto:name "Son Heung-min" ;
+    onto:playsFor club:tottenham ;
+    foaf:name "Son Heung-min" .
 
-player:bukayo_saka a onto:Player ;
-    rdfs:label "Bukayo Saka" ;
-    dc:identifier "bukayo_saka" ;
-    onto:dateOfBirth "2001-09-05"^^xsd:date ;
-    onto:hasNationality nationality:english ;
-    onto:hasPosition onto:Forward ;
-    onto:height 178.0 ;
-    onto:jerseyNumber 7 ;
-    onto:marketValue 120.0 ;
-    onto:name "Bukayo Saka" ;
-    onto:playsFor club:arsenal ;
-    foaf:name "Bukayo Saka" .
-
-player:erling_haaland a onto:Player ;
-    rdfs:label "Erling Haaland" ;
-    dc:identifier "erling_haaland" ;
-    onto:dateOfBirth "2000-07-21"^^xsd:date ;
-    onto:hasNationality nationality:norwegian ;
-    onto:hasPosition onto:Forward ;
-    onto:height 194.0 ;
-    onto:jerseyNumber 9 ;
-    onto:marketValue 180.0 ;
-    onto:name "Erling Haaland" ;
-    onto:playsFor club:man_city ;
-    foaf:name "Erling Haaland" .
+match:m006 a onto:Match ;
+    rdfs:label "Man City 3-3 Spurs (2023-12-03)"@en ;
+    dc:identifier "m006" ;
+    onto:awayScore 3 ;
+    onto:awayTeam club:tottenham ;
+    onto:homeScore 3 ;
+    onto:homeTeam club:man_city ;
+    onto:matchDate "2023-12-03"^^xsd:date ;
+    onto:matchWeek 14 ;
+    onto:partOfLeague league:premier_league ;
+    onto:partOfSeason season:pl_2023_24 .
 
 city:london a onto:City ;
     rdfs:label "London"@en ;
@@ -1463,76 +1430,6 @@ city:london a onto:City ;
 nationality:english a onto:Nationality ;
     rdfs:label "English"@en ;
     onto:name "English" .
-
-club:tottenham a onto:FootballClub ;
-    rdfs:label "Tottenham Hotspur FC"@en ;
-    dc:identifier "tottenham" ;
-    onto:city "London" ;
-    onto:country "England" ;
-    onto:founded 1882 ;
-    onto:hasStadium stadium:tottenham_stadium ;
-    onto:locatedIn city:london ;
-    onto:managedBy manager:ange_postecoglou ;
-    onto:name "Tottenham Hotspur FC" ;
-    onto:participatesIn league:premier_league ;
-    onto:shortName "Spurs" .
-
-club:chelsea a onto:FootballClub ;
-    rdfs:label "Chelsea FC"@en ;
-    dc:identifier "chelsea" ;
-    onto:city "London" ;
-    onto:country "England" ;
-    onto:founded 1905 ;
-    onto:hasStadium stadium:stamford_bridge ;
-    onto:locatedIn city:london ;
-    onto:managedBy manager:mauricio_pochettino ;
-    onto:name "Chelsea FC" ;
-    onto:participatesIn league:premier_league ;
-    onto:shortName "Chelsea" .
-
-club:aston_villa a onto:FootballClub ;
-    rdfs:label "Aston Villa FC"@en ;
-    dc:identifier "aston_villa" ;
-    onto:city "Birmingham" ;
-    onto:country "England" ;
-    onto:founded 1874 ;
-    onto:hasStadium stadium:villa_park ;
-    onto:locatedIn city:birmingham ;
-    onto:managedBy manager:unai_emery ;
-    onto:name "Aston Villa FC" ;
-    onto:participatesIn league:premier_league ;
-    onto:shortName "Aston Villa" .
-
-club:liverpool a onto:FootballClub ;
-    rdfs:label "Liverpool FC"@en ;
-    dc:identifier "liverpool" ;
-    onto:city "Liverpool" ;
-    onto:country "England" ;
-    onto:founded 1892 ;
-    onto:hasStadium stadium:anfield ;
-    onto:locatedIn city:liverpool ;
-    onto:managedBy manager:jurgen_klopp ;
-    onto:name "Liverpool FC" ;
-    onto:participatesIn league:premier_league ;
-    onto:shortName "Liverpool" .
-
-league:premier_league a onto:League ;
-    rdfs:label "Premier League"@en ;
-    dc:identifier "premier_league" ;
-    onto:country "England" ;
-    onto:founded 1992 ;
-    onto:hasSeason season:pl_2018_19,
-        season:pl_2021_22,
-        season:pl_2022_23,
-        season:pl_2023_24 ;
-    onto:name "Premier League" ;
-    onto:shortName "PL" .
-
-season:pl_2023_24 a onto:Season ;
-    rdfs:label "Premier League 2023-24"@en ;
-    dc:identifier "pl_2023_24" ;
-    onto:name "Premier League 2023-24" ;
-    onto:seasonLabel "2023-24" .
 
 club:man_city a onto:FootballClub ;
     rdfs:label "Manchester City FC"@en ;
@@ -1547,6 +1444,19 @@ club:man_city a onto:FootballClub ;
     onto:participatesIn league:premier_league ;
     onto:shortName "Man City" .
 
+club:tottenham a onto:FootballClub ;
+    rdfs:label "Tottenham Hotspur FC"@en ;
+    dc:identifier "tottenham" ;
+    onto:city "London" ;
+    onto:country "England" ;
+    onto:founded 1882 ;
+    onto:hasStadium stadium:tottenham_stadium ;
+    onto:locatedIn city:london ;
+    onto:managedBy manager:ange_postecoglou ;
+    onto:name "Tottenham Hotspur FC" ;
+    onto:participatesIn league:premier_league ;
+    onto:shortName "Spurs" .
+
 club:arsenal a onto:FootballClub ;
     rdfs:label "Arsenal FC"@en ;
     dc:identifier "arsenal" ;
@@ -1559,4 +1469,61 @@ club:arsenal a onto:FootballClub ;
     onto:name "Arsenal FC" ;
     onto:participatesIn league:premier_league ;
     onto:shortName "Arsenal" .
+
+club:aston_villa a onto:FootballClub ;
+    rdfs:label "Aston Villa FC"@en ;
+    dc:identifier "aston_villa" ;
+    onto:city "Birmingham" ;
+    onto:country "England" ;
+    onto:founded 1874 ;
+    onto:hasStadium stadium:villa_park ;
+    onto:locatedIn city:birmingham ;
+    onto:managedBy manager:unai_emery ;
+    onto:name "Aston Villa FC" ;
+    onto:participatesIn league:premier_league ;
+    onto:shortName "Aston Villa" .
+
+league:premier_league a onto:League ;
+    rdfs:label "Premier League"@en ;
+    dc:identifier "premier_league" ;
+    onto:country "England" ;
+    onto:founded 1992 ;
+    onto:hasSeason season:pl_2020_21,
+        season:pl_2021_22,
+        season:pl_2022_23,
+        season:pl_2023_24 ;
+    onto:name "Premier League" ;
+    onto:shortName "PL" .
+
+season:pl_2023_24 a onto:Season ;
+    rdfs:label "Premier League 2023-24"@en ;
+    dc:identifier "pl_2023_24" ;
+    onto:name "Premier League 2023-24" ;
+    onto:seasonLabel "2023-24" .
+
+club:chelsea a onto:FootballClub ;
+    rdfs:label "Chelsea FC"@en ;
+    dc:identifier "chelsea" ;
+    onto:city "London" ;
+    onto:country "England" ;
+    onto:founded 1905 ;
+    onto:hasStadium stadium:stamford_bridge ;
+    onto:locatedIn city:london ;
+    onto:managedBy manager:mauricio_pochettino ;
+    onto:name "Chelsea FC" ;
+    onto:participatesIn league:premier_league ;
+    onto:shortName "Chelsea" .
+
+club:liverpool a onto:FootballClub ;
+    rdfs:label "Liverpool FC"@en ;
+    dc:identifier "liverpool" ;
+    onto:city "Liverpool" ;
+    onto:country "England" ;
+    onto:founded 1892 ;
+    onto:hasStadium stadium:anfield ;
+    onto:locatedIn city:liverpool ;
+    onto:managedBy manager:jurgen_klopp ;
+    onto:name "Liverpool FC" ;
+    onto:participatesIn league:premier_league ;
+    onto:shortName "Liverpool" .
 

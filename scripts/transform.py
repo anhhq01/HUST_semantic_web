@@ -199,9 +199,7 @@ class Transformer:
                 self.g.add((player, ONTO.hasNationality, self.nationality(row["nationality"])))
             if row.get("position") in POSITIONS:
                 self.g.add((player, ONTO.hasPosition, POSITIONS[row["position"]]))
-            add_int(self.g, player, ONTO.jerseyNumber, row.get("jersey_number"))
             add_decimal(self.g, player, ONTO.height, row.get("height_cm"))
-            add_decimal(self.g, player, ONTO.marketValue, row.get("market_value_m"))
             if row.get("club_id"):
                 self.g.add((player, ONTO.playsFor, uri(f"club/{row['club_id']}")))
         print(f"  Loaded {len(rows)} players")
@@ -238,10 +236,12 @@ class Transformer:
             goal = uri(f"goal/{row['goal_id']}")
             self.g.add((goal, RDF.type, ONTO.Goal))
             self.g.add((goal, DC.identifier, Literal(row["goal_id"])))
-            self.g.add((goal, RDFS.label, Literal(f"Goal {row['goal_id']} ({row['minute']}')", lang="en")))
+            self.g.add((goal, RDFS.label, Literal(f"Goal {row['goal_id']} ({row['minute']}" + (f"+{row['added_time']}" if row.get('added_time') not in (None, '', '0') else '') + "')", lang="en")))
             self.g.add((goal, ONTO.scoredInMatch, uri(f"match/{row['match_id']}")))
             self.g.add((goal, ONTO.scoredForTeam, uri(f"club/{row['team_id']}")))
             add_int(self.g, goal, ONTO.goalMinute, row["minute"])
+            if row.get("added_time") not in (None, "", "0"):
+                add_int(self.g, goal, ONTO.addedTime, row["added_time"])
             self.g.add((goal, ONTO.isPenalty,
                         Literal(row["is_penalty"].lower() == "true", datatype=XSD.boolean)))
             self.g.add((goal, ONTO.isOwnGoal,
@@ -262,7 +262,7 @@ class Transformer:
             self.g.add((transfer, ONTO.fromClub, uri(f"club/{row['from_club']}")))
             self.g.add((transfer, ONTO.toClub, uri(f"club/{row['to_club']}")))
             add_date(self.g, transfer, ONTO.transferDate, row.get("transfer_date"))
-            add_decimal(self.g, transfer, ONTO.transferFee, row.get("fee_million_eur"))
+            add_decimal(self.g, transfer, ONTO.transferFee, row.get("fee_million_gbp"))
             if row.get("season_id"):
                 self.g.add((transfer, ONTO.inSeason, uri(f"season/{row['season_id']}")))
         print(f"  Loaded {len(rows)} transfers")

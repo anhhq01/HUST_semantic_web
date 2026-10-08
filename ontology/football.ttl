@@ -20,7 +20,7 @@
     dc:description   "An OWL ontology for the football (soccer) domain covering clubs, players, matches, leagues, stadiums, transfers, and goals."@en ;
     dc:creator       "Semantic Web Course Project" ;
     dc:date          "2026-03-16"^^xsd:date ;
-    owl:versionInfo  "1.1" ;
+    owl:versionInfo  "1.2" ;
     dcterms:license  <https://creativecommons.org/licenses/by/4.0/> ;
     vann:preferredNamespacePrefix "onto" ;
     vann:preferredNamespaceUri    "http://semantic-football.org/ontology#" ;
@@ -270,21 +270,9 @@ onto:dateOfBirth
     rdfs:range       xsd:date ;
     rdfs:subPropertyOf dbo:birthDate .
 
-onto:jerseyNumber
-    a                owl:DatatypeProperty ;
-    rdfs:label       "jersey number"@en ;
-    rdfs:domain      onto:Player ;
-    rdfs:range       xsd:integer .
-
 onto:height
     a                owl:DatatypeProperty ;
     rdfs:label       "height (cm)"@en ;
-    rdfs:domain      onto:Player ;
-    rdfs:range       xsd:decimal .
-
-onto:marketValue
-    a                owl:DatatypeProperty ;
-    rdfs:label       "market value (million EUR)"@en ;
     rdfs:domain      onto:Player ;
     rdfs:range       xsd:decimal .
 
@@ -347,6 +335,13 @@ onto:goalMinute
     rdfs:domain      onto:Goal ;
     rdfs:range       xsd:integer .
 
+onto:addedTime
+    a                owl:DatatypeProperty ;
+    rdfs:label       "added time (minutes)"@en ;
+    rdfs:comment     "Stoppage-time minutes after goalMinute, e.g. 90+6 is goalMinute 90 and addedTime 6."@en ;
+    rdfs:domain      onto:Goal ;
+    rdfs:range       xsd:integer .
+
 onto:isPenalty
     a                owl:DatatypeProperty ;
     rdfs:label       "is penalty"@en ;
@@ -361,7 +356,8 @@ onto:isOwnGoal
 
 onto:transferFee
     a                owl:DatatypeProperty ;
-    rdfs:label       "transfer fee (million EUR)"@en ;
+    rdfs:label       "transfer fee (million GBP)"@en ;
+    rdfs:comment     "Initial fee as reported, excluding add-ons."@en ;
     rdfs:domain      onto:Transfer ;
     rdfs:range       xsd:decimal .
 
